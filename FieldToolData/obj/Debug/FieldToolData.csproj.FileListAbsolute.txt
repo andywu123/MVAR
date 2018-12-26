@@ -1,0 +1,14 @@
+C:\Users\andy.wu.BALTIMORE\Documents\Visual Studio 2013\Projects\OSTFieldToolData\FieldToolData\bin\Debug\FieldToolData.pdb
+C:\Users\andy.wu.BALTIMORE\Documents\Visual Studio 2013\Projects\OSTFieldToolData\FieldToolData\bin\Debug\DPWLogSystem.dll
+C:\Users\andy.wu.BALTIMORE\Documents\Visual Studio 2013\Projects\OSTFieldToolData\FieldToolData\bin\Debug\EntityFramework.dll
+C:\Users\andy.wu.BALTIMORE\Documents\Visual Studio 2013\Projects\OSTFieldToolData\FieldToolData\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\andy.wu.BALTIMORE\Documents\Visual Studio 2013\Projects\OSTFieldToolData\FieldToolData\bin\Debug\log4net.dll
+C:\Users\andy.wu.BALTIMORE\Documents\Visual Studio 2013\Projects\OSTFieldToolData\FieldToolData\bin\Debug\DPWLogSystem.pdb
+C:\Users\andy.wu.BALTIMORE\Documents\Visual Studio 2013\Projects\OSTFieldToolData\FieldToolData\bin\Debug\EntityFramework.xml
+C:\Users\andy.wu.BALTIMORE\Documents\Visual Studio 2013\Projects\OSTFieldToolData\FieldToolData\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\andy.wu.BALTIMORE\Documents\Visual Studio 2013\Projects\OSTFieldToolData\FieldToolData\bin\Debug\log4net.xml
+C:\Users\andy.wu.BALTIMORE\Documents\Visual Studio 2013\Projects\OSTFieldToolData\FieldToolData\obj\Debug\FieldToolData.csprojResolveAssemblyReference.cache
+C:\Users\andy.wu.BALTIMORE\Documents\Visual Studio 2013\Projects\OSTFieldToolData\FieldToolData\obj\Debug\FieldToolData.pdb
+C:\Users\andy.wu.BALTIMORE\Documents\Visual Studio 2013\Projects\OSTFieldToolData\FieldToolData\bin\Debug\FieldToolData.dll.config
+C:\Users\andy.wu.BALTIMORE\Documents\Visual Studio 2013\Projects\OSTFieldToolData\FieldToolData\bin\Debug\FieldToolData.dll
+C:\Users\andy.wu.BALTIMORE\Documents\Visual Studio 2013\Projects\OSTFieldToolData\FieldToolData\obj\Debug\FieldToolData.dll

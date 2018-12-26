@@ -1,0 +1,149 @@
+﻿
+@using FieldTool.Models
+<div class="panel-heading">
+    <h3 class="panel-title">Occupant Information</h3>
+</div>
+<div class="panel-body">
+    <div class="row top-buffer">
+        <div class="col-sm-9">
+            <div class="childTable">
+                <table cellpadding="0" cellspacing="0" border="0" class="display" id="OccupantsTableView">
+                    <thead>
+                        <tr>
+                            <th>Occupant Id</th>
+                            <th>Case Number</th>
+                            <th>First Lame</th>
+                            <th>Last Name</th>
+                            <th>Occupant Address</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @{ int i = 0; string rowtype = "even";}
+                        @foreach (OccupantPost c in @Model.occupants)
+                        {
+                            if (i % 2 == 0)
+                            {
+                                rowtype = "even";
+                            }
+                            else
+                            {
+                                rowtype = "odd";
+                            }
+
+                            <tr class="@rowtype">
+                                <td>@c.OccupantId</td>
+                                <td>@Model.accidentReport.CaseNumber</td>
+                                <td>@c.Occupant_FirstName</td>
+                                <td>@c.Occupant_LastName</td>
+                                <td>@c.OccupantAddress</td>
+                            </tr>
+
+                            i++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="editBtns" style="display:-webkit-box;">
+                <button id="btn_Editoccupant_View" class="btn btn-styled btn-primary" type=button><span class="glyphicon glyphicon-eye-open "></span>View</button>
+            </div>
+            
+        </div>
+        <div class="col-sm-3">
+            <div class="modal right fade" id="mdl_occupantView" tabindex="-1" role="dialog" aria-labelledby="mdl_occupantLabelView">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="mdl_occupantLabelView">Occupant Details</h4>
+                        </div>
+
+                        <div class="modal-body">
+                            <div id="occupantViewSection">
+                                <div class="form-group">
+                                    <label for="Ocp_FirstName_View">First Name</label>
+                                    <input type="text" class="form-control required" id="Ocp_FirstName_View" name="Ocp_FirstName_View">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Ocp_MiddleName_View">Middle Name</label>
+                                    <input type="text" class="form-control required" id="Ocp_MiddleName_View" name="Ocp_MiddleName_View">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Ocp_LastName_View">Last Name</label>
+                                    <input type="text" class="form-control required" id="Ocp_LastName_View" name="Ocp_LastName_View">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Ocp_Address_View">Occupant Address</label>
+                                    <input type="text" class="form-control required" id="Ocp_Address_View" name="Ocp_Address_View">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Ocp_InjuryView">Occupant Injury Extent:</label>
+                                    <select id="Ocp_InjuryView" class="form-control">
+                                        <option value="Killed">Killed</option>
+                                        <option value="NoInjury">No Injury</option>
+                                        <option value="Injured">Injured</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Ocp_DriverPassengerView">Driver Or Passenger:</label>
+                                    <select id="Ocp_DriverPassengerView" class="form-control">
+                                        <option value="Driver">Driver</option>
+                                        <option value="Passenger">Passenger</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Ocp_NoVehicle_View">No Of Vehicles</label>
+                                    <input type="number" class="form-control required" id="Ocp_NoVehicle_View" name="Ocp_NoVehicle_View">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Ocp_PedestrianView">Occupant Type:</label>
+                                    <select id="Ocp_PedestrianView" class="form-control">
+                                        <option value="Pedestrian">Pedestrian</option>
+                                        <option value="Other">Other Vehicle</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Ocp_Age_View">Occupant Age</label>
+                                    <input type="number" class="form-control required" id="Ocp_Age_View" name="Ocp_Age_View">
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="checkbox" class="form-check-input" id="chk_OcpSex_View" name="chk_OcpSex_View">
+                                    <label class="form-check-label" for="chk_OcpSex_View">Is Occupant a Male</label>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Ocp_natureInjury_View">Nature Of Injury</label>
+                                    <input type="text" class="form-control required" id="Ocp_natureInjury_View" name="Ocp_natureInjury_View">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Ocp_RemovedbyView">Removed From Scene</label>
+
+                                    <select id="Ocp_RemovedbyView" class="form-control">
+                                        <option value="Ambulance">Ambulance</option>
+                                        <option value="Personal">Personal Car</option>
+                                    </select>
+                                </div>
+                                <p>(*) Mandatory</p>
+                                <button id="btn_saveOccupant_View" class="btn btn-primary col-sm-4" type=button>Save</button>
+
+                            </div>
+                        </div>
+
+                    </div><!-- modal-content -->
+                </div><!-- modal-dialog -->
+            </div><!-- modal -->
+        </div>
+    </div>
+    <button class="btn btn-primary nextBtn pull-right" type="button">Next</button>
+</div>

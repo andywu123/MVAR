@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="DefaultConnection-Web.config Connection String" description="DefaultConnection Connection String used in web.config by the application to access the database." defaultValue="Data Source=(LocalDb)\v11.0;AttachDbFilename=|DataDirectory|\aspnet-FieldTool-20180319125342.mdf;Initial Catalog=aspnet-FieldTool-20180319125342;Integrated Security=True" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\andy\.wu\.BALTIMORE\\Documents\\Visual\ Studio\ 2013\\Projects\\OSTFieldToolData\\FieldTool\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DefaultConnection']/@connectionString" />
+  </parameter>
+  <parameter name="DPW_MVAREntities-Web.config Connection String" description="DPW_MVAREntities Connection String used in web.config by the application to access the database." defaultValue="metadata=res://*/fieldtoolDataModel.csdl|res://*/fieldtoolDataModel.ssdl|res://*/fieldtoolDataModel.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=balt-sql-dev;initial catalog=DPW_MVAR;persist security info=True;user id=DPW_MVAR_RW;password=WDm36uU3;MultipleActiveResultSets=True;App=EntityFramework&quot;" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\andy\.wu\.BALTIMORE\\Documents\\Visual\ Studio\ 2013\\Projects\\OSTFieldToolData\\FieldTool\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DPW_MVAREntities']/@connectionString" />
+  </parameter>
+</parameters>

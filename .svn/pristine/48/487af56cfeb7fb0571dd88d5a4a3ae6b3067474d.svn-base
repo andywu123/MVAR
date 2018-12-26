@@ -1,0 +1,110 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using System.Xml;
+using FieldTool.Adapters;
+using FieldToolData;
+using DPWLogSystem;
+using FieldTool.Models;
+
+namespace FieldTool.Controllers
+{
+    public class HomeController : Controller
+    {
+        //
+        // GET: /Home/
+        private DPWLogger dpwLogger;
+        public ActionResult Index()
+        {
+            FormDataAccess ds = new FormDataAccess();
+            ViewBag.AccidentsList = ds.getReportForms();
+            return View();
+        }
+
+
+        public ActionResult inkSign()
+        {
+            return View("inkSign");
+        }
+
+
+
+        public ActionResult canvasIntersection()
+        {
+            return View("IntersectionCanvas");
+        }
+
+        public ActionResult WordFormParse()
+        {
+            return View("WordFormParse");
+        }
+
+        public ActionResult CreateAccidentReport()
+        {
+            return View("AccidentForm");
+        }
+
+        public Boolean DeleteAccidentReport(int caseId)
+        {           
+            try
+            {
+                if (dpwLogger == null)
+                {
+                    dpwLogger = new DPWLogger(this.GetType().Name);
+                }
+                FormDataAccess ds = new FormDataAccess();
+                int accidentId = ds.delAccidentReport(caseId);
+
+                bool QueryRes = accidentId > 0 ? true : false;
+
+                return QueryRes;
+            }
+            catch (Exception ex)
+            {
+                dpwLogger.Error("Delete Accident Report Error" + ex.Message);
+                throw new Exception("error" + ex);
+            }
+        }
+
+        public ActionResult EditAccidentReport(int CaseId)
+        {
+             FormDataAccess ds = new FormDataAccess();
+             ViewBag.AccidentReportForm = ds.getReportFormbyCaseId(CaseId);
+             return View("AccidentEditForm");
+        }       
+
+        [HttpPost]
+        public ActionResult WordFormParse(HttpPostedFileBase[] files)
+        {
+
+            //Ensure model state is valid
+            if (ModelState.IsValid)
+            {   //iterating through multiple file collection 
+                foreach (HttpPostedFileBase file in files)
+                {
+                    //Checking file is available to save.
+                    if (file != null)
+                    {
+                        var InputFileName = Path.GetFileName(file.FileName);
+                        var ServerSavePath = Path.Combine(Server.MapPath("~/BaltimoreCity/") + InputFileName);
+                        //Save file to server folder                      
+                        //write to the file
+                        file.SaveAs(ServerSavePath);
+
+                        //assigning file uploaded status to ViewBag for showing message to user.
+                        ViewBag.UploadStatus = files.Count().ToString() + " files uploaded successfully.";
+                        WordFormParser.parseFormTextfield(ServerSavePath);
+                    }
+                }
+
+            }
+
+
+            return View();
+        }
+
+    }
+}

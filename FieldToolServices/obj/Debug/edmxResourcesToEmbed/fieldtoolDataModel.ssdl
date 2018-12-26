@@ -1,0 +1,235 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DPW_MVARModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="MVAR_AccidentReport">
+    <Key>
+      <PropertyRef Name="CaseId" />
+    </Key>
+    <Property Name="CaseId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CaseNumber" Type="varchar" MaxLength="256" />
+    <Property Name="CaseOwner" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="CaseStatus" Type="int" Nullable="false" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="LastEditDate" Type="datetime" />
+    <Property Name="CSR_Number" Type="varchar" MaxLength="100" />
+    <Property Name="DriverSig" Type="varbinary(max)" />
+    <Property Name="SupervisorSig" Type="varbinary(max)" />
+    <Property Name="SafetyOfficerSig" Type="varbinary(max)" />
+    <Property Name="DriverSign_Time" Type="datetime" />
+    <Property Name="SupervisorSig_Time" Type="datetime" />
+    <Property Name="SafetyOfficerSig_Time" Type="datetime" />
+    <Property Name="SupervisorScene_Response" Type="int" />
+    <Property Name="SafetyOfficerScene_Reponse" Type="int" />
+    <Property Name="PhotoTaken" Type="int" />
+    <Property Name="PCD_Driver_Perm" Type="int" />
+    <Property Name="PCD_InUse" Type="int" />
+    <Property Name="Control1Call_Time" Type="datetime" />
+    <Property Name="PoliceReport_Number" Type="varchar" MaxLength="100" />
+    <Property Name="AccidentLocation" Type="varchar" MaxLength="256" />
+    <Property Name="WeatherCondition" Type="varchar" MaxLength="100" />
+    <Property Name="VehiclesInvolved_Number" Type="int" />
+    <Property Name="Police_Investigation" Type="int" />
+    <Property Name="Pedestrian_Involved" Type="int" />
+    <Property Name="AccidentDesc" Type="varchar(max)" />
+    <Property Name="IntsSketch" Type="varbinary(max)" />
+    <Property Name="Seatbelt_InUse" Type="int" />
+    <Property Name="AccidentTime" Type="datetime" />
+  </EntityType>
+  <EntityType Name="MVAR_Charges">
+    <Key>
+      <PropertyRef Name="CHARGEId" />
+    </Key>
+    <Property Name="CHARGEId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CaseId" Type="int" Nullable="false" />
+    <Property Name="CityEmpl_Charge" Type="int" />
+    <Property Name="ChargeAmount" Type="decimal" Precision="28" Scale="2" />
+    <Property Name="Summons_No" Type="int" />
+    <Property Name="Trial_Time" Type="datetime" />
+  </EntityType>
+  <EntityType Name="MVAR_Occupants">
+    <Key>
+      <PropertyRef Name="OccupantId" />
+    </Key>
+    <Property Name="OccupantId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CaseId" Type="int" Nullable="false" />
+    <Property Name="Occupant_FirstName" Type="varchar" MaxLength="50" />
+    <Property Name="Occupant_MiddleName" Type="varchar" MaxLength="50" />
+    <Property Name="Occupant_LastName" Type="varchar" MaxLength="50" />
+    <Property Name="OccupantAddress" Type="varchar" MaxLength="256" />
+    <Property Name="Occupant_ExtentInjury" Type="varchar" MaxLength="50" />
+    <Property Name="Occupant_DriverPassenger" Type="varchar" MaxLength="50" />
+    <Property Name="Vehicle_Number" Type="int" />
+    <Property Name="Occupant_PedestrianVehicle" Type="varchar" MaxLength="50" />
+    <Property Name="Occupant_Injuerynature" Type="varchar" MaxLength="50" />
+    <Property Name="Occupant_RemovedBy" Type="varchar" MaxLength="50" />
+    <Property Name="Age" Type="int" />
+    <Property Name="Sex" Type="int" />
+  </EntityType>
+  <EntityType Name="MVAR_Vehicles">
+    <Key>
+      <PropertyRef Name="VehicleId" />
+    </Key>
+    <Property Name="VehicleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CaseId" Type="int" Nullable="false" />
+    <Property Name="CityDriver" Type="int" />
+    <Property Name="DriverLicense_Number" Type="varchar" MaxLength="128" Nullable="false" />
+    <Property Name="CityPermitNo" Type="varchar" MaxLength="128" />
+    <Property Name="Driver_FirstName" Type="varchar" MaxLength="128" />
+    <Property Name="Driver_MiddleName" Type="varchar" MaxLength="128" />
+    <Property Name="Driver_lastName" Type="varchar" MaxLength="128" />
+    <Property Name="Driver_Sex" Type="varchar" MaxLength="20" />
+    <Property Name="Driver_DOB" Type="date" />
+    <Property Name="Driver_Homephone" Type="int" />
+    <Property Name="Driver_CDL" Type="int" />
+    <Property Name="Driver_POST" Type="int" />
+    <Property Name="Driver_Address" Type="varchar" MaxLength="256" />
+    <Property Name="Driver_City" Type="varchar" MaxLength="20" />
+    <Property Name="Driver_State" Type="varchar" MaxLength="20" />
+    <Property Name="Driver_County" Type="varchar" MaxLength="20" />
+    <Property Name="Driver_Zipcode" Type="int" />
+    <Property Name="Driver_Agency" Type="varchar" MaxLength="100" />
+    <Property Name="Driver_Bureau" Type="varchar" MaxLength="100" />
+    <Property Name="Driver_BusinessPhone" Type="varchar" MaxLength="50" />
+    <Property Name="Vehicle_pointImpact" Type="varchar" MaxLength="100" />
+    <Property Name="Vehicle_ExtDamage" Type="varchar" MaxLength="50" />
+    <Property Name="Fleet_ShopNumber" Type="varchar" MaxLength="50" />
+    <Property Name="Vehicle_Yearmake" Type="varchar" MaxLength="100" />
+    <Property Name="Vehicle_SerialNumber" Type="varchar" MaxLength="100" />
+    <Property Name="VehicleTag" Type="varchar" MaxLength="128" />
+    <Property Name="VehicleYear" Type="varchar" MaxLength="50" />
+    <Property Name="VehicleState" Type="varchar" MaxLength="100" />
+    <Property Name="OtherSpecify" Type="varchar" MaxLength="128" />
+    <Property Name="Owner_Name" Type="varchar" MaxLength="100" />
+    <Property Name="Owner_Address" Type="varchar" MaxLength="150" />
+    <Property Name="Owner_Phone" Type="int" />
+    <Property Name="Owner_InsuranceCom" Type="varchar" MaxLength="150" />
+    <Property Name="Owner_PolicyNo" Type="varchar" MaxLength="100" />
+    <Property Name="Driver_ExpDate" Type="date" />
+    <Property Name="Driver_VehicleState" Type="nchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="MVAR_Witnesses">
+    <Key>
+      <PropertyRef Name="WitnessId" />
+    </Key>
+    <Property Name="WitnessId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CaseId" Type="int" Nullable="false" />
+    <Property Name="WitnessName" Type="varchar" MaxLength="100" />
+    <Property Name="WitnessPhone" Type="varchar" MaxLength="100" />
+    <Property Name="WitnessAddress" Type="varchar" MaxLength="256" />
+  </EntityType>
+  <Function Name="FieldReportCase_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="CaseId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="MVARCharges_InsertUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ActionType" Type="int" Mode="In" />
+    <Parameter Name="ChargeId" Type="int" Mode="In" />
+    <Parameter Name="CaseId" Type="int" Mode="In" />
+    <Parameter Name="CityEmpl_Charge" Type="int" Mode="In" />
+    <Parameter Name="Charge" Type="decimal" Mode="In" />
+    <Parameter Name="Summons_No" Type="int" Mode="In" />
+    <Parameter Name="trial_time" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="MVAROccupants_InsertUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ActionType" Type="int" Mode="In" />
+    <Parameter Name="OccupantId" Type="int" Mode="In" />
+    <Parameter Name="CaseId" Type="int" Mode="In" />
+    <Parameter Name="Occupant_FirstName" Type="varchar" Mode="In" />
+    <Parameter Name="Occupant_MiddleName" Type="varchar" Mode="In" />
+    <Parameter Name="Occupant_LastName" Type="varchar" Mode="In" />
+    <Parameter Name="OccupantAddress" Type="varchar" Mode="In" />
+    <Parameter Name="Occupant_ExtentInjury" Type="varchar" Mode="In" />
+    <Parameter Name="Occupant_DriverPassenger" Type="varchar" Mode="In" />
+    <Parameter Name="Vehicle_Number" Type="int" Mode="In" />
+    <Parameter Name="Occupant_Pedestrian" Type="varchar" Mode="In" />
+    <Parameter Name="Occupant_Injuerynature" Type="varchar" Mode="In" />
+    <Parameter Name="Occupant_RemovedBy" Type="varchar" Mode="In" />
+    <Parameter Name="Age" Type="int" Mode="In" />
+    <Parameter Name="Sex" Type="int" Mode="In" />
+  </Function>
+  <Function Name="MVARReportCase_InsertUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ActionType" Type="int" Mode="In" />
+    <Parameter Name="CaseId" Type="int" Mode="In" />
+    <Parameter Name="CaseNumber" Type="varchar" Mode="In" />
+    <Parameter Name="CaseOwner" Type="varchar" Mode="In" />
+    <Parameter Name="CaseStatus" Type="int" Mode="In" />
+    <Parameter Name="CreateDate" Type="datetime" Mode="In" />
+    <Parameter Name="LastEditDate" Type="datetime" Mode="In" />
+    <Parameter Name="CSR_Number" Type="varchar" Mode="In" />
+    <Parameter Name="DriverSig" Type="varbinary(max)" Mode="In" />
+    <Parameter Name="SupervisorSig" Type="varbinary(max)" Mode="In" />
+    <Parameter Name="SafetyOfficerSig" Type="varbinary(max)" Mode="In" />
+    <Parameter Name="DriverSign_Time" Type="datetime" Mode="In" />
+    <Parameter Name="SupervisorSig_Time" Type="datetime" Mode="In" />
+    <Parameter Name="SafetyOfficerSig_Time" Type="datetime" Mode="In" />
+    <Parameter Name="SupervisorScene_Response" Type="int" Mode="In" />
+    <Parameter Name="SafetyOfficerScene_Reponse" Type="int" Mode="In" />
+    <Parameter Name="PhotoTaken" Type="int" Mode="In" />
+    <Parameter Name="Seatbelt_InUse" Type="int" Mode="In" />
+    <Parameter Name="PCD_Driver_Perm" Type="int" Mode="In" />
+    <Parameter Name="PCD_InUse" Type="int" Mode="In" />
+    <Parameter Name="Control1Call_Time" Type="datetime" Mode="In" />
+    <Parameter Name="AccidentTime" Type="datetime" Mode="In" />
+    <Parameter Name="PoliceReport_Number" Type="varchar" Mode="In" />
+    <Parameter Name="AccidentLocation" Type="varchar" Mode="In" />
+    <Parameter Name="WeatherCondition" Type="varchar" Mode="In" />
+    <Parameter Name="VehiclesInvolved_Number" Type="int" Mode="In" />
+    <Parameter Name="Police_Investigation" Type="int" Mode="In" />
+    <Parameter Name="Pedestrian_Involved" Type="int" Mode="In" />
+    <Parameter Name="AccidentDesc" Type="varchar(max)" Mode="In" />
+    <Parameter Name="IntsSketch" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="MVARVehicles_InsertUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ActionType" Type="int" Mode="In" />
+    <Parameter Name="VehicleId" Type="int" Mode="In" />
+    <Parameter Name="CaseId" Type="int" Mode="In" />
+    <Parameter Name="CityDriver" Type="int" Mode="In" />
+    <Parameter Name="DriverLicense_Number" Type="varchar" Mode="In" />
+    <Parameter Name="CityPermitNo" Type="varchar" Mode="In" />
+    <Parameter Name="Driver_FirstName" Type="varchar" Mode="In" />
+    <Parameter Name="Driver_MiddleName" Type="varchar" Mode="In" />
+    <Parameter Name="Driver_lastName" Type="varchar" Mode="In" />
+    <Parameter Name="Driver_Sex" Type="varchar" Mode="In" />
+    <Parameter Name="Driver_DOB" Type="date" Mode="In" />
+    <Parameter Name="Driver_Homephone" Type="int" Mode="In" />
+    <Parameter Name="Driver_CDL" Type="int" Mode="In" />
+    <Parameter Name="Driver_POST" Type="int" Mode="In" />
+    <Parameter Name="Driver_Address" Type="varchar" Mode="In" />
+    <Parameter Name="Driver_City" Type="varchar" Mode="In" />
+    <Parameter Name="Driver_State" Type="varchar" Mode="In" />
+    <Parameter Name="Driver_County" Type="varchar" Mode="In" />
+    <Parameter Name="Driver_Zipcode" Type="int" Mode="In" />
+    <Parameter Name="Driver_Agency" Type="varchar" Mode="In" />
+    <Parameter Name="Driver_Bureau" Type="varchar" Mode="In" />
+    <Parameter Name="Driver_BusinessPhone" Type="varchar" Mode="In" />
+    <Parameter Name="Vehicle_pointImpact" Type="varchar" Mode="In" />
+    <Parameter Name="Vehicle_ExtDamage" Type="varchar" Mode="In" />
+    <Parameter Name="Fleet_ShopNumber" Type="varchar" Mode="In" />
+    <Parameter Name="Vehicle_Yearmake" Type="varchar" Mode="In" />
+    <Parameter Name="Vehicle_SerialNumber" Type="varchar" Mode="In" />
+    <Parameter Name="VehicleTag" Type="varchar" Mode="In" />
+    <Parameter Name="VehicleYear" Type="varchar" Mode="In" />
+    <Parameter Name="VehicleState" Type="varchar" Mode="In" />
+    <Parameter Name="OtherSpecify" Type="varchar" Mode="In" />
+    <Parameter Name="Owner_Name" Type="varchar" Mode="In" />
+    <Parameter Name="Owner_Address" Type="varchar" Mode="In" />
+    <Parameter Name="Owner_Phone" Type="int" Mode="In" />
+    <Parameter Name="Owner_InsuranceCom" Type="varchar" Mode="In" />
+    <Parameter Name="Owner_PolicyNo" Type="varchar" Mode="In" />
+    <Parameter Name="Driver_ExpDate" Type="date" Mode="In" />
+    <Parameter Name="Driver_VehicleState" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="MVARWitnesses_InsertUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ActionType" Type="int" Mode="In" />
+    <Parameter Name="WitnessId" Type="int" Mode="In" />
+    <Parameter Name="CaseId" Type="int" Mode="In" />
+    <Parameter Name="WitnessName" Type="varchar" Mode="In" />
+    <Parameter Name="WitnessPhone" Type="varchar" Mode="In" />
+    <Parameter Name="WitnessAddress" Type="varchar" Mode="In" />
+  </Function>
+  <EntityContainer Name="DPW_MVARModelStoreContainer">
+    <EntitySet Name="MVAR_AccidentReport" EntityType="Self.MVAR_AccidentReport" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MVAR_Charges" EntityType="Self.MVAR_Charges" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MVAR_Occupants" EntityType="Self.MVAR_Occupants" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MVAR_Vehicles" EntityType="Self.MVAR_Vehicles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MVAR_Witnesses" EntityType="Self.MVAR_Witnesses" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RptDataSource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="dst_mvar">
+  <ConnectionProperties>
+    <Extension>SQL</Extension>
+    <ConnectString>Data Source=balt-sql-dev;Initial Catalog=DPW_MVAR</ConnectString>
+  </ConnectionProperties>
+  <DataSourceID>f99deb64-6d97-4fdf-a6e1-cb8a4409542f</DataSourceID>
+</RptDataSource>

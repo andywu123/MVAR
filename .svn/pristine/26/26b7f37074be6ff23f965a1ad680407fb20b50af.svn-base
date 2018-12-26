@@ -1,0 +1,134 @@
+﻿using FieldToolServices.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http.Formatting;
+using System.Web;
+using FieldToolServices;
+
+namespace FieldTool.Adapters
+{
+    public class Form2Report
+    {
+        internal static reportFormData convert2ReportData(FormDataCollection form)
+        {
+            reportFormData report = new reportFormData();
+
+            report.accidentReport = convert2AccidentReport(form);
+            if (report.accidentReport == null)
+            {
+                return null;
+            }
+
+            report.vehicles = convert2vehicles(form);
+            report.occupants = convert2occupants(form);
+            report.witnesses = convert2witnesses(form);
+            report.charges = convert2charges(form);
+
+            return report;
+        }
+
+        private static List<Charge> convert2charges(FormDataCollection form)
+        {
+            List<Charge> charges = new List<Charge>();
+            Charge charge = new Charge();
+
+            var Summons_No = form.Get("summonNo_edit");
+            if (Summons_No != "")
+            {
+                charge.Summons_No = Convert.ToInt32(Summons_No);
+            }
+
+            var ChargeAmount = form.Get("ChargeAmount_edit");
+            if (ChargeAmount != "")
+            {
+                charge.ChargeAmount = Convert.ToDecimal(ChargeAmount);
+            }
+
+            var CityEmplChargeAmount = form.Get("CityEmplChargeAmount_edit");
+            if (CityEmplChargeAmount != "")
+            {
+                charge.CityEmpl_Charge = Convert.ToInt32(CityEmplChargeAmount);
+            }
+            charges.Add(charge);
+
+            return charges;
+        }
+
+        private static List<Witness> convert2witnesses(FormDataCollection form)
+        {
+            List<Witness> witnesses = new List<Witness>();
+            Witness witness = new Witness();
+
+            witness.WitnessName = form.Get("Witness_Name_edit");
+            witness.WitnessPhone = form.Get("Witness_phone_edit");
+            witness.WitnessAddress = form.Get("Witness_Address_edit");
+            witnesses.Add(witness);
+
+            return witnesses;
+        }
+
+        private static List<Occupant> convert2occupants(FormDataCollection form)
+        {
+            List<Occupant> occupants = new List<Occupant>();
+            Occupant occupant = new Occupant();
+            var age = form.Get("ocp_Age_edit");
+            if (age != "")
+            {
+                occupant.Age = Convert.ToInt32(age);
+            }
+          
+            occupant.OccupantName = form.Get("ocp_Name_edit");
+            occupant.OccupantAddress = form.Get("ocp_Address_edit");
+            occupants.Add(occupant);
+
+            return occupants;
+        }
+
+        private static List<Vehicle> convert2vehicles(FormDataCollection form)
+        {
+            List<Vehicle> vehicles = new List<Vehicle>();
+            Vehicle vehicle = new Vehicle();
+            var cityDriver = form.Get("chk_cityDriver_edit");
+            if (cityDriver != "")
+            {
+                vehicle.CityDriver = cityDriver !="on"? 1: 0;
+            }
+
+            vehicle.CityPermitNo = form.Get("city_permit_edit");
+            vehicle.DriverName = form.Get("Driver_Name_edit");
+            vehicle.DriverAddress = form.Get("Driver_Address_edit");
+            vehicles.Add(vehicle);
+
+            return vehicles;
+        }
+
+     
+
+        private static AccidentReport convert2AccidentReport(FormDataCollection form)
+        {
+            AccidentReport reportInfo = new AccidentReport();
+            // populate field data to accident report table 
+            var requestID = form.Get("requestID");
+            if (requestID != "")
+            {
+                reportInfo.CaseId = Convert.ToInt32(requestID);
+            }
+            else
+            {
+                return null;
+            }
+
+            var driverSignStamp = form.Get("driverSignStamp_edit");
+            if (driverSignStamp != "")
+            {
+                reportInfo.DriverSign_Time = Convert.ToDateTime(driverSignStamp);
+            }
+
+            var AccidentDescription = form.Get("AccidentDescription_edit");
+            reportInfo.AccidentDesc = AccidentDescription;
+
+            return reportInfo;
+        }
+    }
+}

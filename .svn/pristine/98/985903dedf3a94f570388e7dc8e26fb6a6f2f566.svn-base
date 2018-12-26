@@ -1,0 +1,76 @@
+﻿using FieldTool.Adapters;
+using FieldToolServices;
+using FieldToolServices.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Formatting;
+using System.Web.Http;
+using DPWLogSystem;
+using System.Configuration;
+
+namespace FieldTool.Controllers
+{
+    public class ReportAccessController : ApiController
+    {
+        private DPWLogger dpwLogger;
+
+        [HttpGet]
+        public reportFormData getReportFormbyCaseId(int caseId)
+        {
+            reportFormData frm = new reportFormData();
+            FormDataAccess ds = new FormDataAccess();
+            frm = ds.getReportFormbyCaseId(caseId);
+
+            return frm;
+        }
+
+        [HttpGet]
+        public List<MVAR_AccidentReport> getReportForms()
+        {
+
+            List<MVAR_AccidentReport> accidents = new List<MVAR_AccidentReport>();
+            FormDataAccess ds = new FormDataAccess();
+            accidents = ds.getReportForms();
+            DPWLogger.Config();
+            DPWLogger.SetLogingLevel(ConfigurationManager.AppSettings["LoggerLevel"]);
+
+            dpwLogger = new DPWLogger("MyLog");    
+
+          
+            dpwLogger.Info("Get all report forms");
+            return accidents;
+        }
+
+        [HttpPost]
+        public int AddReportForm([FromBody]FormDataCollection form)
+        {
+            FormDataAccess ds = new FormDataAccess();
+            reportFormData formData = new reportFormData();
+            formData = Form2Report.convert2ReportData(form,1);
+            int invetigationId = ds.AddReportForm(formData);
+            return invetigationId;
+        }
+
+        [HttpPost]
+        public int UpdateReportForm([FromBody]FormDataCollection form)
+        {
+            FormDataAccess ds = new FormDataAccess();
+            reportFormData formData = new reportFormData();
+            formData = Form2Report.convert2ReportData(form,2);
+            int invetigationId = ds.UpdateReportForm(formData);
+            return invetigationId;
+        }
+
+        [HttpDelete]
+        public int delAccidentReport(int caseId)
+        {
+            FormDataAccess ds = new FormDataAccess();
+            int invetigationId = ds.delAccidentReport(caseId);
+            return invetigationId;
+        }
+
+    }
+}

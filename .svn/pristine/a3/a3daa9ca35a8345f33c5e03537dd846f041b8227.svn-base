@@ -1,0 +1,67 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+/*#accidentFormContainer {
+    margin-left: 20px;
+}*/
+
+#btn_OpenSyncDlg {
+    float: right;
+    margin-right:25px;
+}
+
+#btn_submitAccdForm {
+    margin-left:25px;
+}
+
+/*#accidentForm{
+    left: 30%;
+    position: absolute;
+}*/
+
+.top-buffer {
+    margin-top: 20px;
+}
+
+#accidentFormContainer > .content {
+    min-height: 25em !important;
+}
+
+#accidentFormContainer > .steps {
+    font-size: 16px !important;
+    line-height:none;
+}
+
+
+#Intersection-pad {
+    text-align:center;
+}
+
+
+#canvasDiv {
+    text-align:center;
+}
+
+
+#savejpg {
+    display:none;
+}
+
+#savesvg {
+    display:none;
+}

@@ -1,0 +1,22 @@
+﻿CD.services = {
+    createInvestigation: function (divId) {
+        var xhr = $.ajax({
+            url: siteBaseUrl + "api/ReportAccess/AddReportForm",
+            data: $("#" + divId).serialize(),
+            dataType: "json",
+            type: "POST"
+
+        });
+        return xhr;
+    },
+    editInvestigation: function (divId) {
+        var xhr = $.ajax({
+            url: siteBaseUrl + "api/ReportAccess/UpdateReportForm",
+            data: $("#" + divId).serialize(),
+            dataType: "json",
+            type: "POST"
+
+        });
+        return xhr;
+    },
+}

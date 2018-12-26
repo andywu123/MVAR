@@ -1,0 +1,210 @@
+﻿CD.AccidentForm = {
+    selectedFilePath: null,
+    selecedFile: null,
+    incidentFormObj: null,
+    selectedId: null,
+    IncidentRawData: null,
+
+    init: function () {
+        $('#selectedcdformfile').change(function (e) {
+            // assign selected file path to selectedFilePath variable 
+            CD.AccidentForm.selectedFilePath = this.value;
+            CD.AccidentForm.selectedFile = $("#selectedcdformfile")[0].files[0];
+            $("#SelectedFormpath").html(this.value);
+        });
+
+        $("#btn_OpenSyncDlg").click(function () {
+            //Helpers.showNotificationModal("Login Error", "Your login has expired. Please log in again to continue.");
+            Helpers.showSyncFormDataModal();
+        });
+
+        $("#btn_OpenSyncDlg_Edit").click(function () {
+            //Helpers.showNotificationModal("Login Error", "Your login has expired. Please log in again to continue.");
+            Helpers.showSyncFormDataModal();
+        });
+        
+        // https://stackoverflow.com/questions/20052839/cant-bind-events-to-inputs-within-jquery-steps-wizard 
+        $("#reloadFormBtn").click(function () {
+            Helpers.handleFileSelect(CD.AccidentForm.selectedFile);
+        }),
+     
+        $("#btn_Editvehicle_Add").click(function () {
+            Helpers.fnClearFormFields("#vehicleEditSection");
+            $("#mdl_vehicleLabel").val("Create A Vehicle");
+            $("#mdl_vehicleEdit").modal();
+        }),
+
+        $("#btn_Editvehicle_Edit").click(function () {
+            Helpers.fnClearFormFields("#vehicleEditSection");
+            var Id = CD.AccidentForm.selectedId;
+            CD.AccidentForm.fnPopulateVehicleForm(Id);
+            $("#mdl_vehicleLabel").val("Edit Vehicle");
+            $("#mdl_vehicleEdit").modal();
+        }),
+
+		$('#btn_submitAccdForm').click(function () {
+
+		    if (Offline.state === 'down') {
+		        //Offline.check();
+		        Helpers.showNotificationModal("Create Error", "There is no internet connection. Please try again!");
+		        return false;
+		    }
+		    else {	       
+		        //Do ajax call for token
+		        Promise.all([
+                    CD.services.createInvestigation("accidentForm")
+		        ]).then(function success(values) {
+
+		            var reportId = values[0];
+		            Helpers.showSaveStatusModal("Sync Investigation Report",
+                   "The Investigation report " + reportId + " has been created successfully.", 
+                    function () {
+                        window.open(siteBaseUrl + "Home/Index", "_self");
+                    },
+                     function () {
+                         //Do nothing
+                     });		            
+		        });
+		        return true;
+		    }
+
+		});
+
+        $('#btn_submitAccdForm_Edit').click(function () {
+
+            if (Offline.state === 'down') {
+                //Offline.check();
+                var formData = $('form#accidentForm_Edit').serializeArray();
+                var formJSON = Helpers.serializeObject(formData);
+                /*Helpers.saveJSON2Txt("C:/testbaltimoreCity.txt", formJSON);
+                download(formJSON, "BaltimoreCity.txt", "text/plain");*/
+              
+                var reportId = formData[0].value;
+                var localforageId = 0;
+                if (reportId > 0) {
+                    localforageId = Helpers.getlocalforageReportKey(reportId);
+                    var formData = $('form#accidentForm_Edit').serializeArray();
+                    //Save report info back to localforage
+                    localforage.setItem(localforageId, { form: formData, reportID: reportId }).then(
+                            function success() {
+                            }, function failure(err) {                             
+                            }
+                        );
+                }
+                Helpers.showNotificationModal("Internet Offline", "There is no internet connection, the report fails to be saved. Please try again when there is internet connection.");
+
+            }
+            else {
+                Promise.all([
+                    CD.services.editInvestigation("accidentForm_Edit")
+                ]).then(function success(values) {
+                    var reportId = values[0];
+                     Helpers.showNotificationModal("Sync Investigation Report",
+                    "The Investigation report " + reportId + " has been synced successfully.");
+                     //window.open(siteBaseUrl + "Home/Index", "_self");
+                }, function failure(err) {
+                    Helpers.showNotificationModal("Report Save failed", "An error occurred when saving data to the server. Please check your internet connection. " + err);
+
+                });
+                return true;
+            }
+        });
+      
+        var form = $("#accidentForm").show();
+        //Helpers.fnCreateMultiStepForm(form);
+
+        var form_Edit = $("#accidentForm_Edit").show();
+      
+        CD.AccidentForm.fnInitMultiStepForm();
+    },
+    fnInitReportInfo: function () {
+        // checkbox change event bind 
+        $('input[type="checkbox"]').change(function () {
+            this.value = (Number(this.checked));
+        });
+    },
+    fnInitMultiStepForm: function(){
+        var navListItems = $('div.setup-panel div a'),
+               allWells = $('.setup-content'),
+               allNextBtn = $('.nextBtn');
+
+        allWells.hide();
+
+        navListItems.click(function (e) {
+            e.preventDefault();
+            var $target = $($(this).attr('href')),
+                $item = $(this);
+
+            //if (!$item.hasClass('disabled')) {
+            navListItems.removeClass('btn-success').addClass('btn-default');
+            $item.addClass('btn-success');
+            allWells.hide();
+            $target.show();
+            $target.find('input:eq(0)').focus();
+            CD.AccidentForm.fnUpdateProgress();
+            //}
+        });
+
+        allNextBtn.click(function () {
+            var curStep = $(this).closest(".setup-content"),
+                curStepBtn = curStep.attr("id"),
+                nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
+                curInputs = curStep.find("input[type='text'],input[type='url']"),
+                isValid = true;
+
+            $(".form-group").removeClass("has-error");
+            for (var i = 0; i < curInputs.length; i++) {
+                if (!curInputs[i].validity.valid) {
+                    isValid = false;
+                    $(curInputs[i]).closest(".form-group").addClass("has-error");
+                }
+            }
+
+            if (isValid) nextStepWizard.removeAttr('disabled').trigger('click');
+        });
+
+        $('div.setup-panel div a.btn-success').trigger('click');
+        CD.AccidentForm.fnUpdateProgress();
+    },
+
+    fnUpdateProgress: function () {
+        var curStep = $('.nextBtn').closest(".setup-content").attr("id");
+        var $percent = (curStep / 6) * 100;
+        $('.progress-bar').css({ width: $percent + '%' });
+    },
+
+    // To do - Field Validation for Accident Report Update and Create 
+    fnCreateValidationMsg: function (step) {
+        var Error = "The Field is required!"
+        var Warn = "Maximum of 50 characters allowed!"
+        var Name = $("#keyword").val();
+
+        if (Name == '') {
+            $("#accidentForm_validation").html(Error);
+        }
+        else if (Name.length > 50) {
+            $("#accidentForm_validation").html(Warn);
+        } else {
+            $("#accidentForm_validation").html("");
+        }
+
+        if (Name != '' && Name.length < 50) {
+            return true;
+        } else {
+            return false;
+        }
+    },
+
+    fnPopulateVehicleForm: function (Id) {
+        if (Id == null) {
+            Helpers.showNotificationModal("Select A Vehicle", "Please Select A Vehicle to Edit");
+        }
+        else {
+            Helpers.getReportChildByType(1, Id);
+        }
+       
+    },
+
+    removeWarning: function () {
+    }
+}

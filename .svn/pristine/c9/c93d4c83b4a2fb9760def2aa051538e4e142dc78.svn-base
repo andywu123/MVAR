@@ -1,0 +1,183 @@
+﻿@using FieldToolServices.Models;
+@using FieldTool.Models;
+@{
+    ViewBag.Title = "Accident Form Edit";
+    reportFormDataPost reportData = ViewBag.AccidentReportForm;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="page-header">
+    <h2 class="contentTitle">Edit Accident Form</h2>
+</div>
+
+<div id="accidentFormContainer_Edit" class="container">
+    <div class="stepwizard">
+        <div class="stepwizard-row setup-panel">
+            <div class="stepwizard-step col-xs-2">
+                <a href="#step-1" type="button" class="btn btn-success btn-circle">1</a>
+                <p><small>Accident Info</small></p>
+            </div>
+            <div class="stepwizard-step col-xs-3">
+                <a href="#step-2" type="button" class="btn btn-default btn-circle" disabled="disabled">2</a>
+                <p><small>Occupant Info</small></p>
+            </div>
+            <div class="stepwizard-step col-xs-3">
+                <a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled">3</a>
+                <p><small>Witness Info</small></p>
+            </div>
+            <div class="stepwizard-step col-xs-2">
+                <a href="#step-4" type="button" class="btn btn-default btn-circle" disabled="disabled">4</a>
+                <p><small>Vehicle Info</small></p>
+            </div>
+            <div class="stepwizard-step col-xs-2">
+                <a href="#step-5" type="button" class="btn btn-default btn-circle" disabled="disabled">5</a>
+                <p><small>Charge Info</small></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row top-buffer">
+        <div class="col-sm-12">
+            <form id="accidentForm_Edit" role="form">
+                <input id="reportID" name="reportID" hidden value="@reportData.accidentReport.CaseId">
+                <fieldset class="panel panel-primary setup-content" id="step-1">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Accident Information</h3>
+                    </div>
+                    <div class="panel-body">
+                     
+                        <div class="form-group">
+                            <label for="driverSignStamp">Driver Sign Time</label>
+                            <input type="datetime-local" class="form-control" id="driverSignStamp_edit" name="driverSignStamp_edit" value="@reportData.accidentReport.DriverSign_Time" />
+                        </div>
+
+                        <div class="form-check">                           
+                            <label class="form-check-label" for="chk_sup_response_edit">Supervisor Scene Reponse</label>
+                            @if (reportData.accidentReport.SupervisorScene_Response == 1)
+                            {
+                                <input type="checkbox" class="form-check-input" id="chk_sup_response_edit" name="chk_sup_response_edit" value="@reportData.accidentReport.SupervisorScene_Response" checked="checked">
+                            }
+                            else
+                            {
+                                <input type="checkbox" class="form-check-input" id="chk_sup_response_edit" name="chk_sup_response_edit" value="@reportData.accidentReport.SupervisorScene_Response">
+                            }
+                        </div>
+                        <div class="form-group">
+                            <label for="Textarea_AccidentDes_edit">Describe accident in detail below:</label>
+                            <textarea class="form-control" id="Textarea_AccidentDes_edit" rows="3" name="AccidentDescription_edit" >@reportData.accidentReport.AccidentDesc</textarea>
+                        </div>
+                        <p>(*) Mandatory</p>
+                        <button class="btn btn-primary nextBtn pull-right" type="button">Next</button>
+                    </div>
+                </fieldset>
+                <fieldset class="panel panel-primary setup-content" id="step-2">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Occupant Information</h3>
+                    </div>
+                    <div class="panel-body" id="cloneOccupants">
+                        <div class="row">
+                            <div class="col-md-12"><button type="button" class="btn btn-primary btnAddOccupant">Add section</button></div>
+                        </div>
+
+                        @if (reportData.occupants != null && reportData.occupants.Count > 0)
+                        {
+                            foreach (var occupant in reportData.occupants)
+                            {
+                                if (occupant.OccupantId > 0)
+                                {
+                                    @Html.Partial("~/Views/Shared/_OccupantPartial.cshtml", occupant)
+                                }
+                            }
+                        }
+
+                        <p>(*) Mandatory</p>
+                        <button class="btn btn-primary nextBtn pull-right" type="button">Next</button>
+                    </div>
+                </fieldset>
+                <fieldset  class="panel panel-primary setup-content" id="step-3">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Witness Information</h3>
+                    </div>
+                    <div class="panel-body" id="cloneWitness">
+
+                        <div class="row">
+                            <div class="col-md-12"><button type="button" class="btn btn-primary btnAddWitness">Add section</button></div>
+                        </div>
+
+                        @if (reportData.witnesses != null && reportData.witnesses.Count > 0)
+                        {
+                            foreach (var witness in reportData.witnesses)
+                            {
+                                if (witness.WitnessId > 0)
+                                {
+                                    @Html.Partial("~/Views/Shared/_WitnessPartial.cshtml", witness)
+                                }
+                            }
+                        }
+
+                        <p>(*) Mandatory</p>
+                        <button class="btn btn-primary nextBtn pull-right" type="button">Next</button>
+                    </div>
+                </fieldset>
+
+                <fieldset class="panel panel-primary setup-content" id="step-4">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Vehicle Information</h3>
+                    </div>
+                    <div class="panel-body" id="cloneVehicles">
+                        <div class="row">
+                            <div class="col-md-12"><button type="button" class="btn btn-primary btnAddVehicle">Add section</button></div>
+                        </div>
+
+                        @if (reportData.vehicles != null && reportData.vehicles.Count > 0)
+                        {
+                            foreach (var vehicle in reportData.vehicles)
+                            {
+                                if (vehicle.VehicleId > 0)
+                                {
+                                    @Html.Partial("~/Views/Shared/_VehiclePartial.cshtml", vehicle)
+                                }
+                            }
+                        }
+
+                        <p>(*) Mandatory</p>
+                        <button class="btn btn-primary nextBtn pull-right" type="button">Next</button>
+                    </div>
+                </fieldset>
+
+                <fieldset class="panel panel-primary setup-content" id="step-5">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Charge Information</h3>
+                    </div>
+                    <div class="panel-body" id="cloneCharges">
+                        <div class="row">
+                            <div class="col-md-12"><button type="button" class="btn btn-primary btnAddCharge">Add section</button></div>
+                        </div>
+
+                        @if (reportData.charges != null && reportData.charges.Count > 0)
+                        {
+                            foreach (var charge in reportData.charges)
+                            {
+                                if (charge.CHARGEId > 0)
+                                {
+                                    @Html.Partial("~/Views/Shared/_ChargePartial.cshtml", charge)
+                                }
+                            }
+                        }
+                      
+                        <p>(*) Mandatory</p>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+
+    <div class="row top-buffer">
+        <div class="col-sm-4">
+            <button id="btn_submitAccdForm_Edit" class="btn btn-primary col-sm-4" type=button>Submit</button>
+        </div>
+        <div class="col-sm-8">
+            <button id="btn_OpenSyncDlg_Edit" class="btn btn-primary col-sm-4" type=button>Sync Form Data</button>
+        </div>
+    </div>
+
+</div>

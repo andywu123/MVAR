@@ -1,0 +1,251 @@
+﻿CD.Reports = {
+    oReportTable: null,
+    oClosedReportTable: null,
+    /* Initialize home page's datatable and click handlers */
+    init: function ReportInit() {
+
+        oReportTable = $('#ReportTable').dataTable({
+            "aaSorting": [[1, "asc"]],
+            //"sScrollY": "300px",
+            "pagingType": "simple",
+            "bPaginate": true,
+            "info": false,
+            "columnDefs": [
+                        { "ordable": false, "targets": 2 },
+                        { "searchable": false, "targets": 2 },
+                        {
+                            "targets": [0],
+                            "visible": false
+                        }]
+
+        });
+
+        $('#ReportTable tbody').on('click', 'tr', function () {
+            if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
+            }
+            else {
+                oReportTable.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+            }
+        });
+        //
+        //click Events for home page
+        $('#close_Report_fr_home').click(function () {
+            var tbl = $('#ReportTable').DataTable();
+            var $row = Helpers.findSelectedRow(tbl);
+            if ($row == null)
+                return;
+            var data = tbl.row($row).data();
+            var ReportCaseID = data[0];
+            if (ReportCaseID >= 0) {
+                Helpers.showSaveStatusModal("Close Report", "Are you sure to close this report",
+                        function () {
+                            $.post(siteBaseUrl + "Home/CloseAccidentReport?CaseId=" + ReportCaseID,
+                                function (data) {
+                                    if (data == "True") {
+                                        tbl.row($row)
+                                        .remove()
+                                        .draw();
+                                    } else {
+                                        Helpers.showNotificationModal("Close Case Failed", "This Report is currently associated with content and cannot be deleted until association has been removed. ");
+                                        window.open(siteBaseUrl + "Home/Index", "_self");
+                                    }
+                                }
+                            );
+                        },
+                        function () {
+                            //Do nothing
+                        });
+            }
+        });
+
+        $('#create_Report_to_home').click(function () {
+            window.open(siteBaseUrl + "Home/CreateAccidentReport", "_self");
+        });
+
+        $('#edit_Report_in_home').click(function () {
+            var tbl = $('#ReportTable').DataTable();
+            var $row = Helpers.findSelectedRow(tbl);
+            if ($row == null)
+                return;
+            var data = tbl.row($row).data();
+            var ReportCaseID = data[0];
+            if (ReportCaseID >= 0) {
+
+                Promise.all([
+                   CD.services.getReportById(ReportCaseID)
+                ]).then(function success(values) {
+                    localforage.setItem("selectedReport", values[0]).then(
+                            function success() {
+                                var a = {
+                                    CaseId: ReportCaseID
+                                };
+                                var params = jQuery.param(a, true);
+                                window.open(siteBaseUrl + "Home/EditAccidentReport?" + params, "_self");
+                            }, function failure(err) {
+                            }
+                        )
+
+
+                });
+
+            }
+        });
+
+        $('#ClosedReportTable tbody').on('click', 'tr', function () {
+            if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
+            }
+            else {
+                oReportTable.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+            }
+        });
+
+        $('#SearchClosedReport_fr_home').click(function () {
+            // get ddl options for case owner and accident date and case number 
+            if (Offline.state === 'down') {
+                Helpers.showNotificationModal("Internet Offline", "There is no internet connection, the search function is not available.");
+                $("#btn_searchReports").prop('disabled', true);
+                $("#FilterReportsModal").modal();
+
+            }
+            else {
+                var sel_owner = document.getElementById('OfficeDDL');
+                var sel_casenumber = document.getElementById('CaseNumberDDL');
+                var sel_accidentdate = document.getElementById('AccidentDateDDL');
+                var sel_OwnerOpts, sel_CasenumberOpts, sel_DatesOpts;
+
+                Promise.all([
+                      CD.services.getReportOwnerDDL()
+                ]).then(function success(values) {
+                    if (values.toString() != "") {
+                        sel_OwnerOpts = values;
+                        Promise.all([
+                            CD.services.getCaseNumberDDL()
+                        ]).then(function success(values) {
+                            if (values.toString() != "") {
+                                sel_CasenumberOpts = values;
+                                Promise.all([
+                                    CD.services.getAccidentDatesDDL()
+                                ]).then(function success(values) {
+                                    if (values.toString() != "") {
+                                        sel_DatesOpts = values;
+                                        CD.Reports.fnPopulateSelect(sel_OwnerOpts, sel_owner);
+                                        CD.Reports.fnPopulateSelect(sel_CasenumberOpts, sel_casenumber);
+                                        CD.Reports.fnPopulateSelect(sel_DatesOpts, sel_accidentdate);
+                                        $("#btn_searchReports").prop('disabled', false);
+                                        $("#FilterReportsModal").modal();
+                                    }
+                                    else {
+                                        Helpers.showNotificationModal("Returned Results", "There is no Accident Report found.");
+                                        return;
+                                    }
+
+                                });
+                            }
+                            else {
+                                Helpers.showNotificationModal("Returned Results", "There is no Accident Report found.");
+                                return;
+                            }
+
+                        });
+                    }
+                    else {
+                        Helpers.showNotificationModal("Returned Results", "There is no Accident Report found.");
+                        return;
+                    }
+                });
+
+            }
+
+        });
+
+        $('#edit_ClosedReport_in_home').click(function () {
+            var tbl = $('#ClosedReportTable').DataTable();
+            var $row = Helpers.findSelectedRow(tbl);
+            if ($row == null)
+                return;
+            var data = tbl.row($row).data();
+            var ReportCaseID = data[0];
+            if (ReportCaseID >= 0) {
+                Promise.all([
+                   CD.services.getReportById(ReportCaseID)
+                ]).then(function success(values) {
+                    localforage.setItem("selectedReport", values[0]).then(
+                            function success() {
+                                var a = {
+                                    CaseId: ReportCaseID
+                                };
+                                var params = jQuery.param(a, true);
+                                window.open(siteBaseUrl + "Home/ViewAccidentReport?" + params, "_self");
+                            }, function failure(err) {
+                            }
+                        )
+                });
+            }
+        });
+
+        $('#ClosedReportTable').dataTable({
+            "aaSorting": [[1, "asc"]],
+            //"sScrollY": "300px",
+            "pagingType": "simple",
+            "bPaginate": true,
+            "info": false,
+            "columnDefs": [
+                        { "ordable": false, "targets": 2 },
+                        { "searchable": false, "targets": 2 },
+                        {
+                            "targets": 0,
+                            "visible": false
+                        }]
+        });
+
+        $('#btn_searchReports').click(function () {
+            var officer = $('#FilterForm #OfficeDDL').val();
+            var accidentDate = $('#FilterForm #AccidentDateDDL').val();
+            var caseNumber = $('#FilterForm #CaseNumberDDL').val();
+
+            if (officer != null && accidentDate != null && caseNumber != null) {
+                Promise.all([
+                   CD.services.getClosedReportsByParas(officer, accidentDate, caseNumber)
+                ]).then(function success(values) {
+                    if (values.toString() != "") {
+                        var result = values[0];
+                        //datatable
+                        var pointArray = [];
+
+                        $.each(result, function (i, item) {
+                            pointArray.push([item.CaseId, item.CaseNumber, item.AccidentLocation, item.AccidentTime, item.CreateDate]);
+
+                        })
+                        var datatable = $('#ClosedReportTable').DataTable();
+                        datatable.clear();
+                        datatable.rows.add(pointArray);
+                        datatable.draw();
+                        
+                    }
+                    $("#CloseReportsModal").modal();
+
+                });
+
+            }
+            else {
+                Helpers.showNotificationModal("Returned Results", "There is no Accident Report found.");
+            }
+        });
+
+
+    },
+
+    fnPopulateSelect: function (options, sel) {
+        for (var i = 0; i < options.length; i++) {
+            var opt = document.createElement('option');
+            opt.innerHTML = options[i];
+            opt.value = options[i];
+            sel.appendChild(opt);
+        }
+    }
+
+}

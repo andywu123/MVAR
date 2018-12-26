@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SharedDataSet xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2010/01/shareddatasetdefinition">
+  <Description />
+  <DataSet Name="dstReportInfoOld">
+    <Query>
+      <DataSourceReference>dst_mvar</DataSourceReference>
+      <DataSetParameters>
+        <DataSetParameter Name="@ReportId">
+          <ReadOnly>false</ReadOnly>
+          <Nullable>true</Nullable>
+          <OmitFromQuery>false</OmitFromQuery>
+        </DataSetParameter>
+      </DataSetParameters>
+      <CommandText>select 
+
+CaseId, CaseNumber, CaseOwner, CaseStatus, CreateDate, LastEditDate, CSR_Number, DriverSig, SupervisorSig, SafetyOfficerSig,  DriverSign_Time,SupervisorSig_Time, SafetyOfficerSig_Time,SupervisorScene_Response, SafetyOfficerScene_Reponse, 
+PhotoTaken, PCD_Driver_Perm, PCD_InUse, Control1Call_Time, PoliceReport_Number, AccidentLocation, WeatherCondition, VehiclesInvolved_Number, Police_Investigation, Pedestrian_Involved, AccidentDesc, IntsSketch, Seatbelt_InUse, AccidentTime
+
+From MVAR_AccidentReport 
+
+Where CaseId = @ReportId</CommandText>
+    </Query>
+    <Fields>
+      <Field Name="CaseId">
+        <DataField>CaseId</DataField>
+        <rd:TypeName>System.Int32</rd:TypeName>
+      </Field>
+      <Field Name="CaseNumber">
+        <DataField>CaseNumber</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="CaseOwner">
+        <DataField>CaseOwner</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="CaseStatus">
+        <DataField>CaseStatus</DataField>
+        <rd:TypeName>System.Int32</rd:TypeName>
+      </Field>
+      <Field Name="CreateDate">
+        <DataField>CreateDate</DataField>
+        <rd:TypeName>System.DateTime</rd:TypeName>
+      </Field>
+      <Field Name="LastEditDate">
+        <DataField>LastEditDate</DataField>
+        <rd:TypeName>System.DateTime</rd:TypeName>
+      </Field>
+      <Field Name="CSR_Number">
+        <DataField>CSR_Number</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="DriverSig">
+        <DataField>DriverSig</DataField>
+        <rd:TypeName>System.Byte[]</rd:TypeName>
+      </Field>
+      <Field Name="SupervisorSig">
+        <DataField>SupervisorSig</DataField>
+        <rd:TypeName>System.Byte[]</rd:TypeName>
+      </Field>
+      <Field Name="SafetyOfficerSig">
+        <DataField>SafetyOfficerSig</DataField>
+        <rd:TypeName>System.Byte[]</rd:TypeName>
+      </Field>
+      <Field Name="DriverSign_Time">
+        <DataField>DriverSign_Time</DataField>
+        <rd:TypeName>System.DateTime</rd:TypeName>
+      </Field>
+      <Field Name="SupervisorSig_Time">
+        <DataField>SupervisorSig_Time</DataField>
+        <rd:TypeName>System.DateTime</rd:TypeName>
+      </Field>
+      <Field Name="SafetyOfficerSig_Time">
+        <DataField>SafetyOfficerSig_Time</DataField>
+        <rd:TypeName>System.DateTime</rd:TypeName>
+      </Field>
+      <Field Name="SupervisorScene_Response">
+        <DataField>SupervisorScene_Response</DataField>
+        <rd:TypeName>System.Int32</rd:TypeName>
+      </Field>
+      <Field Name="SafetyOfficerScene_Reponse">
+        <DataField>SafetyOfficerScene_Reponse</DataField>
+        <rd:TypeName>System.Int32</rd:TypeName>
+      </Field>
+      <Field Name="PhotoTaken">
+        <DataField>PhotoTaken</DataField>
+        <rd:TypeName>System.Int32</rd:TypeName>
+      </Field>
+      <Field Name="PCD_Driver_Perm">
+        <DataField>PCD_Driver_Perm</DataField>
+        <rd:TypeName>System.Int32</rd:TypeName>
+      </Field>
+      <Field Name="PCD_InUse">
+        <DataField>PCD_InUse</DataField>
+        <rd:TypeName>System.Int32</rd:TypeName>
+      </Field>
+      <Field Name="Control1Call_Time">
+        <DataField>Control1Call_Time</DataField>
+        <rd:TypeName>System.DateTime</rd:TypeName>
+      </Field>
+      <Field Name="PoliceReport_Number">
+        <DataField>PoliceReport_Number</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="AccidentLocation">
+        <DataField>AccidentLocation</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="WeatherCondition">
+        <DataField>WeatherCondition</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="VehiclesInvolved_Number">
+        <DataField>VehiclesInvolved_Number</DataField>
+        <rd:TypeName>System.Int32</rd:TypeName>
+      </Field>
+      <Field Name="Police_Investigation">
+        <DataField>Police_Investigation</DataField>
+        <rd:TypeName>System.Int32</rd:TypeName>
+      </Field>
+      <Field Name="Pedestrian_Involved">
+        <DataField>Pedestrian_Involved</DataField>
+        <rd:TypeName>System.Int32</rd:TypeName>
+      </Field>
+      <Field Name="AccidentDesc">
+        <DataField>AccidentDesc</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="IntsSketch">
+        <DataField>IntsSketch</DataField>
+        <rd:TypeName>System.Byte[]</rd:TypeName>
+      </Field>
+      <Field Name="Seatbelt_InUse">
+        <DataField>Seatbelt_InUse</DataField>
+        <rd:TypeName>System.Int32</rd:TypeName>
+      </Field>
+      <Field Name="AccidentTime">
+        <DataField>AccidentTime</DataField>
+        <rd:TypeName>System.DateTime</rd:TypeName>
+      </Field>
+    </Fields>
+  </DataSet>
+</SharedDataSet>

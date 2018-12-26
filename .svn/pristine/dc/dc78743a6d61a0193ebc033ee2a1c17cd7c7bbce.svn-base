@@ -1,0 +1,146 @@
+﻿@using FieldTool.Models
+<div class="panel-heading">
+    <h3 class="panel-title">Occupant Information</h3>
+</div>
+<div class="panel-body">
+    <div class="row top-buffer">
+        <div class="col-sm-9">
+            <div class="childTable">
+                <table cellpadding="0" cellspacing="0" border="0" class="display" id="OccupantsTable">
+                    <thead>
+                        <tr>
+                            <th>Occupant Id</th>
+                            <th>Case Number</th>
+                            <th>First Lame</th>
+                            <th>Last Name</th>
+                            <th>Occupant Address</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @{ int i = 0; string rowtype = "even";}
+                        @foreach (OccupantPost c in @Model.occupants)
+                        {
+                            if (i % 2 == 0)
+                            {
+                                rowtype = "even";
+                            }
+                            else
+                            {
+                                rowtype = "odd";
+                            }
+
+                        <tr class="@rowtype">
+                            <td>@c.OccupantId</td>
+                            <td>@Model.accidentReport.CaseNumber</td>
+                            <td>@c.Occupant_FirstName</td>
+                            <td>@c.Occupant_LastName</td>
+                            <td>@c.OccupantAddress</td>
+                        </tr>
+
+                            i++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <button id="btn_Editoccupant_Add" class=" btn btn-styled" type=button><span class="glyphicon glyphicon-plus"></span>New</button>
+            <button id="btn_Editoccupant_Edit" class="btn btn-styled" type=button><span class="glyphicon glyphicon-pencil"></span>View/Edit</button>
+            <button id="btn_Editoccupant_Del" class="btn btn-styled"  type=button><span class="glyphicon glyphicon-trash"></span>Delete</button>
+        </div>
+        <div class="col-sm-3">
+            <div class="modal right fade" id="mdl_occupantEdit" tabindex="-1" role="dialog" aria-labelledby="mdl_occupantLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="mdl_occupantLabel">Create An Occupant</h4>
+                        </div>
+
+                        <div class="modal-body">
+                            <div id="occupantEditSection">
+                                <div class="form-group">
+                                    <label for="Ocp_FirstName_edit">First Name</label>
+                                    <input type="text" class="form-control required" id="Ocp_FirstName_edit" name="Ocp_FirstName_edit">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Ocp_MiddleName_edit">Middle Name</label>
+                                    <input type="text" class="form-control required" id="Ocp_MiddleName_edit" name="Ocp_MiddleName_edit">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Ocp_LastName_edit">Last Name</label>
+                                    <input type="text" class="form-control required" id="Ocp_LastName_edit" name="Ocp_LastName_edit">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Ocp_Address_edit">Occupant Address</label>
+                                    <input type="text" class="form-control required" id="Ocp_Address_edit" name="Ocp_Address_edit">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Ocp_Injury">Select Occupant Injury Extent:</label>
+                                    <select id="Ocp_Injury" class="form-control">
+                                        <option value="Killed">Killed</option>
+                                        <option value="NoInjury">No Injury</option>
+                                        <option value="Injured">Injured</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Ocp_DriverPassenger">Driver Or Passenger:</label>
+                                    <select id="Ocp_DriverPassenger" class="form-control">
+                                        <option value="Driver">Driver</option>
+                                        <option value="Passanger">Passanger</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Ocp_NoVehicle_edit">No Of Vehicles</label>
+                                    <input type="number" class="form-control required" id="Ocp_NoVehicle_edit" name="Ocp_NoVehicle_edit">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Ocp_Pedestrian">Select Occupant Type:</label>
+                                    <select id="Ocp_Pedestrian" class="form-control">
+                                        <option value="Pedestrian">Pedestrian</option>
+                                        <option value="Other">Other Vehicle</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Ocp_Age_edit">Occupant Age</label>
+                                    <input type="number" class="form-control required" id="Ocp_Age_edit" name="Ocp_Age_edit" min="16" max="200">
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="checkbox" class="form-check-input" id="chk_OcpSex_edit" name="chk_OcpSex_edit">
+                                    <label class="form-check-label" for="chk_OcpSex_edit">Is Occupant a Male</label>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Ocp_natureInjury_edit">Nature Of Injury</label>
+                                    <input type="text" class="form-control required" id="Ocp_natureInjury_edit" name="Ocp_natureInjury_edit">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Ocp_Removedby">Removed From Scene</label>
+
+                                    <select id="Ocp_Removedby" class="form-control">
+                                        <option value="Ambulance">Ambulance</option>
+                                        <option value="Personal">Personal Car</option>
+                                    </select>
+                                </div>
+                                <p>(*) Mandatory</p>
+                                <button id="btn_saveOccupant_Edit" class="btn btn-primary col-sm-4" type=button>Save</button>
+
+                            </div>
+                        </div>
+
+                    </div><!-- modal-content -->
+                </div><!-- modal-dialog -->
+            </div><!-- modal -->
+        </div>
+    </div>
+    <button class="btn btn-primary nextBtn pull-right" type="button">Next</button>
+</div>

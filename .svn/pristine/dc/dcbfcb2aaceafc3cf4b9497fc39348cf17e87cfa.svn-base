@@ -1,0 +1,700 @@
+﻿using FieldToolServices.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http.Formatting;
+using System.Web;
+using FieldToolServices;
+using FieldTool.Models;
+using System.Globalization;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
+using System.Text.RegularExpressions;
+
+namespace FieldTool.Adapters
+{
+    public class Form2Report
+    {
+        internal static reportFormData convert2ReportData(FormDataCollection form, int type)
+        {
+            reportFormData report = new reportFormData();
+
+            if (type == 1)
+            {
+                report.accidentReport = convert2AccidentReportNew(form);
+                return report;
+            }
+            else
+            {
+                report.accidentReport = convert2AccidentReport(form);
+            }
+           
+            if (report.accidentReport == null)
+            {
+                return null;
+            }
+
+            report.vehicles = convert2vehicles(form, report.accidentReport.CaseId);
+            report.occupants = convert2occupants(form, report.accidentReport.CaseId);
+            report.witnesses = convert2witnesses(form, report.accidentReport.CaseId);
+            report.charges = convert2charges(form, report.accidentReport.CaseId);
+
+            return report;
+        }
+
+        private static List<MVAR_Charges> convert2charges(FormDataCollection form, int caseId)
+        {
+            List<MVAR_Charges> charges = new List<MVAR_Charges>();
+            MVAR_Charges charge = new MVAR_Charges();
+            charge.CaseId = caseId;
+            var Summons_No = form.Get("summonNo_edit");
+            if (Summons_No != "")
+            {
+                charge.Summons_No = Convert.ToInt32(Summons_No);
+            }
+
+            var ChargeAmount = form.Get("ChargeAmount_edit");
+            if (ChargeAmount != "")
+            {
+                charge.ChargeAmount = Convert.ToDecimal(ChargeAmount);
+            }
+
+            var CityEmplChargeAmount = form.Get("CityEmplChargeAmount_edit");
+            if (CityEmplChargeAmount != "")
+            {
+               // charge.CityEmpl_Charge = Convert.ToDecimal(CityEmplChargeAmount);
+            }
+            charges.Add(charge);
+
+            return charges;
+        }
+
+        private static List<MVAR_Witnesses> convert2witnesses(FormDataCollection form, int caseId)
+        {
+            List<MVAR_Witnesses> witnesses = new List<MVAR_Witnesses>();
+            MVAR_Witnesses witness = new MVAR_Witnesses();
+            witness.CaseId = caseId;
+            witness.WitnessName = form.Get("Witness_Name_edit");
+            witness.WitnessPhone = form.Get("Witness_phone_edit");
+            witness.WitnessAddress = form.Get("Witness_Address_edit");
+            witnesses.Add(witness);
+
+            return witnesses;
+        }
+
+        private static List<MVAR_Occupants> convert2occupants(FormDataCollection form, int caseId)
+        {
+            List<MVAR_Occupants> occupants = new List<MVAR_Occupants>();
+            MVAR_Occupants occupant = new MVAR_Occupants();
+            occupant.CaseId = caseId;
+            var age = form.Get("ocp_Age_edit");
+            if (age != "")
+            {
+                occupant.Age = Convert.ToInt32(age);
+            }
+
+            var sex = form.Get("chk_OcpSex_edit");
+            if (sex == "on")
+            {
+                occupant.Sex = 1;
+            }
+            else
+            {
+                occupant.Sex = 0;
+            }
+
+
+            //occupant.OccupantName = form.Get("ocp_Name_edit");
+            occupant.OccupantAddress = form.Get("ocp_Address_edit");
+
+
+            occupants.Add(occupant);
+
+            return occupants;
+        }
+
+        private static List<MVAR_Vehicles> convert2vehicles(FormDataCollection form, int caseId)
+        {
+            List<MVAR_Vehicles> vehicles = new List<MVAR_Vehicles>();
+            MVAR_Vehicles vehicle = new MVAR_Vehicles();
+            var cityDriver = form.Get("chk_cityDriver_edit");
+            if (cityDriver != "")
+            {
+                vehicle.CityDriver = cityDriver !="on"? 0: 1;
+            }
+
+            vehicle.CityPermitNo = form.Get("city_permit_edit");
+            //vehicle.DriverName = form.Get("Driver_Name_edit");
+            //vehicle.DriverAddress = form.Get("Driver_Address_edit");
+            vehicle.CaseId = caseId;
+            vehicles.Add(vehicle);
+
+            return vehicles;
+        }
+
+        private static MVAR_AccidentReport convert2AccidentReportNew(FormDataCollection form)
+        {
+            MVAR_AccidentReport reportInfo = new MVAR_AccidentReport();
+            // populate field data to accident report table 
+            var requestID = form.Get("reportID");
+            if (requestID != "")
+            {
+                reportInfo.CaseId = Convert.ToInt32(requestID);
+            }
+            else
+            {
+                return null;
+            }
+
+            var CSRNumber = form.Get("report_CSRNumber_Edit");
+            reportInfo.CSR_Number = CSRNumber;
+
+            var SupervisorScene = form.Get("chk_sup_response");
+            if (SupervisorScene == "on")
+            {
+                reportInfo.SupervisorScene_Response = 1;
+            }
+            else
+            {
+                reportInfo.SupervisorScene_Response = 0;
+            }
+
+            var SafetyofficerResponse = form.Get("chk_safetyOfficer_response_edit");
+            if (SafetyofficerResponse == "on")
+            {
+                reportInfo.SafetyOfficerScene_Reponse = 1;
+            }
+            else
+            {
+                reportInfo.SafetyOfficerScene_Reponse = 0;
+            }
+
+
+            var chk_photoTaken_edit = form.Get("chk_photoTaken_edit");
+            if (chk_photoTaken_edit == "on")
+            {
+                reportInfo.PhotoTaken = 1;
+            }
+            else
+            {
+                reportInfo.PhotoTaken = 0;
+            }
+
+            var chk_PCDPossession_edit = form.Get("chk_PCDPossession_edit");
+            if (chk_PCDPossession_edit == "on")
+            {
+                reportInfo.PCD_Driver_Perm = 1;
+            }
+
+            else
+            {
+                reportInfo.PCD_Driver_Perm = 0;
+            }
+
+            var chk_PCDInUse_edit = form.Get("chk_PCDInUse_edit");
+            if (chk_PCDInUse_edit == "on")
+            {
+                reportInfo.PCD_InUse = 1;
+            }
+            else
+            {
+                reportInfo.PCD_InUse = 0;
+            }
+
+            var Control1Call_Time = form.Get("Control1Call_Time");
+            if (Control1Call_Time != "")
+            {
+                reportInfo.Control1Call_Time = Convert.ToDateTime(Control1Call_Time);
+            }
+
+            var report_accidentTime_Edit = form.Get("report_accidentTime_Edit");
+            string accidentdt = "";
+            if (report_accidentTime_Edit != "")
+            {
+                reportInfo.AccidentTime = Convert.ToDateTime(report_accidentTime_Edit);
+                accidentdt = String.Format("{0:MM/dd/yyyy}", reportInfo.AccidentTime);              
+            }
+
+            var report_PoliNumber_Edit = form.Get("report_PoliNumber_Edit");
+            reportInfo.PoliceReport_Number = report_PoliNumber_Edit;
+
+            var report_AccidentLoc_Edit = form.Get("report_AccidentLoc_Edit");
+            reportInfo.AccidentLocation = report_AccidentLoc_Edit;
+
+            reportInfo.CaseNumber = accidentdt + " " + reportInfo.AccidentLocation;
+            reportInfo.CaseOwner = HttpContext.Current.User.Identity.Name;
+            return reportInfo;
+        }
+
+
+        private static MVAR_AccidentReport convert2AccidentReport(FormDataCollection form)
+        {
+            MVAR_AccidentReport reportInfo = new MVAR_AccidentReport();
+            // populate field data to accident report table 
+            var requestID = form.Get("reportID");
+            if (requestID != "")
+            {
+                reportInfo.CaseId = Convert.ToInt32(requestID);
+            }
+            else
+            {
+                return null;
+            }
+
+            var SupervisorScene = form.Get("chk_sup_response_edit");
+            if (SupervisorScene == "on")
+            {
+                reportInfo.SupervisorScene_Response = 1;
+            }
+            else
+            {
+                reportInfo.SupervisorScene_Response = 0;
+            }
+
+            var driverSignStamp = form.Get("driverSignStamp_edit");
+            if (driverSignStamp != "")
+            {
+                reportInfo.DriverSign_Time = Convert.ToDateTime(driverSignStamp);
+            }
+          
+            var AccidentDescription = form.Get("AccidentDescription_edit");
+            reportInfo.AccidentDesc = AccidentDescription;
+
+            return reportInfo;
+        }
+
+        internal static dynamic setFormDatafromService(reportFormData accessData)
+        {
+            reportFormDataPost res = new reportFormDataPost();
+
+            res.accidentReport = convert2AccidentReportPost(accessData.accidentReport);
+
+            res.charges = convert2chargesPost(accessData.charges);
+
+            res.occupants = convert2occupantsPost(accessData.occupants);
+
+            res.vehicles = convert2vehiclesPost(accessData.vehicles);
+
+            res.witnesses = convert2witnesses(accessData.witnesses);
+
+            return res;
+        }
+
+        private static List<WitnessPost> convert2witnesses(List<MVAR_Witnesses> witnesses)
+        {
+            List<WitnessPost> wits = new List<WitnessPost>();
+            foreach (MVAR_Witnesses wt in witnesses)
+            {
+                WitnessPost w = new WitnessPost();
+                w.CaseId = wt.CaseId;
+                w.WitnessAddress = wt.WitnessAddress;
+                w.WitnessId = wt.WitnessId;
+                w.WitnessName = wt.WitnessName;
+                w.WitnessPhone = wt.WitnessPhone;
+
+                wits.Add(w);
+            }
+
+            return wits;
+        }
+
+        private static List<VehiclePost> convert2vehiclesPost(List<MVAR_Vehicles> vehicles)
+        {
+            List<VehiclePost> vts = new List<VehiclePost>();
+            foreach (MVAR_Vehicles vt in vehicles)
+            {
+                VehiclePost v = new VehiclePost();
+                if (vt.Driver_DOB != null)
+                {
+                    var dt = (DateTime)vt.Driver_DOB;
+                    v.Driver_DOB = dt.ToString("yyyy-MM-dd");
+                }
+
+                v.CaseId = vt.CaseId;
+                v.VehicleId = vt.VehicleId;               
+                v.CityDriver = vt.CityDriver;
+                v.DriverLicense_Number = vt.DriverLicense_Number;
+                v.CityPermitNo = vt.CityPermitNo;
+                v.Driver_FirstName = vt.Driver_FirstName;
+                v.Driver_MiddleName = vt.Driver_MiddleName;
+                v.Driver_lastName = vt.Driver_lastName;
+                v.Driver_Sex = vt.Driver_Sex;
+                v.Driver_Homephone = vt.Driver_Homephone;
+                v.Driver_CDL = vt.Driver_CDL;
+                v.Driver_POST = vt.Driver_POST;
+                v.Driver_Address = vt.Driver_Address;
+                v.Driver_City = vt.Driver_City;
+                v.Driver_State = vt.Driver_State;
+                v.Driver_County = vt.Driver_County;
+                v.Driver_Zipcode = vt.Driver_Zipcode;
+                v.Driver_Agency = vt.Driver_Agency;
+                v.Driver_Bureau = vt.Driver_Bureau;
+                v.Driver_BusinessPhone = vt.Driver_BusinessPhone;
+                v.Vehicle_pointImpact = vt.Vehicle_pointImpact;
+                v.Vehicle_ExtDamage = vt.Vehicle_ExtDamage;
+                v.Fleet_ShopNumber = vt.Fleet_ShopNumber;
+                v.Vehicle_Yearmake = vt.Vehicle_Yearmake;
+                v.Vehicle_SerialNumber = vt.Vehicle_SerialNumber;
+                v.VehicleTag = vt.VehicleTag;
+                v.OtherSpecify = vt.OtherSpecify;
+
+                vts.Add(v);
+            }
+
+            return vts;
+        }
+
+        private static List<OccupantPost> convert2occupantsPost(List<MVAR_Occupants> occupants)
+        {
+            List<OccupantPost> ops = new List<OccupantPost>();
+            foreach (MVAR_Occupants op in occupants)
+            {
+                OccupantPost o = new OccupantPost();
+                o.CaseId = op.CaseId;
+                o.Age = op.Age;
+                o.OccupantId = op.OccupantId;
+                o.Occupant_FirstName = op.Occupant_FirstName;
+                o.Occupant_MiddleName = op.Occupant_MiddleName;
+                o.Occupant_LastName = op.Occupant_LastName;
+                o.OccupantAddress = op.OccupantAddress;
+                o.Occupant_ExtentInjury = op.Occupant_ExtentInjury;
+                o.Sex = op.Sex;
+                o.Occupant_DriverPassenger = op.Occupant_DriverPassenger;
+                o.Vehicle_Number = op.Vehicle_Number;
+                o.Occupant_PedestrianVehicle = op.Occupant_PedestrianVehicle;
+                o.Occupant_Injuerynature = op.Occupant_Injuerynature;
+                o.Occupant_RemovedBy = op.Occupant_RemovedBy;
+
+                ops.Add(o);
+            }
+
+            return ops;
+        }
+
+        private static List<ChargePost> convert2chargesPost(List<MVAR_Charges> charges)
+        {
+            List<ChargePost> chs = new List<ChargePost>();
+            foreach (MVAR_Charges ch in charges)
+            {
+                ChargePost c = new ChargePost();
+                c.CaseId = ch.CaseId;
+                c.ChargeAmount = ch.ChargeAmount;
+                c.CHARGEId = ch.CHARGEId;
+                c.CityEmpl_Charge = ch.CityEmpl_Charge;
+                c.Summons_No = ch.Summons_No;
+
+                if (ch.Trial_Time != null)
+                {
+                    var dt = (DateTime)ch.Trial_Time;
+                    c.Trial_Time = dt.ToString("yyyy-MM-dd'T'HH:mm:ss");
+                }
+                chs.Add(c);
+            }
+
+            return chs;
+        }
+
+        private static AccidentReportPost convert2AccidentReportPost(MVAR_AccidentReport accidentReport)
+        {
+            AccidentReportPost report = new AccidentReportPost();
+            report.CaseId = accidentReport.CaseId;
+            //report.DriverSig_URL = accidentReport.DriverSig_URL;
+            if (accidentReport.DriverSign_Time != null)
+            {
+                var dt = (DateTime)accidentReport.DriverSign_Time;
+                report.DriverSign_Time = dt.ToString("yyyy-MM-dd'T'HH:mm:ss");
+            }
+
+            if (accidentReport.CreateDate != null)
+            {
+                var dt = (DateTime)accidentReport.CreateDate;
+                report.CreateDate = dt.ToString("yyyy-MM-dd'T'HH:mm:ss");
+            }
+
+            if (accidentReport.LastEditDate != null)
+            {
+                var dt = (DateTime)accidentReport.LastEditDate;
+                report.LastEditDate = dt.ToString("yyyy-MM-dd'T'HH:mm:ss");
+            }
+
+            if (accidentReport.SupervisorSig_Time != null)
+            {
+                var dt = (DateTime)accidentReport.SupervisorSig_Time;
+                report.SupervisorSig_Time = dt.ToString("yyyy-MM-dd'T'HH:mm:ss");
+            }
+
+            if (accidentReport.SafetyOfficerSig_Time != null)
+            {
+                var dt = (DateTime)accidentReport.SafetyOfficerSig_Time;
+                report.SafetyOfficerSig_Time = dt.ToString("yyyy-MM-dd'T'HH:mm:ss");
+            }
+
+            if (accidentReport.Control1Call_Time != null)
+            {
+                var dt = (DateTime)accidentReport.Control1Call_Time;
+                report.Control1Call_Time = dt.ToString("yyyy-MM-dd'T'HH:mm:ss");
+            }
+
+            if (accidentReport.AccidentTime != null)
+            {
+                var dt = (DateTime)accidentReport.AccidentTime;
+                report.AccidentTime = dt.ToString("yyyy-MM-dd'T'HH:mm:ss");
+            }
+
+            report.CaseNumber = accidentReport.CaseNumber;
+            report.CaseOwner = accidentReport.CaseOwner;
+            report.CaseStatus = accidentReport.CaseStatus;
+            report.CSR_Number = accidentReport.CSR_Number;
+            if (accidentReport.DriverSig != null)
+            {
+                report.DriverSig = Convert.ToBase64String(accidentReport.DriverSig);
+            }
+
+            if (accidentReport.SupervisorSig != null)
+            {
+                report.SupervisorSig = Convert.ToBase64String(accidentReport.SupervisorSig);
+            }
+
+            if (accidentReport.SafetyOfficerSig != null)
+            {
+                report.SafetyOfficerSig = Convert.ToBase64String(accidentReport.SafetyOfficerSig);
+            }
+ 
+            report.SupervisorScene_Response = accidentReport.SupervisorScene_Response;
+            report.SafetyOfficerScene_Reponse = accidentReport.SafetyOfficerScene_Reponse;
+            report.PhotoTaken = accidentReport.PhotoTaken;
+            report.PCD_Driver_Perm = accidentReport.PCD_Driver_Perm;
+            report.PCD_InUse = accidentReport.PCD_InUse;
+            report.PoliceReport_Number = accidentReport.PoliceReport_Number;
+            report.AccidentLocation = accidentReport.AccidentLocation;
+            report.WeatherCondition = accidentReport.WeatherCondition;
+            report.VehiclesInvolved_Number = accidentReport.VehiclesInvolved_Number;
+            report.Police_Investigation = accidentReport.Police_Investigation;
+            report.Pedestrian_Involved = accidentReport.Pedestrian_Involved;
+            report.AccidentDesc = accidentReport.AccidentDesc;
+            if (accidentReport.IntsSketch != null)
+            {
+                report.IntsSketch = Convert.ToBase64String(accidentReport.IntsSketch);
+            }
+            report.Seatbelt_InUse = accidentReport.Seatbelt_InUse; 
+          
+            return report;    
+        }
+
+        internal static reportFormData convert2ReportData(reportFormDataPost form, int p)
+        {
+            reportFormData report = new reportFormData();
+
+            report.accidentReport = convert2AccidentReport(form.accidentReport);
+
+            if (report.accidentReport == null)
+            {
+                return null;
+            }
+
+            report.vehicles = convert2vehicles(form.vehicles, report.accidentReport.CaseId);
+            report.occupants = convert2occupants(form.occupants, report.accidentReport.CaseId);
+            report.witnesses = convert2witnesses(form.witnesses, report.accidentReport.CaseId);
+            report.charges = convert2charges(form.charges, report.accidentReport.CaseId);
+
+            return report;
+        }
+
+        private static List<MVAR_Vehicles> convert2vehicles(List<VehiclePost> vehicles, int p)
+        {
+            List<MVAR_Vehicles> vts = new List<MVAR_Vehicles>();
+            foreach (VehiclePost vt in vehicles)
+            {
+                MVAR_Vehicles v = new MVAR_Vehicles();
+                if (vt.Driver_DOB != "" && vt.Driver_DOB != null)
+                {
+                    v.Driver_DOB = Convert.ToDateTime(vt.Driver_DOB);
+                }
+
+                v.CaseId = vt.CaseId;
+                v.VehicleId = vt.VehicleId;
+                v.CityDriver = vt.CityDriver;
+                v.DriverLicense_Number = vt.DriverLicense_Number;
+                v.CityPermitNo = vt.CityPermitNo;
+                v.Driver_FirstName = vt.Driver_FirstName;
+                v.Driver_MiddleName = vt.Driver_MiddleName;
+                v.Driver_lastName = vt.Driver_lastName;
+                v.Driver_Sex = vt.Driver_Sex;
+                v.Driver_Homephone = vt.Driver_Homephone;
+                v.Driver_CDL = vt.Driver_CDL;
+                v.Driver_POST = vt.Driver_POST;
+                v.Driver_Address = vt.Driver_Address;
+                v.Driver_City = vt.Driver_City;
+                v.Driver_State = vt.Driver_State;
+                v.Driver_County = vt.Driver_County;
+                v.Driver_Zipcode = vt.Driver_Zipcode;
+                v.Driver_Agency = vt.Driver_Agency;
+                v.Driver_Bureau = vt.Driver_Bureau;
+                v.Driver_BusinessPhone = vt.Driver_BusinessPhone;
+                v.Vehicle_pointImpact = vt.Vehicle_pointImpact;
+                v.Vehicle_ExtDamage = vt.Vehicle_ExtDamage;
+                v.Fleet_ShopNumber = vt.Fleet_ShopNumber;
+                v.Vehicle_Yearmake = vt.Vehicle_Yearmake;
+                v.Vehicle_SerialNumber = vt.Vehicle_SerialNumber;
+                v.VehicleTag = vt.VehicleTag;
+                v.OtherSpecify = vt.OtherSpecify;
+                vts.Add(v);
+            }
+
+            return vts;
+        }
+
+        private static List<MVAR_Charges> convert2charges(List<ChargePost> charges, int p)
+        {
+            List<MVAR_Charges> chs = new List<MVAR_Charges>();
+            foreach (ChargePost ch in charges)
+            {
+                MVAR_Charges c = new MVAR_Charges();
+                c.CaseId = ch.CaseId;
+                c.ChargeAmount = ch.ChargeAmount;
+                c.CHARGEId = ch.CHARGEId;
+                c.CityEmpl_Charge = ch.CityEmpl_Charge;
+                c.Summons_No = ch.Summons_No;
+                if (ch.Trial_Time != "" && ch.Trial_Time != null)
+                {
+                    c.Trial_Time = Convert.ToDateTime(ch.Trial_Time);
+                }
+                chs.Add(c);
+            }
+
+            return chs;
+        }
+
+        private static List<MVAR_Witnesses> convert2witnesses(List<WitnessPost> witnesses, int p)
+        {
+            List<MVAR_Witnesses> wits = new List<MVAR_Witnesses>();
+            foreach (WitnessPost wt in witnesses)
+            {
+                MVAR_Witnesses w = new MVAR_Witnesses();
+                w.CaseId = Convert.ToInt32(wt.CaseId);
+                w.WitnessAddress = wt.WitnessAddress;
+                w.WitnessId = wt.WitnessId;
+                w.WitnessName = wt.WitnessName;
+                w.WitnessPhone = wt.WitnessPhone;
+
+                wits.Add(w);
+            }
+
+            return wits;
+        }
+
+        private static List<MVAR_Occupants> convert2occupants(List<OccupantPost> occupants, int p)
+        {
+            List<MVAR_Occupants> ops = new List<MVAR_Occupants>();
+            foreach (OccupantPost op in occupants)
+            {
+                MVAR_Occupants o = new MVAR_Occupants();
+                o.CaseId = op.CaseId;
+                o.Age = op.Age;
+                o.OccupantId = op.OccupantId;
+                o.Occupant_FirstName = op.Occupant_FirstName;
+                o.Occupant_MiddleName = op.Occupant_MiddleName;
+                o.Occupant_LastName = op.Occupant_LastName;
+                o.OccupantAddress = op.OccupantAddress;
+                o.Occupant_ExtentInjury = op.Occupant_ExtentInjury;
+                o.Sex = op.Sex;
+                o.Occupant_DriverPassenger = op.Occupant_DriverPassenger;
+                o.Vehicle_Number = op.Vehicle_Number;
+                o.Occupant_PedestrianVehicle = op.Occupant_PedestrianVehicle;
+                o.Occupant_Injuerynature = op.Occupant_Injuerynature;
+                o.Occupant_RemovedBy = op.Occupant_RemovedBy;
+
+                ops.Add(o);
+            }
+
+            return ops;
+        }
+
+        private static MVAR_AccidentReport convert2AccidentReport(AccidentReportPost accidentReport)
+        {
+            MVAR_AccidentReport report = new MVAR_AccidentReport();
+            report.CaseId = accidentReport.CaseId;
+            //report.DriverSig_URL = accidentReport.DriverSig_URL;
+            if (accidentReport.DriverSign_Time != "" && accidentReport.DriverSign_Time != null)
+            {
+                report.DriverSign_Time = Convert.ToDateTime(accidentReport.DriverSign_Time);
+            }
+          
+
+            if (accidentReport.CreateDate != "" && accidentReport.CreateDate != null)
+            {
+                report.CreateDate = Convert.ToDateTime(accidentReport.CreateDate);
+            }
+
+
+            if (accidentReport.LastEditDate != "" && accidentReport.LastEditDate != null)
+            {
+                report.LastEditDate = Convert.ToDateTime(accidentReport.LastEditDate);
+            }
+          
+
+            if (accidentReport.SupervisorSig_Time != "" && accidentReport.SupervisorSig_Time != null)
+            {
+                report.SupervisorSig_Time = Convert.ToDateTime(accidentReport.SupervisorSig_Time);
+            }
+
+
+            if (accidentReport.SafetyOfficerSig_Time != "" && accidentReport.SafetyOfficerSig_Time != null)
+            {
+                report.SafetyOfficerSig_Time = Convert.ToDateTime(accidentReport.SafetyOfficerSig_Time);
+            }
+
+            if (accidentReport.Control1Call_Time != "" && accidentReport.Control1Call_Time != null)
+            {
+                report.Control1Call_Time = Convert.ToDateTime(accidentReport.Control1Call_Time);
+            }
+
+            if (accidentReport.AccidentTime != "" && accidentReport.AccidentTime != null)
+            {
+                report.AccidentTime = Convert.ToDateTime(accidentReport.AccidentTime);
+            }
+
+            report.CaseNumber = accidentReport.CaseNumber;
+            report.CaseOwner = accidentReport.CaseOwner;
+            report.CaseStatus = accidentReport.CaseStatus;
+            report.CSR_Number = accidentReport.CSR_Number;
+
+            report.DriverSig = accidentReport.DriverSig != null ? ObjectToByteArray(accidentReport.DriverSig): null;
+            report.SupervisorSig = accidentReport.SupervisorSig != null ? ObjectToByteArray(accidentReport.SupervisorSig): null;
+            report.SafetyOfficerSig = accidentReport.SafetyOfficerSig != null ? ObjectToByteArray(accidentReport.SafetyOfficerSig): null;
+            report.SupervisorScene_Response = accidentReport.SupervisorScene_Response;
+            report.SafetyOfficerScene_Reponse = accidentReport.SafetyOfficerScene_Reponse;
+            report.PhotoTaken = accidentReport.PhotoTaken;
+            report.PCD_Driver_Perm = accidentReport.PCD_Driver_Perm;
+            report.PCD_InUse = accidentReport.PCD_InUse;
+            report.PoliceReport_Number = accidentReport.PoliceReport_Number;
+            report.AccidentLocation = accidentReport.AccidentLocation;
+            report.WeatherCondition = accidentReport.WeatherCondition;
+            report.VehiclesInvolved_Number = accidentReport.VehiclesInvolved_Number;
+            report.Police_Investigation = accidentReport.Police_Investigation;
+            report.Pedestrian_Involved = accidentReport.Pedestrian_Involved;
+            report.AccidentDesc = accidentReport.AccidentDesc;
+            report.IntsSketch = accidentReport.IntsSketch != null ? ObjectToByteArray(accidentReport.IntsSketch): null;
+            report.Seatbelt_InUse = accidentReport.Seatbelt_InUse; 
+
+            return report;
+        }
+
+        // Convert an object to a byte array
+        public static byte[] ObjectToByteArray(Object base64)
+        {
+            //BinaryFormatter bf = new BinaryFormatter();
+            //using (var ms = new MemoryStream())
+            //{
+            //    bf.Serialize(ms, base64);
+            //    return ms.ToArray();
+            //}
+
+            string base64String = base64.ToString();
+            var base64Data = Regex.Match(base64String, @"data:image/(?<type>.+?),(?<data>.+)").Groups["data"].Value;
+            // Convert Base64 String to byte[]
+            byte[] imageBytes = Convert.FromBase64String(base64Data);
+            return imageBytes;
+        }
+    }
+}

@@ -1,0 +1,56 @@
+﻿@using FieldToolServices;
+@{
+    ViewBag.Title = "Accident Reports";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<MVAR_AccidentReport> reportList = ViewBag.AccidentsList;
+
+}
+
+<div class="page-header">
+    <h2 class="contentTitle">Accident Investigation Tool</h2>
+</div>
+<img class="testSite" src="~/Content/images/watermark-test.png" alt="" />
+<div class="medium_datatable first_table">
+    
+    <div class="editBtns" style="display:-webkit-box;">
+        <button type="button" class="btn btn-styled" id="create_Report_to_home"><span class="glyphicon glyphicon-plus"></span>New</button>
+        <button type="button" class="btn btn-styled" id="edit_Report_in_home"><span class="glyphicon glyphicon-pencil"></span>View/Edit</button>
+        <button type="button" class="btn btn-styled" id="close_Report_fr_home"><span class="glyphicon glyphicon-trash"></span>Close</button>
+    </div>
+    <table cellpadding="0" cellspacing="0" border="0" class="display" id="ReportTable">
+        <thead>
+            <tr>
+                <th>Case Id</th>
+                <th>Case Number</th>
+                <th>Accident Location</th>
+                <th>Accident Time</th>
+                <th>Create Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ int i = 0; string rowtype = "even";}
+            @foreach (MVAR_AccidentReport k in reportList)
+            {
+                if (i % 2 == 0)
+                {
+                    rowtype = "even";
+                }
+                else
+                {
+                    rowtype = "odd";
+                }
+
+                <tr class="@rowtype">
+                    <td>@k.CaseId</td>
+                    <td>@k.CaseNumber</td>
+                    <td>@k.AccidentLocation</td>
+                    <td>@k.AccidentTime</td>
+                    <td>@k.CreateDate</td>
+                </tr>
+                i++;
+            }
+        </tbody>
+    </table>
+
+
+</div>

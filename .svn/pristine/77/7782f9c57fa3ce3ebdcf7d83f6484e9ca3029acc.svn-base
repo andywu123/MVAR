@@ -1,0 +1,36 @@
+﻿
+@using FieldTool.Models;
+<div class="row clone">
+    <input class="vehicleID" hidden value="@Model.VehicleId">
+    <div class="form-check">
+        @if (Model.CityDriver == 1)
+        {
+            <input type="checkbox" class="form-check-input" value="@Model.CityDriver" checked="checked">
+        }
+        else
+        {
+            <input type="checkbox" class="form-check-input" value="@Model.CityDriver">
+        }
+
+        <label class="form-check-label">City Driver</label>
+    </div>
+    <div class="form-group">
+        <label>City Permit No *</label>
+        <input type="text" class="form-control required" value="@Model.CityPermitNo">
+    </div>
+    <div class="form-group">
+        <label>Driver Name *</label>
+        <input type="text" class="form-control required" value="@Model.DriverName">
+    </div>
+    <div class="row addedSection">
+        <div class="form-group  col-md-9 delBtnAlign">
+            <label>Driver Address *</label>
+            <input type="tel" class="form-control required" value="@Model.DriverAddress">
+        </div>
+        <div class="col-md-3">
+            <button type="button" class="btn btn-danger btnRemoveVehicle">Remove</button>
+        </div>
+    </div>
+
+</div>
+

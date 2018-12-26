@@ -1,0 +1,219 @@
+﻿@using FieldTool.Models
+<div class="panel-heading">
+    <h3 class="panel-title">Vehicle Information</h3>
+</div>
+<div class="panel-body">
+    <div class="row top-buffer">
+        <div class="col-sm-9">
+            <div class="childTable">
+                <table cellpadding="0" cellspacing="0" border="0" class="display" id="VehiclesTableView">
+                    <thead>
+                        <tr>
+                            <th>Vehicle Id</th>
+                            <th>Case Number</th>
+                            <th>City Driver</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Sex</th>
+                            <th>License Number</th>
+                            <th>County</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @{ int i = 0; string rowtype = "even";}
+                        @foreach (VehiclePost c in @Model.vehicles)
+                        {
+                            if (i % 2 == 0)
+                            {
+                                rowtype = "even";
+                            }
+                            else
+                            {
+                                rowtype = "odd";
+                            }
+
+                            <tr class="@rowtype">
+                                <td>@c.VehicleId</td>
+                                <td>@Model.accidentReport.CaseNumber</td>
+                                <td>@c.CityDriver</td>
+                                <td>@c.Driver_FirstName</td>
+                                <td>@c.Driver_lastName</td>
+                                <td>@c.Driver_Sex</td>
+                                <td>@c.DriverLicense_Number</td>
+                                <td>@c.Driver_County</td>
+                            </tr>
+                            i++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="editBtns" style="display:-webkit-box;">
+                <button id="btn_Editvehicle_View" class="btn btn-styled" type=button><span class="glyphicon glyphicon-eye-open "></span>View</button>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="modal right fade" id="mdl_vehicleView" tabindex="-1" role="dialog" aria-labelledby="mdl_vehicleLabelView">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="mdl_vehicleLabelView">Vehicle Details</h4>
+                        </div>
+
+                        <div class="modal-body">
+                            <div id="vehicleViewSection">
+                                <div class="form-group">
+                                    <input type="checkbox" class="form-check-input" id="chk_cityDriver_View" name="chk_cityDriver_View">
+                                    <label class="form-check-label" for="chk_cityDriver_View">City Driver</label>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="veh_licenseNo_View">Driver License Number</label>
+                                    <input type="text" class="form-control required" id="veh_licenseNo_View" name="veh_licenseNo_View">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="city_permit_View">City Permit No</label>
+                                    <input type="text" class="form-control required" id="city_permit_View" name="city_permit_View">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Driver_SexView">Sex</label>
+                                    <select id="Driver_SexView" class="form-control">
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Date Of Birth</label>
+                                    <input type="datetime-local" class="form-control" id="Driver_DOBView" name="Driver_DOBView" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Driver_homePhoneView">Home Phone Number</label>
+                                    <input type="number" id="Driver_homePhoneView" name="Driver_homePhoneView" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Driver_Name_View">Driver First Name</label>
+                                    <input type="text" class="form-control required" id="Driver_FirstName_View" name="Driver_FirstName_View">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Driver_Name_View">Driver Middle Name</label>
+                                    <input type="text" class="form-control required" id="Driver_MiddleName_View" name="Driver_MiddleName_View">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Driver_Name_View">Driver Last Name</label>
+                                    <input type="text" class="form-control required" id="Driver_LastName_View" name="Driver_LastName_View">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Driver_Address_View">Driver Address</label>
+                                    <input type="text" class="form-control required" id="Driver_Address_View" name="Driver_Address_View">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="DriverCDL_View">CDL</label>
+                                    <input type="text" class="form-control required" id="DriverCDL_View" name="DriverCDL_View">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="DriverPOST_View">City Permit No</label>
+                                    <input type="text" class="form-control required" id="DriverPOST_View" name="DriverPOST_View">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Driver_City_View">City</label>
+                                    <input type="text" class="form-control required" id="Driver_City_View" name="Driver_City_View">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Driver_State_View">State</label>
+                                    <input type="text" class="form-control required" id="Driver_State_View" name="Driver_State_View">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Driver_County_View">County</label>
+                                    <input type="text" class="form-control required" id="Driver_County_View" name="Driver_County_View">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Driver_Zipcode_View">Zipcode</label>
+                                    <input type="number" class="form-control required" id="Driver_Zipcode_View" name="Driver_Zipcode_View">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Driver_Agency_View">Agency Name</label>
+                                    <input type="text" class="form-control required" id="Driver_Agency_View" name="Driver_Agency_View">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Driver_Bureau_View">Bureau Name</label>
+                                    <input type="text" class="form-control required" id="Driver_Bureau_View" name="Driver_Bureau_View">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Driver_BusinessPhone_View">Business Phone</label>
+                                    <input type="text" class="form-control required" id="Driver_BusinessPhone_View" name="Driver_BusinessPhone_View">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Driver_ImpactVehicle_View">Point Of Impact on Vehicle</label>
+                                    <input type="text" class="form-control required" id="Driver_ImpactVehicle_View" name="Driver_ImpactVehicle_View">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Driver_ExtDamageView">Extent Of Damage</label>
+                                    <select id="Driver_ExtDamageView" class="form-control">
+                                        <option value="Slight">Slight</option>
+                                        <option value="Heavy">Heavy</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Driver_TagNo_View">Vehicle Tag Number</label>
+                                    <input type="text" class="form-control required" id="Driver_TagNo_View" name="Driver_TagNo_View">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Driver_TagYear_View">Vehicle Tag year</label>
+                                    <input type="text" class="form-control required" id="Driver_TagYear_View" name="Driver_TagYear_View">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Driver_TagState_View">Vehicle Tag State</label>
+                                    <input type="text" class="form-control required" id="Driver_TagState_View" name="Driver_TagState_View">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Driver_Fleet_View">Fleet Or Shop Number</label>
+                                    <input type="text" class="form-control required" id="Driver_Fleet_View" name="Driver_Fleet_View">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Driver_yearmake_View">Year Make And Model</label>
+                                    <input type="text" class="form-control required" id="Driver_yearmake_View" name="Driver_yearmake_View">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Driver_SerialNo_View">Serial Number of Vehicle</label>
+                                    <input type="text" class="form-control required" id="Driver_SerialNo_View" name="Driver_SerialNo_View">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Driver_OtherSpecify_View">Other Specify</label>
+                                    <input type="text" class="form-control required" id="Driver_OtherSpecify_View" name="Driver_OtherSpecify_View">
+                                </div>
+                                <p>(*) Mandatory</p>
+                            </div>
+                        </div>
+
+                    </div><!-- modal-content -->
+                </div><!-- modal-dialog -->
+            </div><!-- modal -->
+        </div>
+    </div>
+    <button class="btn btn-primary nextBtn pull-right" type="button">Next</button>
+</div>
+
+

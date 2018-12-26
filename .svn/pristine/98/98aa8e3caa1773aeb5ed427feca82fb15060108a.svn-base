@@ -1,0 +1,82 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using System.Xml;
+using FieldTool.Adapters;
+using FieldToolServices;
+using DPWLogSystem;
+using FieldTool.Models;
+using FieldToolServices.Models;
+
+namespace FieldTool.Controllers
+{
+    public class HomeController : Controller
+    {
+        //
+        // GET: /Home/
+        private DPWLogger dpwLogger;
+        public ActionResult Index()
+        {
+            FormDataAccess ds = new FormDataAccess();
+            ViewBag.AccidentsList = ds.getReportForms();
+            return View();
+        }
+
+
+        public ActionResult inkSign()
+        {
+            return View("inkSign");
+        }
+
+
+
+        public ActionResult canvasIntersection()
+        {
+            return View("IntersectionCanvas");
+        }
+
+        public ActionResult WordFormParse()
+        {
+            return View("WordFormParse");
+        }
+
+        public ActionResult CreateAccidentReport()
+        {
+            return View("AccidentForm");
+        }
+
+        public Boolean CloseAccidentReport(int caseId)
+        {           
+            try
+            {
+                if (dpwLogger == null)
+                {
+                    dpwLogger = new DPWLogger(this.GetType().Name);
+                }
+                FormDataAccess ds = new FormDataAccess();
+                int accidentId = ds.closeAccidentReport(caseId);
+
+                bool QueryRes = accidentId > 0 ? true : false;
+
+                return QueryRes;
+            }
+            catch (Exception ex)
+            {
+                dpwLogger.Error("Close Accident Report Error" + ex.Message);
+                throw new Exception("error" + ex);
+            }
+        }
+
+        public ActionResult EditAccidentReport(int CaseId)
+        {
+             FormDataAccess ds = new FormDataAccess();
+             reportFormData accessData = ds.getReportFormbyCaseId(CaseId);
+             ViewBag.AccidentReportForm = Form2Report.setFormDatafromService(accessData);
+             return View("AccidentEditForm");
+        }       
+
+    }
+}

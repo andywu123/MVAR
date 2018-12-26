@@ -1,0 +1,251 @@
+﻿@using FieldTool.Models
+<div class="panel-heading">
+    <h3 class="panel-title">Vehicle Information</h3>
+</div>
+<div class="panel-body">
+    <div class="row top-buffer">
+        <div class="col-sm-9">
+            <div class="childTable">
+                <table cellpadding="0" cellspacing="0" border="0" class="display" id="VehiclesTable">
+                    <thead>
+                        <tr>
+                            <th>Vehicle Id</th>
+                            <th>Case Number</th>
+                            <th>City Driver</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Sex</th>
+                            <th>License Number</th>
+                            <th>County</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @{ int i = 0; string rowtype = "even";}
+                        @foreach (VehiclePost c in @Model.vehicles)
+                        {
+                            if (i % 2 == 0)
+                            {
+                                rowtype = "even";
+                            }
+                            else
+                            {
+                                rowtype = "odd";
+                            }
+
+                            <tr class="@rowtype">
+                                <td>@c.VehicleId</td>
+                                <td>@Model.accidentReport.CaseNumber</td>
+                                <td>@c.CityDriver</td>
+                                <td>@c.Driver_FirstName</td>
+                                <td>@c.Driver_lastName</td>
+                                <td>@c.Driver_Sex</td>
+                                <td>@c.DriverLicense_Number</td>
+                                <td>@c.Driver_County</td>
+                            </tr>
+                            i++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <button id="btn_Editvehicle_Add" class=" btn btn-styled" type=button><span class="glyphicon glyphicon-plus"></span>New</button>
+            <button id="btn_Editvehicle_Edit" class="btn btn-styled" type=button><span class="glyphicon glyphicon-pencil"></span>View/Edit</button>
+            <button id="btn_Editvehicle_Del" class="btn btn-styled" type=button><span class="glyphicon glyphicon-trash"></span>Delete</button>
+
+        </div>
+        <div class="col-sm-3">
+            <div class="modal right fade" id="mdl_vehicleEdit" tabindex="-1" role="dialog" aria-labelledby="mdl_vehicleLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="mdl_vehicleLabel">Create A Vehicle</h4>
+                        </div>
+
+                        <div class="modal-body">
+                            <div id="vehicleEditSection">
+                                <div class="form-group">
+                                    <input type="checkbox" class="form-check-input" id="chk_cityDriver_edit" name="chk_cityDriver_edit">
+                                    <label class="form-check-label" for="chk_cityDriver_edit">City Driver</label>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="veh_licenseNo_edit">Driver License Number</label>
+                                    <input type="text" class="form-control required" id="veh_licenseNo_edit" name="veh_licenseNo_edit" maxlength="100">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="city_permit_edit">City Permit No</label>
+                                    <input type="text" class="form-control required" id="city_permit_edit" name="city_permit_edit" maxlength="100">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Driver_Sex">Sex</label>
+                                    <select id="Driver_Sex" class="form-control">
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Driver_DOB">Date Of Birth</label>                           
+                                    <input class="flatpickr flatpickr-input active form-control" id="Driver_DOB" name="Driver_DOB">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Driver_homePhone">Home Phone Number</label>
+                                    <input type="number" id="Driver_homePhone" name="Driver_homePhone" class="form-control no-spin">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Driver_Name_edit">Driver First Name</label>
+                                    <input type="text" class="form-control required" id="Driver_FirstName_edit" name="Driver_FirstName_edit" maxlength="50">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Driver_Name_edit">Driver Middle Name</label>
+                                    <input type="text" class="form-control required" id="Driver_MiddleName_edit" name="Driver_MiddleName_edit" maxlength="50">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Driver_Name_edit">Driver Last Name</label>
+                                    <input type="text" class="form-control required" id="Driver_LastName_edit" name="Driver_LastName_edit" maxlength="50">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Driver_Address_edit">Driver Address</label>
+                                    <input type="text" class="form-control required" id="Driver_Address_edit" name="Driver_Address_edit" maxlength="200">
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="checkbox" class="form-check-input" id="DriverCDL_edit" name="DriverCDL_edit">                           
+                                    <label class="form-check-label" for="DriverCDL_edit">CDL</label>
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="checkbox" class="form-check-input" id="DriverPOST_edit" name="DriverPOST_edit">
+                                    <label class="form-check-label" for="DriverPOST_edit">POST</label>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="DriverPOST_edit">City Permit No</label>
+                                    <input type="text" class="form-control required" id="DriverPOST_edit" name="DriverPOST_edit" maxlength="100">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Driver_City_edit">City</label>
+                                    <input type="text" class="form-control required" id="Driver_City_edit" name="Driver_City_edit" maxlength="50">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Driver_State_edit">State</label>
+                                    <input type="text" class="form-control required" id="Driver_State_edit" name="Driver_State_edit" maxlength="50">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Driver_County_edit">County</label>
+                                    <input type="text" class="form-control required" id="Driver_County_edit" name="Driver_County_edit" maxlength="50">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Driver_Zipcode_edit">Zipcode</label>
+                                    <input type="number" class="form-control required no-spin" id="Driver_Zipcode_edit" name="Driver_Zipcode_edit">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Driver_Agency_edit">Agency Name</label>
+                                    <input type="text" class="form-control required" id="Driver_Agency_edit" name="Driver_Agency_edit" maxlength="80">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Driver_Bureau_edit">Bureau Name</label>
+                                    <input type="text" class="form-control required" id="Driver_Bureau_edit" name="Driver_Bureau_edit" maxlength="80">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Driver_BusinessPhone_edit">Business Phone</label>
+                                    <input type="text" class="form-control required" id="Driver_BusinessPhone_edit" name="Driver_BusinessPhone_edit" maxlength="40">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Driver_ImpactVehicle_edit">Point Of Impact on Vehicle</label>
+                                    <input type="text" class="form-control required" id="Driver_ImpactVehicle_edit" name="Driver_ImpactVehicle_edit" maxlength="80">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Driver_ExtDamage">Extent Of Damage</label>
+                                    <select id="Driver_ExtDamage" class="form-control">
+                                        <option value="Slight">Slight</option>
+                                        <option value="Heavy">Heavy</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Driver_TagNo_edit">Vehicle Tag Number</label>
+                                    <input type="text" class="form-control required" id="Driver_TagNo_edit" name="Driver_TagNo_edit" maxlength="100">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Driver_TagYear_edit">Vehicle Tag year</label>
+                                    <input type="text" class="form-control required" id="Driver_TagYear_edit" name="Driver_TagYear_edit">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Driver_TagState_edit">Vehicle Tag State</label>
+                                    <input type="text" class="form-control required" id="Driver_TagState_edit" name="Driver_TagState_edit">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Driver_Fleet_edit">Fleet Or Shop Number</label>
+                                    <input type="text" class="form-control required" id="Driver_Fleet_edit" name="Driver_Fleet_edit" maxlength="40">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Driver_yearmake_edit">Year Make And Model</label>
+                                    <input type="text" class="form-control required" id="Driver_yearmake_edit" name="Driver_yearmake_edit" maxlength="80">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Driver_SerialNo_edit">Serial Number of Vehicle</label>
+                                    <input type="text" class="form-control required" id="Driver_SerialNo_edit" name="Driver_SerialNo_edit" maxlength="80">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Driver_OtherSpecify_edit">Other Specify</label>
+                                    <input type="text" class="form-control required" id="Driver_OtherSpecify_edit" name="Driver_OtherSpecify_edit" maxlength="100">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Owner_Name_edit">Owner Name</label>
+                                    <input type="text" class="form-control required" id="Owner_Name_edit" name="Owner_Name_edit" maxlength="100">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Owner_Address_edit">Owner Address</label>
+                                    <input type="text" class="form-control required" id="Owner_Address_edit" name="Owner_Address_edit" maxlength="120">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Owner_Phone_edit">Owner Phone Number</label>
+                                    <input type="number" class="form-control no-spin" id="Owner_Phone_edit" name="Owner_Phone_edit">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Owner_InsuranceCom_edit">Owner Insurance Company</label>
+                                    <input type="text" class="form-control required" id="Owner_InsuranceCom_edit" name="Owner_InsuranceCom_edit" maxlength="120">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Owner_PolicyNo_edit">Owner Policy No</label>
+                                    <input type="text" class="form-control required" id="Owner_PolicyNo_edit" name="Owner_PolicyNo_edit" maxlength="100">
+                                </div>
+
+                                <p>(*) Mandatory</p>
+                                <button id="btn_saveVehicle_Edit" class="btn btn-primary col-sm-4" type=button>Save</button>
+                            </div>
+                        </div>
+
+                    </div><!-- modal-content -->
+                </div><!-- modal-dialog -->
+            </div><!-- modal -->          
+        </div>
+    </div>
+    <button class="btn btn-primary nextBtn pull-right" type="button">Next</button>
+</div>
+

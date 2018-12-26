@@ -1,0 +1,133 @@
+﻿@using FieldToolServices.Models;
+@{
+    ViewBag.Title = "Accident Form Edit";
+    reportFormData reportData = ViewBag.AccidentReportForm;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="page-header">
+    <h2 class="contentTitle">Edit Accident Form</h2>
+</div>
+
+<div id="accidentFormContainer_Edit" class="container">
+    <div class="row top-buffer">
+        <div class="col-sm-12">
+            <form id="accidentForm_Edit" class="col-sm-12">
+                <h3>Basic Information</h3>
+                <fieldset>
+                    <legend>Accident Information</legend>
+                    <div class="form-group">
+                        <input type="datetime-local" class="form-control" id="driverSignStamp_edit" name="driverSignStamp_edit" />
+                    </div>
+
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="chk_sup_response_edit" name="chk_sup_response_edit">
+                        <label class="form-check-label" for="chk_sup_response_edit">Supervisor Scene Reponse</label>
+                    </div>
+                    <div class="form-group">
+                        <label for="Textarea_AccidentDes_edit">Describe accident in detail below:</label>
+                        <textarea class="form-control" id="Textarea_AccidentDes_edit" rows="3" name="AccidentDescription_edit"></textarea>
+                    </div>
+                    <p>(*) Mandatory</p>
+                </fieldset>
+                <h3>Occupant Information</h3>
+                <fieldset>
+                    <legend>Occupant Info</legend>
+                    <div class="form-group">
+                        <label for="Ocp_Name_edit">Occupant Name *</label>
+                        <input type="text" class="form-control required" id="Ocp_Name_edit" name="Ocp_Name_edit">
+                    </div>
+                    <div class="form-group">
+                        <label for="Ocp_Address_edit">Occupant Address *</label>
+                        <input type="text" class="form-control required" id="Ocp_Address_edit" name="Ocp_Address_edit">
+                    </div>
+                    <div class="form-group">
+                        <label for="Ocp_Age_edit">Occupant Age *</label>
+                        <input type="number" class="form-control required" id="Ocp_Age_edit" name="Ocp_Age_edit">
+                    </div>
+
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="chk_OcpSex_edit" name="chk_OcpSex_edit">
+                        <label class="form-check-label" for="chk_OcpSex_edit">Is Occupant a Male</label>
+                    </div>
+                    <p>(*) Mandatory</p>
+                </fieldset>
+                <h3>Witness Information</h3>
+                <fieldset id="witnessSection">
+                    <legend>Witness Info</legend>
+                    <div class="row">
+                        <div class="col-md-12"><button type="button" id="btnAddWitness" class="btn btn-primary">Add section</button></div>
+                    </div>
+                    <div class="clone">
+                        <div class="form-group">
+                            <label for="Witness_Name_edit">Witness Name *</label>
+                            <input type="text" class="form-control required" id="Witness_Name_edit" name="Witness_Name_edit">
+                        </div>
+                        <div class="form-group">
+                            <label for="Witness_Address_edit">Witness Address *</label>
+                            <input type="text" class="form-control required" id="Witness_Address_edit" name="Witness_Address_edit">
+                        </div>
+                        <div class="form-group">
+                            <label for="Witness_phone_edit">Witness Phone *</label>
+                            <input type="tel" class="form-control required" id="Witness_phone_edit" name="Witness_phone_edit">
+                        </div>
+                        <div class="col-md-3">
+                            <button type="button" class="btn btn-danger btnRemoveWitness">Remove</button>
+                        </div>
+                    </div>
+                    <p>(*) Mandatory</p>
+                </fieldset>
+
+                <h3>Vechile Information</h3>
+                <fieldset>
+                    <legend>Vechile Info</legend>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="chk_cityDriver_edit" name="chk_cityDriver_edit">
+                        <label class="form-check-label" for="chk_cityDriver_edit">City Driver</label>
+                    </div>
+                    <div class="form-group">
+                        <label for="city_permit_edit">City Permit No *</label>
+                        <input type="text" class="form-control required" id="city_permit_edit" name="city_permit_edit">
+                    </div>
+                    <div class="form-group">
+                        <label for="Driver_Name_edit">Driver Name *</label>
+                        <input type="text" class="form-control required" id="Driver_Name_edit" name="Driver_Name_edit">
+                    </div>
+                    <div class="form-group">
+                        <label for="Driver_Address_edit">Driver Address *</label>
+                        <input type="tel" class="form-control required" id="Driver_Address_edit" name="Driver_Address_edit">
+                    </div>
+                    <p>(*) Mandatory</p>
+                </fieldset>
+
+                <h3>Charge Information</h3>
+                <fieldset>
+                    <legend>Charge Info</legend>
+                    <div class="form-group">
+                        <label for="SummonNo_edit">Summon No *</label>
+                        <input type="text" class="form-control required" id="SummonNo_edit" name="SummonNo_edit">
+                    </div>
+                    <div class="form-group">
+                        <label for="ChargeAmount_edit">Charge Amount *</label>
+                        <input type="number" step="0.01" class="form-control required" id="ChargeAmount_edit" name="ChargeAmount_edit">
+                    </div>
+                    <div class="form-group">
+                        <label for="CityEmplChargeAmount_edit">Charge Amount *</label>
+                        <input type="number" step="0.01" class="form-control required" id="CityEmplChargeAmount_edit" name="CityEmplChargeAmount_edit">
+                    </div>
+                    <p>(*) Mandatory</p>
+                </fieldset>
+
+            </form>
+        </div>
+    </div>
+
+    <div class="row top-buffer">
+        <div class="col-sm-4">
+            <button id="btn_submitAccdForm_Edit" class="btn btn-primary col-sm-4" type=button>Submit</button>
+        </div>
+        <div class="col-sm-8">
+            <button id="btn_OpenSyncDlg_Edit" class="btn btn-primary col-sm-4" type=button>Sync Form Data</button>
+        </div>
+    </div>
+
+</div>

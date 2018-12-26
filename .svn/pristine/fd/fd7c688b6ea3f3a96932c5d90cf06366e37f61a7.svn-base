@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace FieldTool.Models
+{
+    public class VehiclePost
+    {
+        public int VehicleId { get; set; }
+        public decimal CaseId { get; set; }
+        public Nullable<int> CityDriver { get; set; }
+        public string CityPermitNo { get; set; }
+        public string DriverName { get; set; }
+        public string VehicleTag { get; set; }
+        public string DriverAddress { get; set; }
+    }
+}

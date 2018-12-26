@@ -1,0 +1,127 @@
+﻿@using FieldToolServices;
+@{
+    ViewBag.Title = "Accident Reports";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<MVAR_AccidentReport> reportList = ViewBag.AccidentsList;
+
+}
+
+<div class="page-header">
+    <h2 class="contentTitle">Accident Investigation Tool</h2>
+</div>
+<img class="testSite" src="~/Content/images/watermark-test.png" alt="" />
+<div class="medium_datatable first_table">
+
+    <div class="editBtns" style="display:-webkit-box;">
+        <button type="button" class="btn btn-styled" id="create_Report_to_home"><span class="glyphicon glyphicon-plus"></span>New</button>
+        <button type="button" class="btn btn-styled" id="edit_Report_in_home"><span class="glyphicon glyphicon-pencil"></span>View/Edit</button>
+        <button type="button" class="btn btn-styled" id="close_Report_fr_home"><span class="glyphicon glyphicon-trash"></span>Close Report</button>
+        <button type="button" class="btn btn-outline-primary" id="SearchClosedReport_fr_home"><span class="glyphicon glyphicon-search"></span>Search Closed Reports</button>
+    </div>
+    <table cellpadding="0" cellspacing="0" border="0" class="display" id="ReportTable">
+        <thead>
+            <tr>
+                <th>Case Id</th>
+                <th>Case Number</th>
+                <th>Accident Location</th>
+                <th>Accident Time</th>
+                <th>Create Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ int i = 0; string rowtype = "even";}
+            @foreach (MVAR_AccidentReport k in reportList)
+            {
+                if (i % 2 == 0)
+                {
+                    rowtype = "even";
+                }
+                else
+                {
+                    rowtype = "odd";
+                }
+
+                <tr class="@rowtype">
+                    <td>@k.CaseId</td>
+                    <td>@k.CaseNumber</td>
+                    <td>@k.AccidentLocation</td>
+                    <td>@k.AccidentTime</td>
+                    <td>@k.CreateDate</td>
+                </tr>
+                i++;
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="modal fade" id="FilterReportsModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel_FilterEeport" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">              
+                <button type="button" class="close dlg_close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="ModalLabel_FilterEeport">Search Panel</h4>
+            </div>
+            <div class="modal-body">
+                <form id="FilterForm" class="col-sm-12">
+                    <fieldset>
+                        <div class="form-group">
+                            <label for="OfficeDDL">Safety Officer Name</label>
+                            <select id="OfficeDDL" class="form-control"></select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="AccidentDateDDL">Accident Date</label>
+                            <select id="AccidentDateDDL" class="form-control"></select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="CaseNumberDDL">Case Number</label>
+                            <select id="CaseNumberDDL" class="form-control"></select>
+                        </div>
+
+                    </fieldset>
+                </form>
+                <button type="button" class="btn btn-primary" id="btn_searchReports"><span class="glyphicon glyphicon-search"></span>Search</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="CloseReportsModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel_closedEeport" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close dlg_close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="ModalLabel_closedEeport">Closed Reports</h4>              
+            </div>
+            <div class="modal-body">
+                <div class="medium_datatable first_table">
+                    <div class="editBtns" style="display:-webkit-box;">
+                        <button type="button" class="btn btn-styled" id="edit_ClosedReport_in_home"><span class="glyphicon glyphicon-eye-open"></span>View</button>
+                    </div>
+                    <table cellpadding="0" cellspacing="0" border="0" class="display" id="ClosedReportTable">
+                        <thead>
+                            <tr>
+                                <th>Case Id</th>
+                                <th>Case Number</th>
+                                <th>Accident Location</th>
+                                <th>Accident Time</th>
+                                <th>Create Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>                
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

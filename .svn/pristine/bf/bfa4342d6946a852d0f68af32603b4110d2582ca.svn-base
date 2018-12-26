@@ -1,0 +1,587 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DPW_MVARModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="MVAR_AccidentReport">
+          <Key>
+            <PropertyRef Name="CaseId" />
+          </Key>
+          <Property Name="CaseId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CaseNumber" Type="varchar" MaxLength="256" />
+          <Property Name="CaseOwner" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="CaseStatus" Type="int" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="LastEditDate" Type="datetime" />
+          <Property Name="CSR_Number" Type="varchar" MaxLength="100" />
+          <Property Name="DriverSig" Type="varbinary(max)" />
+          <Property Name="SupervisorSig" Type="varbinary(max)" />
+          <Property Name="SafetyOfficerSig" Type="varbinary(max)" />
+          <Property Name="DriverSign_Time" Type="datetime" />
+          <Property Name="SupervisorSig_Time" Type="datetime" />
+          <Property Name="SafetyOfficerSig_Time" Type="datetime" />
+          <Property Name="SupervisorScene_Response" Type="int" />
+          <Property Name="SafetyOfficerScene_Reponse" Type="int" />
+          <Property Name="PhotoTaken" Type="int" />
+          <Property Name="PCD_Driver_Perm" Type="int" />
+          <Property Name="PCD_InUse" Type="int" />
+          <Property Name="Control1Call_Time" Type="datetime" />
+          <Property Name="PoliceReport_Number" Type="varchar" MaxLength="100" />
+          <Property Name="AccidentLocation" Type="varchar" MaxLength="256" />
+          <Property Name="WeatherCondition" Type="varchar" MaxLength="100" />
+          <Property Name="VehiclesInvolved_Number" Type="int" />
+          <Property Name="Police_Investigation" Type="int" />
+          <Property Name="Pedestrian_Involved" Type="int" />
+          <Property Name="AccidentDesc" Type="varchar(max)" />
+          <Property Name="IntsSketch" Type="varbinary(max)" />
+          <Property Name="Seatbelt_InUse" Type="int" />
+          <Property Name="AccidentTime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="MVAR_Charges">
+          <Key>
+            <PropertyRef Name="CHARGEId" />
+          </Key>
+          <Property Name="CHARGEId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CaseId" Type="int" Nullable="false" />
+          <Property Name="CityEmpl_Charge" Type="int" />
+          <Property Name="ChargeAmount" Type="decimal" Precision="28" Scale="2" />
+          <Property Name="Summons_No" Type="int" />
+          <Property Name="Trial_Time" Type="datetime" />
+        </EntityType>
+        <EntityType Name="MVAR_Occupants">
+          <Key>
+            <PropertyRef Name="OccupantId" />
+          </Key>
+          <Property Name="OccupantId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CaseId" Type="int" Nullable="false" />
+          <Property Name="Occupant_FirstName" Type="varchar" MaxLength="50" />
+          <Property Name="Occupant_MiddleName" Type="varchar" MaxLength="50" />
+          <Property Name="Occupant_LastName" Type="varchar" MaxLength="50" />
+          <Property Name="OccupantAddress" Type="varchar" MaxLength="256" />
+          <Property Name="Occupant_ExtentInjury" Type="varchar" MaxLength="50" />
+          <Property Name="Occupant_DriverPassenger" Type="varchar" MaxLength="50" />
+          <Property Name="Vehicle_Number" Type="int" />
+          <Property Name="Occupant_PedestrianVehicle" Type="varchar" MaxLength="50" />
+          <Property Name="Occupant_Injuerynature" Type="varchar" MaxLength="50" />
+          <Property Name="Occupant_RemovedBy" Type="varchar" MaxLength="50" />
+          <Property Name="Age" Type="int" />
+          <Property Name="Sex" Type="int" />
+        </EntityType>
+        <EntityType Name="MVAR_Vehicles">
+          <Key>
+            <PropertyRef Name="VehicleId" />
+          </Key>
+          <Property Name="VehicleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CaseId" Type="int" Nullable="false" />
+          <Property Name="CityDriver" Type="int" />
+          <Property Name="DriverLicense_Number" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="CityPermitNo" Type="varchar" MaxLength="128" />
+          <Property Name="Driver_FirstName" Type="varchar" MaxLength="128" />
+          <Property Name="Driver_MiddleName" Type="varchar" MaxLength="128" />
+          <Property Name="Driver_lastName" Type="varchar" MaxLength="128" />
+          <Property Name="Driver_Sex" Type="varchar" MaxLength="20" />
+          <Property Name="Driver_DOB" Type="date" />
+          <Property Name="Driver_Homephone" Type="int" />
+          <Property Name="Driver_CDL" Type="int" />
+          <Property Name="Driver_POST" Type="int" />
+          <Property Name="Driver_Address" Type="varchar" MaxLength="256" />
+          <Property Name="Driver_City" Type="varchar" MaxLength="50" />
+          <Property Name="Driver_State" Type="varchar" MaxLength="50" />
+          <Property Name="Driver_County" Type="varchar" MaxLength="50" />
+          <Property Name="Driver_Zipcode" Type="int" />
+          <Property Name="Driver_Agency" Type="varchar" MaxLength="100" />
+          <Property Name="Driver_Bureau" Type="varchar" MaxLength="100" />
+          <Property Name="Driver_BusinessPhone" Type="varchar" MaxLength="50" />
+          <Property Name="Vehicle_pointImpact" Type="varchar" MaxLength="100" />
+          <Property Name="Vehicle_ExtDamage" Type="varchar" MaxLength="50" />
+          <Property Name="Fleet_ShopNumber" Type="varchar" MaxLength="50" />
+          <Property Name="Vehicle_Yearmake" Type="varchar" MaxLength="100" />
+          <Property Name="Vehicle_SerialNumber" Type="varchar" MaxLength="100" />
+          <Property Name="VehicleTag" Type="varchar" MaxLength="128" />
+          <Property Name="OtherSpecify" Type="varchar" MaxLength="128" />
+        </EntityType>
+        <EntityType Name="MVAR_Witnesses">
+          <Key>
+            <PropertyRef Name="WitnessId" />
+          </Key>
+          <Property Name="WitnessId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CaseId" Type="int" Nullable="false" />
+          <Property Name="WitnessName" Type="varchar" MaxLength="100" />
+          <Property Name="WitnessPhone" Type="varchar" MaxLength="100" />
+          <Property Name="WitnessAddress" Type="varchar" MaxLength="256" />
+        </EntityType>
+        <Function Name="FieldReportCase_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CaseId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MVARCharges_InsertUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ActionType" Type="int" Mode="In" />
+          <Parameter Name="ChargeId" Type="int" Mode="In" />
+          <Parameter Name="CaseId" Type="int" Mode="In" />
+          <Parameter Name="CityEmpl_Charge" Type="int" Mode="In" />
+          <Parameter Name="Charge" Type="decimal" Mode="In" />
+          <Parameter Name="Summons_No" Type="int" Mode="In" />
+          <Parameter Name="trial_time" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="MVAROccupants_InsertUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ActionType" Type="int" Mode="In" />
+          <Parameter Name="OccupantId" Type="int" Mode="In" />
+          <Parameter Name="CaseId" Type="int" Mode="In" />
+          <Parameter Name="Occupant_FirstName" Type="varchar" Mode="In" />
+          <Parameter Name="Occupant_MiddleName" Type="varchar" Mode="In" />
+          <Parameter Name="Occupant_LastName" Type="varchar" Mode="In" />
+          <Parameter Name="OccupantAddress" Type="varchar" Mode="In" />
+          <Parameter Name="Occupant_ExtentInjury" Type="varchar" Mode="In" />
+          <Parameter Name="Occupant_DriverPassenger" Type="varchar" Mode="In" />
+          <Parameter Name="Vehicle_Number" Type="int" Mode="In" />
+          <Parameter Name="Occupant_Pedestrian" Type="varchar" Mode="In" />
+          <Parameter Name="Occupant_Injuerynature" Type="varchar" Mode="In" />
+          <Parameter Name="Occupant_RemovedBy" Type="varchar" Mode="In" />
+          <Parameter Name="Age" Type="int" Mode="In" />
+          <Parameter Name="Sex" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MVARReportCase_InsertUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ActionType" Type="int" Mode="In" />
+          <Parameter Name="CaseId" Type="int" Mode="In" />
+          <Parameter Name="CaseNumber" Type="varchar" Mode="In" />
+          <Parameter Name="CaseOwner" Type="varchar" Mode="In" />
+          <Parameter Name="CaseStatus" Type="int" Mode="In" />
+          <Parameter Name="CreateDate" Type="datetime" Mode="In" />
+          <Parameter Name="LastEditDate" Type="datetime" Mode="In" />
+          <Parameter Name="CSR_Number" Type="varchar" Mode="In" />
+          <Parameter Name="DriverSig" Type="varbinary(max)" Mode="In" />
+          <Parameter Name="SupervisorSig" Type="varbinary(max)" Mode="In" />
+          <Parameter Name="SafetyOfficerSig" Type="varbinary(max)" Mode="In" />
+          <Parameter Name="DriverSign_Time" Type="datetime" Mode="In" />
+          <Parameter Name="SupervisorSig_Time" Type="datetime" Mode="In" />
+          <Parameter Name="SafetyOfficerSig_Time" Type="datetime" Mode="In" />
+          <Parameter Name="SupervisorScene_Response" Type="int" Mode="In" />
+          <Parameter Name="SafetyOfficerScene_Reponse" Type="int" Mode="In" />
+          <Parameter Name="PhotoTaken" Type="int" Mode="In" />
+          <Parameter Name="Seatbelt_InUse" Type="int" Mode="In" />
+          <Parameter Name="PCD_Driver_Perm" Type="int" Mode="In" />
+          <Parameter Name="PCD_InUse" Type="int" Mode="In" />
+          <Parameter Name="Control1Call_Time" Type="datetime" Mode="In" />
+          <Parameter Name="AccidentTime" Type="datetime" Mode="In" />
+          <Parameter Name="PoliceReport_Number" Type="varchar" Mode="In" />
+          <Parameter Name="AccidentLocation" Type="varchar" Mode="In" />
+          <Parameter Name="WeatherCondition" Type="varchar" Mode="In" />
+          <Parameter Name="VehiclesInvolved_Number" Type="int" Mode="In" />
+          <Parameter Name="Police_Investigation" Type="int" Mode="In" />
+          <Parameter Name="Pedestrian_Involved" Type="int" Mode="In" />
+          <Parameter Name="AccidentDesc" Type="varchar(max)" Mode="In" />
+          <Parameter Name="IntsSketch" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="MVARVehicles_InsertUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ActionType" Type="int" Mode="In" />
+          <Parameter Name="VehicleId" Type="int" Mode="In" />
+          <Parameter Name="CaseId" Type="int" Mode="In" />
+          <Parameter Name="CityDriver" Type="int" Mode="In" />
+          <Parameter Name="DriverLicense_Number" Type="varchar" Mode="In" />
+          <Parameter Name="CityPermitNo" Type="varchar" Mode="In" />
+          <Parameter Name="Driver_FirstName" Type="varchar" Mode="In" />
+          <Parameter Name="Driver_MiddleName" Type="varchar" Mode="In" />
+          <Parameter Name="Driver_lastName" Type="varchar" Mode="In" />
+          <Parameter Name="Driver_Sex" Type="varchar" Mode="In" />
+          <Parameter Name="Driver_DOB" Type="date" Mode="In" />
+          <Parameter Name="Driver_Homephone" Type="int" Mode="In" />
+          <Parameter Name="Driver_CDL" Type="int" Mode="In" />
+          <Parameter Name="Driver_POST" Type="int" Mode="In" />
+          <Parameter Name="Driver_Address" Type="varchar" Mode="In" />
+          <Parameter Name="Driver_City" Type="varchar" Mode="In" />
+          <Parameter Name="Driver_State" Type="varchar" Mode="In" />
+          <Parameter Name="Driver_County" Type="varchar" Mode="In" />
+          <Parameter Name="Driver_Zipcode" Type="int" Mode="In" />
+          <Parameter Name="Driver_Agency" Type="varchar" Mode="In" />
+          <Parameter Name="Driver_Bureau" Type="varchar" Mode="In" />
+          <Parameter Name="Driver_BusinessPhone" Type="varchar" Mode="In" />
+          <Parameter Name="Vehicle_pointImpact" Type="varchar" Mode="In" />
+          <Parameter Name="Vehicle_ExtDamage" Type="varchar" Mode="In" />
+          <Parameter Name="Fleet_ShopNumber" Type="varchar" Mode="In" />
+          <Parameter Name="Vehicle_Yearmake" Type="varchar" Mode="In" />
+          <Parameter Name="Vehicle_SerialNumber" Type="varchar" Mode="In" />
+          <Parameter Name="VehicleTag" Type="varchar" Mode="In" />
+          <Parameter Name="OtherSpecify" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="MVARWitnesses_InsertUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ActionType" Type="int" Mode="In" />
+          <Parameter Name="WitnessId" Type="int" Mode="In" />
+          <Parameter Name="CaseId" Type="int" Mode="In" />
+          <Parameter Name="WitnessName" Type="varchar" Mode="In" />
+          <Parameter Name="WitnessPhone" Type="varchar" Mode="In" />
+          <Parameter Name="WitnessAddress" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="DPW_MVARModelStoreContainer">
+          <EntitySet Name="MVAR_AccidentReport" EntityType="Self.MVAR_AccidentReport" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MVAR_Charges" EntityType="Self.MVAR_Charges" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MVAR_Occupants" EntityType="Self.MVAR_Occupants" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MVAR_Vehicles" EntityType="Self.MVAR_Vehicles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MVAR_Witnesses" EntityType="Self.MVAR_Witnesses" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DPW_MVARModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="MVAR_AccidentReport">
+          <Key>
+            <PropertyRef Name="CaseId" />
+          </Key>
+          <Property Name="CaseId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CaseNumber" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="CaseOwner" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CaseStatus" Type="Int32" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="LastEditDate" Type="DateTime" Precision="3" />
+          <Property Name="CSR_Number" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DriverSig" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="SupervisorSig" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="SafetyOfficerSig" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="DriverSign_Time" Type="DateTime" Precision="3" />
+          <Property Name="SupervisorSig_Time" Type="DateTime" Precision="3" />
+          <Property Name="SafetyOfficerSig_Time" Type="DateTime" Precision="3" />
+          <Property Name="SupervisorScene_Response" Type="Int32" />
+          <Property Name="SafetyOfficerScene_Reponse" Type="Int32" />
+          <Property Name="PhotoTaken" Type="Int32" />
+          <Property Name="PCD_Driver_Perm" Type="Int32" />
+          <Property Name="PCD_InUse" Type="Int32" />
+          <Property Name="Control1Call_Time" Type="DateTime" Precision="3" />
+          <Property Name="PoliceReport_Number" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="AccidentLocation" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="WeatherCondition" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="VehiclesInvolved_Number" Type="Int32" />
+          <Property Name="Police_Investigation" Type="Int32" />
+          <Property Name="Pedestrian_Involved" Type="Int32" />
+          <Property Name="AccidentDesc" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IntsSketch" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Seatbelt_InUse" Type="Int32" />
+          <Property Name="AccidentTime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="MVAR_Charges">
+          <Key>
+            <PropertyRef Name="CHARGEId" />
+          </Key>
+          <Property Name="CHARGEId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CaseId" Type="Int32" Nullable="false" />
+          <Property Name="CityEmpl_Charge" Type="Int32" />
+          <Property Name="ChargeAmount" Type="Decimal" Precision="28" Scale="2" />
+          <Property Name="Summons_No" Type="Int32" />
+          <Property Name="Trial_Time" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="MVAR_Occupants">
+          <Key>
+            <PropertyRef Name="OccupantId" />
+          </Key>
+          <Property Name="OccupantId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CaseId" Type="Int32" Nullable="false" />
+          <Property Name="Occupant_FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Occupant_MiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Occupant_LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="OccupantAddress" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="Occupant_ExtentInjury" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Occupant_DriverPassenger" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Vehicle_Number" Type="Int32" />
+          <Property Name="Occupant_PedestrianVehicle" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Occupant_Injuerynature" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Occupant_RemovedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Age" Type="Int32" />
+          <Property Name="Sex" Type="Int32" />
+        </EntityType>
+        <EntityType Name="MVAR_Vehicles">
+          <Key>
+            <PropertyRef Name="VehicleId" />
+          </Key>
+          <Property Name="VehicleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CaseId" Type="Int32" Nullable="false" />
+          <Property Name="CityDriver" Type="Int32" />
+          <Property Name="DriverLicense_Number" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CityPermitNo" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="Driver_FirstName" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="Driver_MiddleName" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="Driver_lastName" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="Driver_Sex" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Driver_DOB" Type="DateTime" Precision="0" />
+          <Property Name="Driver_Homephone" Type="Int32" />
+          <Property Name="Driver_CDL" Type="Int32" />
+          <Property Name="Driver_POST" Type="Int32" />
+          <Property Name="Driver_Address" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="Driver_City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Driver_State" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Driver_County" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Driver_Zipcode" Type="Int32" />
+          <Property Name="Driver_Agency" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Driver_Bureau" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Driver_BusinessPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Vehicle_pointImpact" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Vehicle_ExtDamage" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Fleet_ShopNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Vehicle_Yearmake" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Vehicle_SerialNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="VehicleTag" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="OtherSpecify" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="MVAR_Witnesses">
+          <Key>
+            <PropertyRef Name="WitnessId" />
+          </Key>
+          <Property Name="WitnessId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CaseId" Type="Int32" Nullable="false" />
+          <Property Name="WitnessName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="WitnessPhone" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="WitnessAddress" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityContainer Name="DPW_MVAREntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="MVAR_AccidentReport" EntityType="Self.MVAR_AccidentReport" />
+          <EntitySet Name="MVAR_Charges" EntityType="Self.MVAR_Charges" />
+          <EntitySet Name="MVAR_Occupants" EntityType="Self.MVAR_Occupants" />
+          <EntitySet Name="MVAR_Vehicles" EntityType="Self.MVAR_Vehicles" />
+          <EntitySet Name="MVAR_Witnesses" EntityType="Self.MVAR_Witnesses" />
+          <FunctionImport Name="FieldReportCase_Delete" ReturnType="Collection(Int32)">
+          <Parameter Name="CaseId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MVARCharges_InsertUpdate" ReturnType="Collection(Int32)">
+            <Parameter Name="ActionType" Mode="In" Type="Int32" />
+            <Parameter Name="ChargeId" Mode="In" Type="Int32" />
+            <Parameter Name="CaseId" Mode="In" Type="Int32" />
+            <Parameter Name="CityEmpl_Charge" Mode="In" Type="Int32" />
+            <Parameter Name="Charge" Mode="In" Type="Decimal" />
+            <Parameter Name="Summons_No" Mode="In" Type="Int32" />
+            <Parameter Name="trial_time" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="MVAROccupants_InsertUpdate" ReturnType="Collection(Int32)">
+            <Parameter Name="ActionType" Mode="In" Type="Int32" />
+            <Parameter Name="OccupantId" Mode="In" Type="Int32" />
+            <Parameter Name="CaseId" Mode="In" Type="Int32" />
+            <Parameter Name="Occupant_FirstName" Mode="In" Type="String" />
+            <Parameter Name="Occupant_MiddleName" Mode="In" Type="String" />
+            <Parameter Name="Occupant_LastName" Mode="In" Type="String" />
+            <Parameter Name="OccupantAddress" Mode="In" Type="String" />
+            <Parameter Name="Occupant_ExtentInjury" Mode="In" Type="String" />
+            <Parameter Name="Occupant_DriverPassenger" Mode="In" Type="String" />
+            <Parameter Name="Vehicle_Number" Mode="In" Type="Int32" />
+            <Parameter Name="Occupant_Pedestrian" Mode="In" Type="String" />
+            <Parameter Name="Occupant_Injuerynature" Mode="In" Type="String" />
+            <Parameter Name="Occupant_RemovedBy" Mode="In" Type="String" />
+            <Parameter Name="Age" Mode="In" Type="Int32" />
+            <Parameter Name="Sex" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MVARReportCase_InsertUpdate" ReturnType="Collection(Int32)">
+            <Parameter Name="ActionType" Mode="In" Type="Int32" />
+            <Parameter Name="CaseId" Mode="In" Type="Int32" />
+            <Parameter Name="CaseNumber" Mode="In" Type="String" />
+            <Parameter Name="CaseOwner" Mode="In" Type="String" />
+            <Parameter Name="CaseStatus" Mode="In" Type="Int32" />
+            <Parameter Name="CreateDate" Mode="In" Type="DateTime" />
+            <Parameter Name="LastEditDate" Mode="In" Type="DateTime" />
+            <Parameter Name="CSR_Number" Mode="In" Type="String" />
+            <Parameter Name="DriverSig" Mode="In" Type="Binary" />
+            <Parameter Name="SupervisorSig" Mode="In" Type="Binary" />
+            <Parameter Name="SafetyOfficerSig" Mode="In" Type="Binary" />
+            <Parameter Name="DriverSign_Time" Mode="In" Type="DateTime" />
+            <Parameter Name="SupervisorSig_Time" Mode="In" Type="DateTime" />
+            <Parameter Name="SafetyOfficerSig_Time" Mode="In" Type="DateTime" />
+            <Parameter Name="SupervisorScene_Response" Mode="In" Type="Int32" />
+            <Parameter Name="SafetyOfficerScene_Reponse" Mode="In" Type="Int32" />
+            <Parameter Name="PhotoTaken" Mode="In" Type="Int32" />
+            <Parameter Name="Seatbelt_InUse" Mode="In" Type="Int32" />
+            <Parameter Name="PCD_Driver_Perm" Mode="In" Type="Int32" />
+            <Parameter Name="PCD_InUse" Mode="In" Type="Int32" />
+            <Parameter Name="Control1Call_Time" Mode="In" Type="DateTime" />
+            <Parameter Name="AccidentTime" Mode="In" Type="DateTime" />
+            <Parameter Name="PoliceReport_Number" Mode="In" Type="String" />
+            <Parameter Name="AccidentLocation" Mode="In" Type="String" />
+            <Parameter Name="WeatherCondition" Mode="In" Type="String" />
+            <Parameter Name="VehiclesInvolved_Number" Mode="In" Type="Int32" />
+            <Parameter Name="Police_Investigation" Mode="In" Type="Int32" />
+            <Parameter Name="Pedestrian_Involved" Mode="In" Type="Int32" />
+            <Parameter Name="AccidentDesc" Mode="In" Type="String" />
+            <Parameter Name="IntsSketch" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="MVARVehicles_InsertUpdate" ReturnType="Collection(Int32)">
+            <Parameter Name="ActionType" Mode="In" Type="Int32" />
+            <Parameter Name="VehicleId" Mode="In" Type="Int32" />
+            <Parameter Name="CaseId" Mode="In" Type="Int32" />
+            <Parameter Name="CityDriver" Mode="In" Type="Int32" />
+            <Parameter Name="DriverLicense_Number" Mode="In" Type="String" />
+            <Parameter Name="CityPermitNo" Mode="In" Type="String" />
+            <Parameter Name="Driver_FirstName" Mode="In" Type="String" />
+            <Parameter Name="Driver_MiddleName" Mode="In" Type="String" />
+            <Parameter Name="Driver_lastName" Mode="In" Type="String" />
+            <Parameter Name="Driver_Sex" Mode="In" Type="String" />
+            <Parameter Name="Driver_DOB" Mode="In" Type="DateTime" />
+            <Parameter Name="Driver_Homephone" Mode="In" Type="Int32" />
+            <Parameter Name="Driver_CDL" Mode="In" Type="Int32" />
+            <Parameter Name="Driver_POST" Mode="In" Type="Int32" />
+            <Parameter Name="Driver_Address" Mode="In" Type="String" />
+            <Parameter Name="Driver_City" Mode="In" Type="String" />
+            <Parameter Name="Driver_State" Mode="In" Type="String" />
+            <Parameter Name="Driver_County" Mode="In" Type="String" />
+            <Parameter Name="Driver_Zipcode" Mode="In" Type="Int32" />
+            <Parameter Name="Driver_Agency" Mode="In" Type="String" />
+            <Parameter Name="Driver_Bureau" Mode="In" Type="String" />
+            <Parameter Name="Driver_BusinessPhone" Mode="In" Type="String" />
+            <Parameter Name="Vehicle_pointImpact" Mode="In" Type="String" />
+            <Parameter Name="Vehicle_ExtDamage" Mode="In" Type="String" />
+            <Parameter Name="Fleet_ShopNumber" Mode="In" Type="String" />
+            <Parameter Name="Vehicle_Yearmake" Mode="In" Type="String" />
+            <Parameter Name="Vehicle_SerialNumber" Mode="In" Type="String" />
+            <Parameter Name="VehicleTag" Mode="In" Type="String" />
+            <Parameter Name="OtherSpecify" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="MVARWitnesses_InsertUpdate" ReturnType="Collection(Int32)">
+            <Parameter Name="ActionType" Mode="In" Type="Int32" />
+            <Parameter Name="WitnessId" Mode="In" Type="Int32" />
+            <Parameter Name="CaseId" Mode="In" Type="Int32" />
+            <Parameter Name="WitnessName" Mode="In" Type="String" />
+            <Parameter Name="WitnessPhone" Mode="In" Type="String" />
+            <Parameter Name="WitnessAddress" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DPW_MVARModelStoreContainer" CdmEntityContainer="DPW_MVAREntities">
+          <EntitySetMapping Name="MVAR_AccidentReport">
+            <EntityTypeMapping TypeName="DPW_MVARModel.MVAR_AccidentReport">
+              <MappingFragment StoreEntitySet="MVAR_AccidentReport">
+                <ScalarProperty Name="CaseId" ColumnName="CaseId" />
+                <ScalarProperty Name="CaseNumber" ColumnName="CaseNumber" />
+                <ScalarProperty Name="CaseOwner" ColumnName="CaseOwner" />
+                <ScalarProperty Name="CaseStatus" ColumnName="CaseStatus" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="LastEditDate" ColumnName="LastEditDate" />
+                <ScalarProperty Name="CSR_Number" ColumnName="CSR_Number" />
+                <ScalarProperty Name="DriverSig" ColumnName="DriverSig" />
+                <ScalarProperty Name="SupervisorSig" ColumnName="SupervisorSig" />
+                <ScalarProperty Name="SafetyOfficerSig" ColumnName="SafetyOfficerSig" />
+                <ScalarProperty Name="DriverSign_Time" ColumnName="DriverSign_Time" />
+                <ScalarProperty Name="SupervisorSig_Time" ColumnName="SupervisorSig_Time" />
+                <ScalarProperty Name="SafetyOfficerSig_Time" ColumnName="SafetyOfficerSig_Time" />
+                <ScalarProperty Name="SupervisorScene_Response" ColumnName="SupervisorScene_Response" />
+                <ScalarProperty Name="SafetyOfficerScene_Reponse" ColumnName="SafetyOfficerScene_Reponse" />
+                <ScalarProperty Name="PhotoTaken" ColumnName="PhotoTaken" />
+                <ScalarProperty Name="PCD_Driver_Perm" ColumnName="PCD_Driver_Perm" />
+                <ScalarProperty Name="PCD_InUse" ColumnName="PCD_InUse" />
+                <ScalarProperty Name="Control1Call_Time" ColumnName="Control1Call_Time" />
+                <ScalarProperty Name="PoliceReport_Number" ColumnName="PoliceReport_Number" />
+                <ScalarProperty Name="AccidentLocation" ColumnName="AccidentLocation" />
+                <ScalarProperty Name="WeatherCondition" ColumnName="WeatherCondition" />
+                <ScalarProperty Name="VehiclesInvolved_Number" ColumnName="VehiclesInvolved_Number" />
+                <ScalarProperty Name="Police_Investigation" ColumnName="Police_Investigation" />
+                <ScalarProperty Name="Pedestrian_Involved" ColumnName="Pedestrian_Involved" />
+                <ScalarProperty Name="AccidentDesc" ColumnName="AccidentDesc" />
+                <ScalarProperty Name="IntsSketch" ColumnName="IntsSketch" />
+                <ScalarProperty Name="Seatbelt_InUse" ColumnName="Seatbelt_InUse" />
+                <ScalarProperty Name="AccidentTime" ColumnName="AccidentTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MVAR_Charges">
+            <EntityTypeMapping TypeName="DPW_MVARModel.MVAR_Charges">
+              <MappingFragment StoreEntitySet="MVAR_Charges">
+                <ScalarProperty Name="CHARGEId" ColumnName="CHARGEId" />
+                <ScalarProperty Name="CaseId" ColumnName="CaseId" />
+                <ScalarProperty Name="CityEmpl_Charge" ColumnName="CityEmpl_Charge" />
+                <ScalarProperty Name="ChargeAmount" ColumnName="ChargeAmount" />
+                <ScalarProperty Name="Summons_No" ColumnName="Summons_No" />
+                <ScalarProperty Name="Trial_Time" ColumnName="Trial_Time" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MVAR_Occupants">
+            <EntityTypeMapping TypeName="DPW_MVARModel.MVAR_Occupants">
+              <MappingFragment StoreEntitySet="MVAR_Occupants">
+                <ScalarProperty Name="OccupantId" ColumnName="OccupantId" />
+                <ScalarProperty Name="CaseId" ColumnName="CaseId" />
+                <ScalarProperty Name="Occupant_FirstName" ColumnName="Occupant_FirstName" />
+                <ScalarProperty Name="Occupant_MiddleName" ColumnName="Occupant_MiddleName" />
+                <ScalarProperty Name="Occupant_LastName" ColumnName="Occupant_LastName" />
+                <ScalarProperty Name="OccupantAddress" ColumnName="OccupantAddress" />
+                <ScalarProperty Name="Occupant_ExtentInjury" ColumnName="Occupant_ExtentInjury" />
+                <ScalarProperty Name="Occupant_DriverPassenger" ColumnName="Occupant_DriverPassenger" />
+                <ScalarProperty Name="Vehicle_Number" ColumnName="Vehicle_Number" />
+                <ScalarProperty Name="Occupant_PedestrianVehicle" ColumnName="Occupant_PedestrianVehicle" />
+                <ScalarProperty Name="Occupant_Injuerynature" ColumnName="Occupant_Injuerynature" />
+                <ScalarProperty Name="Occupant_RemovedBy" ColumnName="Occupant_RemovedBy" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="Sex" ColumnName="Sex" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MVAR_Vehicles">
+            <EntityTypeMapping TypeName="DPW_MVARModel.MVAR_Vehicles">
+              <MappingFragment StoreEntitySet="MVAR_Vehicles">
+                <ScalarProperty Name="VehicleId" ColumnName="VehicleId" />
+                <ScalarProperty Name="CaseId" ColumnName="CaseId" />
+                <ScalarProperty Name="CityDriver" ColumnName="CityDriver" />
+                <ScalarProperty Name="DriverLicense_Number" ColumnName="DriverLicense_Number" />
+                <ScalarProperty Name="CityPermitNo" ColumnName="CityPermitNo" />
+                <ScalarProperty Name="Driver_FirstName" ColumnName="Driver_FirstName" />
+                <ScalarProperty Name="Driver_MiddleName" ColumnName="Driver_MiddleName" />
+                <ScalarProperty Name="Driver_lastName" ColumnName="Driver_lastName" />
+                <ScalarProperty Name="Driver_Sex" ColumnName="Driver_Sex" />
+                <ScalarProperty Name="Driver_DOB" ColumnName="Driver_DOB" />
+                <ScalarProperty Name="Driver_Homephone" ColumnName="Driver_Homephone" />
+                <ScalarProperty Name="Driver_CDL" ColumnName="Driver_CDL" />
+                <ScalarProperty Name="Driver_POST" ColumnName="Driver_POST" />
+                <ScalarProperty Name="Driver_Address" ColumnName="Driver_Address" />
+                <ScalarProperty Name="Driver_City" ColumnName="Driver_City" />
+                <ScalarProperty Name="Driver_State" ColumnName="Driver_State" />
+                <ScalarProperty Name="Driver_County" ColumnName="Driver_County" />
+                <ScalarProperty Name="Driver_Zipcode" ColumnName="Driver_Zipcode" />
+                <ScalarProperty Name="Driver_Agency" ColumnName="Driver_Agency" />
+                <ScalarProperty Name="Driver_Bureau" ColumnName="Driver_Bureau" />
+                <ScalarProperty Name="Driver_BusinessPhone" ColumnName="Driver_BusinessPhone" />
+                <ScalarProperty Name="Vehicle_pointImpact" ColumnName="Vehicle_pointImpact" />
+                <ScalarProperty Name="Vehicle_ExtDamage" ColumnName="Vehicle_ExtDamage" />
+                <ScalarProperty Name="Fleet_ShopNumber" ColumnName="Fleet_ShopNumber" />
+                <ScalarProperty Name="Vehicle_Yearmake" ColumnName="Vehicle_Yearmake" />
+                <ScalarProperty Name="Vehicle_SerialNumber" ColumnName="Vehicle_SerialNumber" />
+                <ScalarProperty Name="VehicleTag" ColumnName="VehicleTag" />
+                <ScalarProperty Name="OtherSpecify" ColumnName="OtherSpecify" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MVAR_Witnesses">
+            <EntityTypeMapping TypeName="DPW_MVARModel.MVAR_Witnesses">
+              <MappingFragment StoreEntitySet="MVAR_Witnesses">
+                <ScalarProperty Name="WitnessId" ColumnName="WitnessId" />
+                <ScalarProperty Name="CaseId" ColumnName="CaseId" />
+                <ScalarProperty Name="WitnessName" ColumnName="WitnessName" />
+                <ScalarProperty Name="WitnessPhone" ColumnName="WitnessPhone" />
+                <ScalarProperty Name="WitnessAddress" ColumnName="WitnessAddress" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="FieldReportCase_Delete" FunctionName="DPW_MVARModel.Store.FieldReportCase_Delete" />
+          <FunctionImportMapping FunctionImportName="MVARCharges_InsertUpdate" FunctionName="DPW_MVARModel.Store.MVARCharges_InsertUpdate" />
+          <FunctionImportMapping FunctionImportName="MVAROccupants_InsertUpdate" FunctionName="DPW_MVARModel.Store.MVAROccupants_InsertUpdate" />
+          <FunctionImportMapping FunctionImportName="MVARReportCase_InsertUpdate" FunctionName="DPW_MVARModel.Store.MVARReportCase_InsertUpdate" />
+          <FunctionImportMapping FunctionImportName="MVARVehicles_InsertUpdate" FunctionName="DPW_MVARModel.Store.MVARVehicles_InsertUpdate" />
+          <FunctionImportMapping FunctionImportName="MVARWitnesses_InsertUpdate" FunctionName="DPW_MVARModel.Store.MVARWitnesses_InsertUpdate" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

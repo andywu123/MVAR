@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DPW_MVARModelStoreContainer" CdmEntityContainer="DPW_MVAREntities">
+    <EntitySetMapping Name="AccidentReports">
+      <EntityTypeMapping TypeName="DPW_MVARModel.AccidentReport">
+        <MappingFragment StoreEntitySet="AccidentReport">
+          <ScalarProperty Name="CaseId" ColumnName="CaseId" />
+          <ScalarProperty Name="DriverSig_URL" ColumnName="DriverSig_URL" />
+          <ScalarProperty Name="SupervisorSig_URL" ColumnName="SupervisorSig_URL" />
+          <ScalarProperty Name="DriverSign_Time" ColumnName="DriverSign_Time" />
+          <ScalarProperty Name="SupervisorScene_Response" ColumnName="SupervisorScene_Response" />
+          <ScalarProperty Name="SafetyOfficerScene_Reponse" ColumnName="SafetyOfficerScene_Reponse" />
+          <ScalarProperty Name="SafetyOfficerSig_URL" ColumnName="SafetyOfficerSig_URL" />
+          <ScalarProperty Name="PhotoTaken" ColumnName="PhotoTaken" />
+          <ScalarProperty Name="WeatherCondition" ColumnName="WeatherCondition" />
+          <ScalarProperty Name="AccidentDesc" ColumnName="AccidentDesc" />
+          <ScalarProperty Name="Photo_Storedpath" ColumnName="Photo_Storedpath" />
+          <ScalarProperty Name="IntsSketch_StoredPath" ColumnName="IntsSketch_StoredPath" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Charges">
+      <EntityTypeMapping TypeName="DPW_MVARModel.Charge">
+        <MappingFragment StoreEntitySet="Charges">
+          <ScalarProperty Name="CHARGEId" ColumnName="CHARGEId" />
+          <ScalarProperty Name="CaseId" ColumnName="CaseId" />
+          <ScalarProperty Name="CityEmpl_Charge" ColumnName="CityEmpl_Charge" />
+          <ScalarProperty Name="ChargeAmount" ColumnName="ChargeAmount" />
+          <ScalarProperty Name="Summons_No" ColumnName="Summons_No" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Occupants">
+      <EntityTypeMapping TypeName="DPW_MVARModel.Occupant">
+        <MappingFragment StoreEntitySet="Occupants">
+          <ScalarProperty Name="OccupantId" ColumnName="OccupantId" />
+          <ScalarProperty Name="CaseId" ColumnName="CaseId" />
+          <ScalarProperty Name="OccupantName" ColumnName="OccupantName" />
+          <ScalarProperty Name="OccupantAddress" ColumnName="OccupantAddress" />
+          <ScalarProperty Name="Age" ColumnName="Age" />
+          <ScalarProperty Name="Sex" ColumnName="Sex" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Vehicles">
+      <EntityTypeMapping TypeName="DPW_MVARModel.Vehicle">
+        <MappingFragment StoreEntitySet="Vehicles">
+          <ScalarProperty Name="VehicleId" ColumnName="VehicleId" />
+          <ScalarProperty Name="CaseId" ColumnName="CaseId" />
+          <ScalarProperty Name="CityDriver" ColumnName="CityDriver" />
+          <ScalarProperty Name="CityPermitNo" ColumnName="CityPermitNo" />
+          <ScalarProperty Name="DriverName" ColumnName="DriverName" />
+          <ScalarProperty Name="VehicleTag" ColumnName="VehicleTag" />
+          <ScalarProperty Name="DriverAddress" ColumnName="DriverAddress" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Witnesses">
+      <EntityTypeMapping TypeName="DPW_MVARModel.Witness">
+        <MappingFragment StoreEntitySet="Witness">
+          <ScalarProperty Name="WitnessId" ColumnName="WitnessId" />
+          <ScalarProperty Name="CaseId" ColumnName="CaseId" />
+          <ScalarProperty Name="WitnessName" ColumnName="WitnessName" />
+          <ScalarProperty Name="WitnessPhone" ColumnName="WitnessPhone" />
+          <ScalarProperty Name="WitnessAddress" ColumnName="WitnessAddress" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript">
+        var siteBaseUrl = "@Url.Content("~")";
+        var AbsoluteURL = "@System.Configuration.ConfigurationManager.AppSettings["baseSiteURL"]";
+    </script>
+
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/Externals")
+    @Styles.Render("~/Content/Styles")
+    @Styles.Render("~/Content/themes/base/css")
+    @*<script type="text/javascript" src="/Scripts/offline.min.js"></script>*@
+</head>
+<body>
+    <div>@RenderBody()</div>
+    @Html.Partial("SyncFormDataModal")
+    @Html.Partial("sketchSaveModal")
+    @Html.Partial("confirmationModal")
+    @Html.Partial("notificationModal")
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/accidents")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

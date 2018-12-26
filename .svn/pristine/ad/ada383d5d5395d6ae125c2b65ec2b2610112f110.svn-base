@@ -1,0 +1,73 @@
+﻿@using FieldTool.Models
+<div class="panel-heading">
+    <h3 class="panel-title">Witness Information</h3>
+</div>
+<div class="panel-body">
+    <div class="row top-buffer">
+        <div class="col-sm-5">
+            <div class="row top-buffer">
+                <table cellpadding="0" cellspacing="0" border="0" class="display" id="WitnessesTable">
+                    <thead>
+                        <tr>
+                            <th>Case Number</th>
+                            <th>Witness Name</th>
+                            <th>Witness Phone</th>
+                            <th>Witness Address</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @{ int i = 0; string rowtype = "even";}
+                        @foreach (WitnessPost c in @Model.witnesses)
+                        {
+                            if (i % 2 == 0)
+                            {
+                                rowtype = "even";
+                            }
+                            else
+                            {
+                                rowtype = "odd";
+                            }
+
+                            <tr class="@rowtype">
+                                <td>@Model.accidentReport.CaseNumber</td>
+                                <td>@c.WitnessName</td>
+                                <td>@c.WitnessPhone</td>
+                                <td>@c.WitnessAddress</td>
+                            </tr>
+
+                            i++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <button id="btn_Editwitness_Add" class=" btn btn-styled" type=button><span class="glyphicon glyphicon-plus"></span>New</button>
+            <button id="btn_Editwitness_Edit" class="btn btn-styled" type=button><span class="glyphicon glyphicon-pencil"></span>View/Edit</button>
+            <button type="button" class="btn btn-styled" id="btn_Editwitness_Del"><span class="glyphicon glyphicon-trash"></span>Delete</button>
+
+        </div>
+        <div class="col-sm-7">
+            <div id="witnessEditSection">
+                <div class="form-group">
+                    <label for="Witness_Name_edit">Witness Name *</label>
+                    <input type="text" class="form-control required" id="Witness_Name_edit" name="Witness_Name_edit">
+                </div>
+                <div class="form-group">
+                    <label for="Witness_Address_edit">Witness Address *</label>
+                    <input type="text" class="form-control required" id="Witness_Address_edit" name="Witness_Address_edit">
+                </div>
+                <div class="row addedSection">
+                    <div class="form-group col-md-9 delBtnAlign">
+                        <label for="Witness_phone_edit">Witness Phone *</label>
+                        <input type="tel" class="form-control required" id="Witness_phone_edit" name="Witness_phone_edit">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <p>(*) Mandatory</p>
+    <button class="btn btn-primary nextBtn pull-right" type="button">Next</button>
+</div>
+
+

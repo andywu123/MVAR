@@ -1,0 +1,111 @@
+﻿CD.Reports = {
+
+	oReportTable: null,
+
+	/* Initialize home page's datatable and click handlers */
+	init: function ReportInit() {
+
+		oReportTable = $('#ReportTable').dataTable({
+			"aaSorting": [[1, "asc"]],
+			//"paging": false,
+			"pagingType": "simple",
+			"bPaginate": true,
+			"info": false,
+			"columnDefs": [
+                        { "ordable": false, "targets": 0 },
+                        //{ "searchable": false, "targets": 1 },
+                        { "width": "30%", "targets": 0 },
+                        { "width": "70%" }
+			]
+		});
+		/* Click handler to the rows - this could be used as a callback */
+
+		$("#ReportTable tbody").click(function (event) {
+			$(oReportTable.fnSettings().aoData).each(function () {
+				$(this.nTr).removeClass('row_selected');
+			});
+			$(event.target.parentNode).addClass('row_selected');
+		});
+
+		//
+		//click Events for Announcement home page
+		$('#del_Report_fr_home').click(function () {
+			var tbl = $('#ReportTable').DataTable();
+			var $row = Helpers.findSelectedRow(tbl);
+			if ($row == null)
+				return;
+			var data = tbl.row($row).data();
+			var ReportCaseID = data[0];
+			if (ReportCaseID >= 0) {
+				Helpers.showConfirmationModal(
+                        function () {
+                        	$.post(siteBaseUrl + "Home/DeleteAccidentReport?CaseId=" +ReportCaseID,
+                                function (data) {
+                                	if (data == "True") {
+                                		tbl.row($row)
+                                        .remove()
+                                        .draw();
+                                	} else {
+                                		Helpers.showNotificationModal("Delete Failed", "This Report is currently associated with content and cannot be deleted until association has been removed. ");
+                                	}
+                                }
+                            );
+                        },
+                        function () {
+                        	//Do nothing
+                        });
+			}
+		});
+
+		$('#create_Report_to_home').click(function () {
+		    window.open(siteBaseUrl + "Home/CreateAccidentReport", "_self");
+		});
+
+
+		$('#edit_Report_in_home').click(function () {
+			var tbl = $('#ReportTable').DataTable();
+			var $row = Helpers.findSelectedRow(tbl);
+			if ($row == null)
+				return;
+			var data = tbl.row($row).data();
+			var ReportCaseID = data[0];
+			if (ReportCaseID >= 0) {
+				var a = {
+			        CaseId: ReportCaseID
+				};
+				var params = jQuery.param(a, true);
+				window.open(siteBaseUrl + "Home/EditAccidentReport?" + params, "_self");
+			}
+		});
+
+		$('#del_Report_fr_home').click(function () {
+			var tbl = $('#ReportTable').DataTable();
+			var $row = Helpers.findSelectedRow(tbl);
+			if ($row == null)
+				return;
+			var data = tbl.row($row).data();
+			var CaseID = data[0];
+
+			if (CaseID >= 0) {
+				Helpers.showConfirmationModal(
+                        function () {
+                        	$.post(siteBaseUrl + "Home/DeleteReport?caseId=" + CaseID,
+                                function (data) {
+                                	if (data == "True") {
+                                		tbl.row($row)
+                                        .remove()
+                                        .draw();
+                                	} else {
+                                		Helpers.showNotificationModal("Delete Failed", "Could not delete Accident Report.");
+                                	}
+                                }
+                            );
+                        },
+                        function () {
+                        	//Do nothing
+                        });
+			}
+		});
+	}
+
+}

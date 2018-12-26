@@ -1,0 +1,278 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using FieldToolData.Models;
+
+using DPWLogSystem;
+
+namespace FieldToolData
+{
+    public class FormDataAccess
+    {
+        private DPWLogger dpwLogger;
+        public static string Error;
+
+        public FormDataAccess()
+        {
+            if (dpwLogger == null)
+                dpwLogger = new DPWLogger(this.GetType().Name);
+        }
+
+        #region GetReportData
+
+        public reportFormData getReportFormbyCaseId(int caseId)
+        {
+            dpwLogger.Info("call Service getReportFormbyCaseId");
+            reportFormData ret = new reportFormData();
+            using (OSTFieldEntities db = new OSTFieldEntities())
+            {
+                // get report case data 
+                ret.accidentReport = db.AccidentReports
+                              .Where(s => s.CaseId == caseId)
+                              .FirstOrDefault<AccidentReport>();
+
+                ret.charges = db.Charges
+                              .Where(s => s.CaseId == caseId).ToList();
+
+                ret.vehicles = db.Vehicles
+                              .Where(s => s.CaseId == caseId).ToList();
+
+                ret.witnesses = db.Witnesses
+                              .Where(s => s.CaseId == caseId).ToList();
+
+                ret.occupants = db.Occupants
+                              .Where(s => s.CaseId == caseId).ToList();
+
+            }
+            return ret;
+        }
+
+        public List<AccidentReport> getReportForms()
+        {
+            dpwLogger.Info("call Service getReportForms");
+            List<AccidentReport> accidents = new List<AccidentReport>();
+            using (OSTFieldEntities db = new OSTFieldEntities())
+            {
+                // get report case data 
+                accidents = db.AccidentReports.ToList();
+                              
+            }
+            return accidents;
+        }
+        
+        
+        #endregion
+
+        #region Add/UpdateReportData
+        public int AddReportForm(reportFormData formData)
+        {
+            int accidentCaseId = -1;
+            dpwLogger.Info("call Service saveReportForm");
+          
+            using (OSTFieldEntities db = new OSTFieldEntities())
+            {
+
+                using (var dbContextTransaction = db.Database.BeginTransaction())
+                {
+                    try
+                    {   // insert a report accident                 
+                        AccidentReport report = formData.accidentReport;
+                        var AccidentReportRes = db.FieldReportCase_InsertUpdate(report.CaseId, report.DriverSig_URL, report.SupervisorSig_URL, report.DriverSign_Time,
+                            report.SupervisorScene_Response, report.SafetyOfficerScene_Reponse, report.SafetyOfficerSig_URL, report.PhotoTaken, report.WeatherCondition, report.AccidentDesc,
+                            report.Photo_Storedpath, report.IntsSketch_StoredPath);
+                        foreach (var oo in AccidentReportRes)
+                        {
+                            accidentCaseId = (int)oo;
+                        }
+
+                        // insert charges data 
+                        List<Charge> charges = formData.charges;
+                        if (charges != null && charges.Count > 0)
+                        {
+                            var ChargesRes = db.Charges.AddRange(charges.AsEnumerable());                       
+                        }
+
+                        //insert Occupants data
+                        List<Occupant> Occupants = formData.occupants;
+                        if (Occupants != null && Occupants.Count > 0)
+                        {
+                            var OccupantsRes = db.Occupants.AddRange(Occupants.AsEnumerable());
+                        }
+
+
+                        // insert vehicles data 
+                        List<Vehicle> Vehicles = formData.vehicles;
+                        if (Vehicles != null && Vehicles.Count > 0)
+                        {
+                            var VehiclesRes = db.Vehicles.AddRange(Vehicles.AsEnumerable());
+                        }
+
+                        //insert witnesses
+                        List<Witness> Witnesses = formData.witnesses;
+                        if (Witnesses != null && Witnesses.Count > 0)
+                        {
+                            var WitnessesRes = db.Witnesses.AddRange(Witnesses.AsEnumerable());
+                        }
+
+                        // add/update record for charges table                      
+                        db.SaveChanges();
+                        dbContextTransaction.Commit();
+                        return accidentCaseId;
+
+                    }
+                    catch (Exception ex)
+                    {
+                        Error = ex.Message;
+                        dpwLogger.Error(Error);
+                        dbContextTransaction.Rollback(); //Required according to MSDN article 
+                        throw ex;
+                    }
+                } 
+            }
+        }
+
+        public int UpdateReportForm(reportFormData formData)
+        {
+            int accidentCaseId = -1;
+            dpwLogger.Info("call Service UpdateReportForm");
+
+            using (OSTFieldEntities db = new OSTFieldEntities())
+            {
+
+                using (var dbContextTransaction = db.Database.BeginTransaction())
+                {
+                    try
+                    {   
+                        accidentCaseId = formData.accidentReport.CaseId;
+                        // delete records in accident report table, witness table, vehicles table, occupants table and charges table
+                        var report2Remove = db.AccidentReports.SingleOrDefault(x => x.CaseId == accidentCaseId);
+                        if (report2Remove != null)
+                        {
+                            db.AccidentReports.Remove(report2Remove);
+                            db.SaveChanges();
+                        }
+
+                        db.Charges.RemoveRange(db.Charges.Where(x => x.CaseId == accidentCaseId));
+                        db.SaveChanges();
+
+                        db.Vehicles.RemoveRange(db.Vehicles.Where(x => x.CaseId == accidentCaseId));
+                        db.SaveChanges();
+
+                        db.Occupants.RemoveRange(db.Occupants.Where(x => x.CaseId == accidentCaseId));
+                        db.SaveChanges();
+
+                        db.Witnesses.RemoveRange(db.Witnesses.Where(x => x.CaseId == accidentCaseId));
+                        db.SaveChanges();
+
+                        // insert a report accident                 
+                        AccidentReport report = formData.accidentReport;
+                        var AccidentReportRes = db.FieldReportCase_InsertUpdate(accidentCaseId, report.DriverSig_URL, report.SupervisorSig_URL, report.DriverSign_Time,
+                            report.SupervisorScene_Response, report.SafetyOfficerScene_Reponse, report.SafetyOfficerSig_URL, report.PhotoTaken, report.WeatherCondition, report.AccidentDesc,
+                            report.Photo_Storedpath, report.IntsSketch_StoredPath);
+                        foreach (var oo in AccidentReportRes)
+                        {
+                            accidentCaseId = (int)oo;
+                        }
+
+                        // insert charges data 
+                        List<Charge> charges = formData.charges;
+                        if (charges != null && charges.Count > 0)
+                        {
+                            var ChargesRes = db.Charges.AddRange(charges.AsEnumerable());
+                        }
+
+                        //insert Occupants data
+                        List<Occupant> Occupants = formData.occupants;
+                        if (Occupants != null && Occupants.Count > 0)
+                        {
+                            var OccupantsRes = db.Occupants.AddRange(Occupants.AsEnumerable());
+                        }
+
+
+                        // insert vehicles data 
+                        List<Vehicle> Vehicles = formData.vehicles;
+                        if (Vehicles != null && Vehicles.Count > 0)
+                        {
+                            var VehiclesRes = db.Vehicles.AddRange(Vehicles.AsEnumerable());
+                        }
+
+                        //insert witnesses
+                        List<Witness> Witnesses = formData.witnesses;
+                        if (Witnesses != null && Witnesses.Count > 0)
+                        {
+                            var WitnessesRes = db.Witnesses.AddRange(Witnesses.AsEnumerable());
+                        }
+
+                        // add/update record for charges table                      
+                        db.SaveChanges();
+                        dbContextTransaction.Commit();
+                        return accidentCaseId;
+
+                    }
+                    catch (Exception ex)
+                    {
+                        Error = ex.Message;
+                        dpwLogger.Error(Error);
+                        dbContextTransaction.Rollback(); //Required according to MSDN article 
+                        throw ex;
+                    }
+                }
+            }
+        }
+
+        #endregion 
+
+        #region Delete Accident Report 
+
+        public int delAccidentReport(int caseId)
+        {
+            int accidentCaseId = -1;
+            dpwLogger.Info("call Service delAccidentReport");
+
+            using (OSTFieldEntities db = new OSTFieldEntities())
+            {
+
+                using (var dbContextTransaction = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                       
+                        // delete records in accident report table, witness table, vehicles table, occupants table and charges table
+                        var report2Remove = db.AccidentReports.SingleOrDefault(x => x.CaseId == accidentCaseId);
+                        if (report2Remove != null)
+                        {
+                            db.AccidentReports.Remove(report2Remove);
+                            db.SaveChanges();
+                        }
+
+                        db.Charges.RemoveRange(db.Charges.Where(x => x.CaseId == accidentCaseId));
+                        db.SaveChanges();
+
+                        db.Vehicles.RemoveRange(db.Vehicles.Where(x => x.CaseId == accidentCaseId));
+                        db.SaveChanges();
+
+                        db.Occupants.RemoveRange(db.Occupants.Where(x => x.CaseId == accidentCaseId));
+                        db.SaveChanges();
+
+                        db.Witnesses.RemoveRange(db.Witnesses.Where(x => x.CaseId == accidentCaseId));
+                        db.SaveChanges();
+                        dbContextTransaction.Commit();
+                        return accidentCaseId;
+
+                    }
+                    catch (Exception ex)
+                    {
+                        Error = ex.Message;
+                        dpwLogger.Error(Error);
+                        dbContextTransaction.Rollback(); //Required according to MSDN article 
+                        throw ex;
+                    }
+                }
+            }
+        }
+        #endregion 
+
+    }
+}

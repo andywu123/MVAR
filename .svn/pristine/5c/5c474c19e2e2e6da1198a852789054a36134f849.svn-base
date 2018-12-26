@@ -1,0 +1,111 @@
+﻿CD.AccidentForm = {
+    selectedFilePath: null,
+    selecedFile: null,
+    incidentFormObj: null,
+    init: function () {
+        $('#selectedcdformfile').change(function (e) {
+            // assign selected file path to selectedFilePath variable 
+            CD.AccidentForm.selectedFilePath = this.value;
+            CD.AccidentForm.selectedFile = $("#selectedcdformfile")[0].files[0];
+            $("#SelectedFormpath").html(this.value);
+        });
+
+        $("#btn_OpenSyncDlg").click(function () {
+            //Helpers.showNotificationModal("Login Error", "Your login has expired. Please log in again to continue.");
+            Helpers.showSyncFormDataModal();
+        });
+
+        $("#btn_OpenSyncDlg_Edit").click(function () {
+            //Helpers.showNotificationModal("Login Error", "Your login has expired. Please log in again to continue.");
+            Helpers.showSyncFormDataModal();
+        });
+        
+        // https://stackoverflow.com/questions/20052839/cant-bind-events-to-inputs-within-jquery-steps-wizard 
+        $("#reloadFormBtn").click(function () {
+            Helpers.handleFileSelect(CD.AccidentForm.selectedFile);
+        }),
+
+		$('#btn_submitAccdForm').click(function () {
+
+		    if (Offline.state === 'down') {
+		        //Offline.check();
+		        Helpers.showNotificationModal("Create Error", "There is no internet connection. Please try again!");
+		        return false;
+		    }
+		    else {	       
+		        //Do ajax call for token
+		        Promise.all([
+                    CD.services.createInvestigation("accidentForm")
+		        ]).then(function success(values) {
+
+		            //Save user info back to localforage
+		            localforage.setItem(FT.config.getLoginKey(), { username: FT.user.username, accessToken: FT.user.accessToken }).then(
+                            function success() {
+                                
+                            }, function failure(err) {
+                            }
+                        );
+
+		        }, function failure(err) {
+		          
+		        });
+		        return true;
+		    }
+
+		});
+
+        $('#btn_submitAccdForm_Edit').click(function () {
+
+            if (Offline.state === 'down') {
+                //Offline.check();
+                var formData = $('form#accidentForm_Edit').serializeArray();
+                var formJSON = Helpers.serializeObject(formData);
+                /*Helpers.saveJSON2Txt("C:/testbaltimoreCity.txt", formJSON);
+                download(formJSON, "BaltimoreCity.txt", "text/plain");*/
+
+                return false;
+            }
+            else {
+                return true;
+            }
+
+        });
+
+        var form = $("#accidentForm").show();
+        Helpers.fnCreateMultiStepForm(form);
+
+        var form_Edit = $("#accidentForm_Edit").show();
+        Helpers.fnCreateMultiStepForm_edit(form_Edit);
+
+        $('#witnessSection').multifield({
+            section: '.clone',
+            btnAdd: '#btnAddWitness',
+            btnRemove: '.btnRemoveWitness'
+        });
+    },
+
+    // To do - Field Validation for Accident Report Update and Create 
+    fnCreateValidationMsg: function (step) {
+        var Error = "The Field is required!"
+        var Warn = "Maximum of 50 characters allowed!"
+        var Name = $("#keyword").val();
+
+        if (Name == '') {
+            $("#accidentForm_validation").html(Error);
+        }
+        else if (Name.length > 50) {
+            $("#accidentForm_validation").html(Warn);
+        } else {
+            $("#accidentForm_validation").html("");
+        }
+
+        if (Name != '' && Name.length < 50) {
+            return true;
+        } else {
+            return false;
+        }
+    },
+
+    removeWarning: function () {
+    }
+}

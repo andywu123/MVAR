@@ -1,0 +1,27 @@
+﻿@using FieldTool.Models 
+@{
+    ViewBag.Title = "Ink Signature";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="signature-pad" class="signature-pad">
+    <div class="signature-pad--body">
+      <canvas></canvas>
+    </div>
+    <div class="signature-pad--footer">
+      <div class="description">Sign above</div>
+
+      <div class="signature-pad--actions">
+        <div>
+          <button type="button" class="button clear" id="clear_InkSign">Clear</button>
+          <button type="button" class="button" id="changecolor_InkSign">Change color</button>
+          <button type="button" class="button" id="undo_InkSign">Undo</button>
+        </div>
+        <div>
+          <button type="button" class="button save" id="savepng_InkSign">Save as PNG</button>
+          <button type="button" class="button save" id="savejpg_InkSign">Save as JPG</button>
+          <button type="button" class="button save" id="savesvg_InkSign">Save as SVG</button>
+        </div>
+      </div>
+    </div>
+</div>

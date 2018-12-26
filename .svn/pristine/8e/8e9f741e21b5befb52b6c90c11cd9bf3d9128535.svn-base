@@ -1,0 +1,66 @@
+﻿using FieldTool.Adapters;
+using FieldToolServices;
+using FieldToolServices.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Formatting;
+using System.Web.Http;
+
+namespace FieldTool.Controllers
+{
+    public class ReportAccessController : ApiController
+    {
+
+        [HttpGet]
+        public reportFormData getReportFormbyCaseId(int caseId)
+        {
+            reportFormData frm = new reportFormData();
+            FormDataAccess ds = new FormDataAccess();
+            frm = ds.getReportFormbyCaseId(caseId);
+
+            return frm;
+        }
+
+        [HttpGet]
+        public List<AccidentReport> getReportForms()
+        {
+
+            List<AccidentReport> accidents = new List<AccidentReport>();
+            FormDataAccess ds = new FormDataAccess();
+            accidents = ds.getReportForms();
+            return accidents;
+        }
+
+        [HttpPost]
+        public int AddReportForm([FromBody]FormDataCollection form)
+        {
+            FormDataAccess ds = new FormDataAccess();
+            reportFormData formData = new reportFormData();
+            formData = Form2Report.convert2ReportData(form);
+            int invetigationId = ds.AddReportForm(formData);
+            return invetigationId;
+        }
+
+        [HttpPost]
+        public int UpdateReportForm([FromBody]FormDataCollection form)
+        {
+            FormDataAccess ds = new FormDataAccess();
+            reportFormData formData = new reportFormData();
+            formData = Form2Report.convert2ReportData(form);
+            int invetigationId = ds.UpdateReportForm(formData);
+            return invetigationId;
+        }
+
+        [HttpDelete]
+        public int delAccidentReport(int caseId)
+        {
+            FormDataAccess ds = new FormDataAccess();
+            int invetigationId = ds.delAccidentReport(caseId);
+            return invetigationId;
+        }
+
+    }
+}

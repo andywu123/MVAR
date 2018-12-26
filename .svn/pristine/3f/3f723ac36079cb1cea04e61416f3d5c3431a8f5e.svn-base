@@ -1,0 +1,91 @@
+﻿@using FieldTool.Models
+<div class="panel-heading">
+    <h3 class="panel-title">Charge Information</h3>
+</div>
+<div class="panel-body">
+    <div class="row top-buffer">
+        <div class="col-sm-9">
+            <div class="childTable">
+                <table cellpadding="0" cellspacing="0" border="0" class="display" id="ViewChargesTable">
+                    <thead>
+                        <tr>
+                            <th>Charge Id</th>
+                            <th>Case Number</th>
+                            <th>CityEmpl ChargeNo.</th>
+                            <th>Summons No.</th>
+                            <th>Trial Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @{ int i = 0; string rowtype = "even";}
+                        @foreach (ChargePost c in @Model.charges)
+                        {
+                            if (i % 2 == 0)
+                            {
+                                rowtype = "even";
+                            }
+                            else
+                            {
+                                rowtype = "odd";
+                            }
+
+                            <tr class="@rowtype">
+                                <td>@c.CHARGEId</td>
+                                <td>@Model.accidentReport.CaseNumber</td>
+                                <td>@c.CityEmpl_Charge</td>
+                                <td>@c.Summons_No</td>
+                                <td>@c.Trial_Time</td>
+                            </tr>
+
+                            i++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <button id="btn_charge_View" class="btn btn-styled" type=button><span class="glyphicon glyphicon-eye-open"></span>View</button>
+        </div>
+        <div class="col-sm-3">
+            <div class="modal right fade" id="mdl_chargeView" tabindex="-1" role="dialog" aria-labelledby="mdl_chargeLabelView">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="mdl_chargeLabelView">Charge Details</h4>
+                        </div>
+
+                        <div class="modal-body">
+                            <div id="chargeViewSection">
+                                <div class="form-group">
+                                    <label>Summon No *</label>
+                                    <input type="number" class="form-control required" id="chargeView_SummonNo">
+                                </div>
+                                <div class="form-group">
+                                    <label>Charge Amount *</label>
+                                    <input type="number" step="0.01" class="form-control required" id="chargeView_ChargeAmount">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>CityEmpl_Charge *</label>
+                                    <input type="number" step="0.01" class="form-control required" id="chargeView_CityEmplCharge">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Trial Time</label>
+                                    <input type="datetime-local" class="form-control" id="chargeView_TrialTime" name="chargeView_TrialTime" />
+
+                                </div>
+                                <p>(*) Mandatory</p>
+                            </div>
+                        </div>
+
+                    </div><!-- modal-content -->
+                </div><!-- modal-dialog -->
+            </div><!-- modal -->
+        </div>
+    </div>
+    <button class="btn btn-primary nextBtn pull-right" type="button">Next</button>
+</div>
+
+

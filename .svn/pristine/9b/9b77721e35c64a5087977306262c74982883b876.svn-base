@@ -1,0 +1,89 @@
+﻿
+@using FieldTool.Models
+<div class="panel-heading">
+    <h3 class="panel-title">Witness Information</h3>
+</div>
+<div class="panel-body">
+    <div class="row top-buffer">
+        <div class="col-sm-9">
+            <div class="childTable">
+                <table cellpadding="0" cellspacing="0" border="0" class="display" id="ViewWitnessesTable">
+                    <thead>
+                        <tr>
+                            <th>Witness Id</th>
+                            <th>Case Number</th>
+                            <th>Witness Name</th>
+                            <th>Witness Phone</th>
+                            <th>Witness Address</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @{ int i = 0; string rowtype = "even";}
+                        @foreach (WitnessPost c in @Model.witnesses)
+                        {
+                            if (i % 2 == 0)
+                            {
+                                rowtype = "even";
+                            }
+                            else
+                            {
+                                rowtype = "odd";
+                            }
+
+                            <tr class="@rowtype">
+                                <td>@c.WitnessId</td>
+                                <td>@Model.accidentReport.CaseNumber</td>
+                                <td>@c.WitnessName</td>
+                                <td>@c.WitnessPhone</td>
+                                <td>@c.WitnessAddress</td>
+                            </tr>
+
+                            i++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="btn_Editwitness_View" style="display:-webkit-box;">
+                <button id="btn_Editvehicle_View" class="btn btn-styled" type=button><span class="glyphicon glyphicon-eye-open "></span>View</button>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="modal right fade" id="mdl_witnessView" tabindex="-1" role="dialog" aria-labelledby="mdl_witnessLabelView">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="mdl_witnessLabelView">Witness Details</h4>
+                        </div>
+
+                        <div class="modal-body">
+                            <div id="witnessViewSection">
+                                <div class="form-group">
+                                    <label for="Witness_Name_View">Witness Name</label>
+                                    <input type="text" class="form-control required" id="Witness_Name_View" name="Witness_Name_View">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Witness_Address_edit">Witness Address</label>
+                                    <input type="text" class="form-control required" id="Witness_Address_View" name="Witness_Address_View">
+                                </div>
+                                <div class="row addedSection">
+                                    <div class="form-group col-md-9 delBtnAlign">
+                                        <label for="Witness_phone_View">Witness Phone</label>
+                                        <input type="tel" class="form-control required" id="Witness_phone_View" name="Witness_phone_View">
+                                    </div>
+                                </div>
+                                <p>(*) Mandatory</p>
+                            </div>
+                        </div>
+
+                    </div><!-- modal-content -->
+                </div><!-- modal-dialog -->
+            </div><!-- modal -->
+        </div>
+    </div>
+    <button class="btn btn-primary nextBtn pull-right" type="button">Next</button>
+</div>
+
+

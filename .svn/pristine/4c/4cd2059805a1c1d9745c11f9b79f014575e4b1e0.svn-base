@@ -1,0 +1,71 @@
+﻿
+@model FieldTool.Models.FileModel
+@using FieldToolData.Models; 
+@{
+    ViewBag.Title = "Accident Form Edit";
+    reportFormData reportData = ViewBag.AccidentReportForm;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="accidentFormContainer_Edit" class="container">
+    <div class="row top-buffer">
+        <div class="col-sm-12">
+            <form id="accidentForm_Edit" class="col-sm-12">
+                <h3>Driver info</h3>
+                <fieldset>
+                    <legend>City Employee Driver Information</legend>
+                    <div class="form-group">
+                        <label for="driverName_Edit">Driver Name *</label>
+                        <input type="text" class="form-control required" id="driverName_Edit" name="driverName_Edit">
+                    </div>
+                    <div class="form-group">
+                        <label for="DDL_ExtDamage_Edit">Example select</label>
+                        <select class="form-control" id="DDL_ExtDamage_Edit" name="extentDamage_Edit">
+                            <option>Slight</option>
+                            <option>Heavy</option>
+                        </select>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="chk_PCDinUse_Edit" name="CPDinUse_Edit">
+                        <label class="form-check-label" for="chk_PCDinUse_Edit">PCD IN USE</label>
+                    </div>
+                    <div class="form-group">
+                        <label for="Textarea_AccidentDes_Edit">Describe accident in detail below:</label>
+                        <textarea class="form-control" id="Textarea_AccidentDes_Edit" rows="3" name="AccidentDescription_Edit"></textarea>
+                    </div>
+                    <p>(*) Mandatory</p>
+                </fieldset>
+                <h3>Occupant Information</h3>
+                <fieldset>
+                    <legend>Occupant Information</legend>
+                    <div class="form-group">
+                        <label for="Ocp1_FirstName_Edit">First Name *</label>
+                        <input type="text" class="form-control required" id="Ocp1_FirstName_Edit" name="Ocp1_FirstName_Edit">
+                    </div>
+                    <div class="form-group">
+                        <label for="DDL_Ocp1_Condit_Edit">Example select *</label>
+                        <select class="form-control required" id="DDL_Ocp1_Condit_Edit" name="DDL_Ocp1_Condit_Edit">
+                            <option>Killed</option>
+                            <option>No Injury</option>
+                            <option>No Injury</option>
+                        </select>
+                    </div>
+                    <p>(*) Mandatory</p>
+                </fieldset>
+            </form>
+        </div>
+
+
+    </div>
+
+    <div class="row top-buffer">
+
+        <div class="col-sm-4">
+            <button id="btn_submitAccdForm_Edit" class="btn btn-primary col-sm-4" type=button>Submit</button>
+        </div>
+        <div class="col-sm-8">
+            <button id="btn_OpenSyncDlg_Edit" class="btn btn-primary col-sm-4" type=button>Sync Form Data</button>
+        </div>
+    </div>
+
+</div>

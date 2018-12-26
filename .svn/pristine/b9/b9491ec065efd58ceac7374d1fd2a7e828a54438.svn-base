@@ -1,0 +1,192 @@
+﻿using FieldToolServices.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http.Formatting;
+using System.Web;
+using FieldToolServices;
+using FieldTool.Models;
+
+namespace FieldTool.Adapters
+{
+    public class Form2Report
+    {
+        internal static reportFormData convert2ReportData(FormDataCollection form)
+        {
+            reportFormData report = new reportFormData();
+
+            report.accidentReport = convert2AccidentReport(form);
+            if (report.accidentReport == null)
+            {
+                return null;
+            }
+
+            report.vehicles = convert2vehicles(form, report.accidentReport.CaseId);
+            report.occupants = convert2occupants(form, report.accidentReport.CaseId);
+            report.witnesses = convert2witnesses(form, report.accidentReport.CaseId);
+            report.charges = convert2charges(form, report.accidentReport.CaseId);
+
+            return report;
+        }
+
+        private static List<Charge> convert2charges(FormDataCollection form, int caseId)
+        {
+            List<Charge> charges = new List<Charge>();
+            Charge charge = new Charge();
+            charge.CaseId = caseId;
+            var Summons_No = form.Get("summonNo_edit");
+            if (Summons_No != "")
+            {
+                charge.Summons_No = Convert.ToInt32(Summons_No);
+            }
+
+            var ChargeAmount = form.Get("ChargeAmount_edit");
+            if (ChargeAmount != "")
+            {
+                charge.ChargeAmount = Convert.ToDecimal(ChargeAmount);
+            }
+
+            var CityEmplChargeAmount = form.Get("CityEmplChargeAmount_edit");
+            if (CityEmplChargeAmount != "")
+            {
+                charge.CityEmpl_Charge = Convert.ToDecimal(CityEmplChargeAmount);
+            }
+            charges.Add(charge);
+
+            return charges;
+        }
+
+        private static List<Witness> convert2witnesses(FormDataCollection form, int caseId)
+        {
+            List<Witness> witnesses = new List<Witness>();
+            Witness witness = new Witness();
+            witness.CaseId = caseId;
+            witness.WitnessName = form.Get("Witness_Name_edit");
+            witness.WitnessPhone = form.Get("Witness_phone_edit");
+            witness.WitnessAddress = form.Get("Witness_Address_edit");
+            witnesses.Add(witness);
+
+            return witnesses;
+        }
+
+        private static List<Occupant> convert2occupants(FormDataCollection form, int caseId)
+        {
+            List<Occupant> occupants = new List<Occupant>();
+            Occupant occupant = new Occupant();
+            occupant.CaseId = caseId;
+            var age = form.Get("ocp_Age_edit");
+            if (age != "")
+            {
+                occupant.Age = Convert.ToInt32(age);
+            }
+          
+            occupant.OccupantName = form.Get("ocp_Name_edit");
+            occupant.OccupantAddress = form.Get("ocp_Address_edit");
+            occupants.Add(occupant);
+
+            return occupants;
+        }
+
+        private static List<Vehicle> convert2vehicles(FormDataCollection form, int caseId)
+        {
+            List<Vehicle> vehicles = new List<Vehicle>();
+            Vehicle vehicle = new Vehicle();
+            var cityDriver = form.Get("chk_cityDriver_edit");
+            if (cityDriver != "")
+            {
+                vehicle.CityDriver = cityDriver !="on"? 0: 1;
+            }
+
+            vehicle.CityPermitNo = form.Get("city_permit_edit");
+            vehicle.DriverName = form.Get("Driver_Name_edit");
+            vehicle.DriverAddress = form.Get("Driver_Address_edit");
+            vehicle.CaseId = caseId;
+            vehicles.Add(vehicle);
+
+            return vehicles;
+        }
+
+
+
+        private static AccidentReport convert2AccidentReport(FormDataCollection form)
+        {
+            AccidentReport reportInfo = new AccidentReport();
+            // populate field data to accident report table 
+            var requestID = form.Get("reportID");
+            if (requestID != "")
+            {
+                reportInfo.CaseId = Convert.ToInt32(requestID);
+            }
+            else
+            {
+                return null;
+            }
+
+            var driverSignStamp = form.Get("driverSignStamp_edit");
+            if (driverSignStamp != "")
+            {
+                reportInfo.DriverSign_Time = Convert.ToDateTime(driverSignStamp);
+            }
+
+            var AccidentDescription = form.Get("AccidentDescription_edit");
+            reportInfo.AccidentDesc = AccidentDescription;
+
+            return reportInfo;
+        }
+
+        internal static dynamic setFormDatafromService(reportFormData accessData)
+        {
+            reportFormDataPost res = new reportFormDataPost();
+
+            res.accidentReport = convert2AccidentReportPost(accessData.accidentReport);
+
+            res.charges = convert2chargesPost(accessData.charges);
+
+            res.occupants = convert2occupantsPost(accessData.occupants);
+
+            res.vehicles = convert2vehiclesPost(accessData.vehicles);
+
+            res.witnesses = convert2witnesses(accessData.witnesses);
+
+            return res;
+        }
+
+        private static List<WitnessPost> convert2witnesses(List<Witness> list)
+        {
+            return null;
+        }
+
+        private static List<VehiclePost> convert2vehiclesPost(List<Vehicle> list)
+        {
+            return null;
+        }
+
+        private static List<OccupantPost> convert2occupantsPost(List<Occupant> list)
+        {
+            return null;
+        }
+
+        private static List<ChargePost> convert2chargesPost(List<Charge> list)
+        {
+            return null;
+        }
+
+        private static AccidentReportPost convert2AccidentReportPost(AccidentReport accidentReport)
+        {
+            AccidentReportPost report = new AccidentReportPost();
+            report.CaseId = accidentReport.CaseId;
+            report.DriverSig_URL = accidentReport.DriverSig_URL;
+            if (accidentReport.DriverSign_Time != null)
+            {
+                var dt = (DateTime)accidentReport.DriverSign_Time;
+                report.DriverSign_Time = dt.ToString("yyyy-MM-dd'T'HH:mm:ss");
+            }
+
+            report.AccidentDesc = accidentReport.AccidentDesc;
+            report.SupervisorScene_Response = accidentReport.SupervisorScene_Response;
+          
+            return report;
+           
+        }
+    }
+}

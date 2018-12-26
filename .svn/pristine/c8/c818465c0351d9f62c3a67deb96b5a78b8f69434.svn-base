@@ -1,0 +1,328 @@
+﻿@using FieldToolServices.Models;
+@using FieldTool.Models;
+@{
+    ViewBag.Title = "Accident Form Edit";
+    reportFormDataPost reportData = ViewBag.AccidentReportForm;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-header">
+    <h3 class="contentTitle">Accident Form Edit Page</h3>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="@Url.Content("~")Home/Index">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Edit Form - @reportData.accidentReport.CaseId</li>
+        </ol>
+    </nav>
+</div>
+<img class="testSite" src="~/Content/images/watermark-test.png" alt="" />
+
+<div id="accidentFormContainer_Edit" class="container">
+    <div class="stepwizard">
+        <div class="stepwizard-row setup-panel">
+            <div class="stepwizard-step col-xs-2">
+                <a href="#step-1" type="button" class="btn btn-success btn-circle">1</a>
+                <p><small>Accident Info</small></p>
+            </div>
+            <div class="stepwizard-step col-xs-2">
+                <a href="#step-2" type="button" class="btn btn-default btn-circle" disabled="disabled">2</a>
+                <p><small>Occupant Info</small></p>
+            </div>
+            <div class="stepwizard-step col-xs-2">
+                <a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled">3</a>
+                <p><small>Witness Info</small></p>
+            </div>
+            <div class="stepwizard-step col-xs-2">
+                <a href="#step-4" type="button" class="btn btn-default btn-circle" disabled="disabled">4</a>
+                <p><small>Vehicle Info</small></p>
+            </div>
+            <div class="stepwizard-step col-xs-2">
+                <a href="#step-5" type="button" class="btn btn-default btn-circle" disabled="disabled">5</a>
+                <p><small>Charge Info</small></p>
+            </div>
+            <div class="stepwizard-step col-xs-2">
+                <a href="#step-6" type="button" class="btn btn-default btn-circle" disabled="disabled">6</a>
+                <p><small>Sign and Draw</small></p>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="stepwizard">
+        <div id="bar" class="progress">
+            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+        </div>
+    </div>
+
+    <div class="row top-buffer">
+        <div class="col-sm-12">
+            <input id="reportID" name="reportID" hidden value="@reportData.accidentReport.CaseId">
+            <div class="panel panel-primary setup-content" id="step-1">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Accident Information</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label for="">Case Number</label>
+                        <input type="text" class="form-control" id="report_CaseNumber_Edit" name="report_CaseNumber_Edit" value="@reportData.accidentReport.CaseNumber" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">CSR Number</label>
+                        <input type="text" class="form-control" id="report_CSRNumber_Edit" name="report_CSRNumber_Edit" value="@reportData.accidentReport.CSR_Number" />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-check-label" for="chk_sup_response_edit">Supervisor Responded To Scene</label>
+                        @if (reportData.accidentReport.SupervisorScene_Response == 1)
+                        {
+                            <input type="checkbox" class="form-check-input" id="chk_sup_response_edit" name="chk_sup_response_edit" checked="checked">
+                        }
+                        else
+                        {
+                            <input type="checkbox" class="form-check-input" id="chk_sup_response_edit" name="chk_sup_response_edit">
+                        }
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-check-label" for="chk_safetyOfficer_response_edit">Safety Officer Responded To Scene</label>
+                        @if (reportData.accidentReport.SafetyOfficerScene_Reponse == 1)
+                        {
+                            <input type="checkbox" class="form-check-input" id="chk_safetyOfficer_response_edit" name="chk_safetyOfficer_response_edit" checked="checked">
+                        }
+                        else
+                        {
+                            <input type="checkbox" class="form-check-input" id="chk_safetyOfficer_response_edit" name="chk_safetyOfficer_response_edit">
+                        }
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-check-label" for="chk_photoTaken_edit">Photo Taken</label>
+                        @if (reportData.accidentReport.PhotoTaken == 1)
+                        {
+                            <input type="checkbox" class="form-check-input" id="chk_photoTaken_edit" name="chk_photoTaken_edit" checked="checked">
+                        }
+                        else
+                        {
+                            <input type="checkbox" class="form-check-input" id="chk_photoTaken_edit" name="chk_photoTaken_edit">
+                        }
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-check-label" for="chk_PCDPossession_edit">PCD In City Driver Possession</label>
+                        @if (reportData.accidentReport.PCD_Driver_Perm == 1)
+                        {
+                            <input type="checkbox" class="form-check-input" id="chk_sup_response_edit" name="chk_sup_response_edit" checked="checked">
+                        }
+                        else
+                        {
+                            <input type="checkbox" class="form-check-input" id="chk_sup_response_edit" name="chk_sup_response_edit">
+                        }
+                    </div>
+                    <div class="form-group">
+                        <label class="form-check-label" for="chk_PCDInUse_edit">PCD In Use</label>
+                        @if (reportData.accidentReport.PCD_InUse == 1)
+                        {
+                            <input type="checkbox" class="form-check-input" id="chk_PCDInUse_edit" name="chk_PCDInUse_edit" checked="checked">
+                        }
+                        else
+                        {
+                            <input type="checkbox" class="form-check-input" id="chk_PCDInUse_edit" name="chk_PCDInUse_edit">
+                        }
+                    </div>
+
+                    <div class="form-group">
+                        <label>Control1 Call Time</label>
+                        <input type="datetime-local" class="form-control" id="Control1Call_Time" name="Control1Call_Time" value="@reportData.accidentReport.Control1Call_Time" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">Police Report Number</label>
+                        <input type="text" class="form-control" id="report_PoliNumber_Edit" name="report_PoliNumber_Edit" value="@reportData.accidentReport.PoliceReport_Number" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">Accident Location</label>
+                        <input type="text" class="form-control" id="report_AccidentLoc_Edit" name="report_AccidentLoc_Edit" value="@reportData.accidentReport.AccidentLocation" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">Weather Condition</label>
+                        <input type="text" class="form-control" id="report_WeatherCondt_Edit" name="report_WeatherCondt_Edit" value="@reportData.accidentReport.WeatherCondition" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">Number of Vehicles Involved</label>
+                        <input type="number" step="1"  class="form-control" id="report_VesInvolved_Edit" name="report_VesInvolved_Edit" value="@reportData.accidentReport.VehiclesInvolved_Number" />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-check-label" for="chk_InvestPol_edit">Investigated By Police</label>
+                        @if (reportData.accidentReport.Police_Investigation == 1)
+                        {
+                            <input type="checkbox" class="form-check-input" id="chk_InvestPol_edit" name="chk_InvestPol_edit" checked="checked">
+                        }
+                        else
+                        {
+                            <input type="checkbox" class="form-check-input" id="chk_InvestPol_edit" name="chk_InvestPol_edit">
+                        }
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-check-label" for="chk_PedInvolved_edit">Pedestrian Involved</label>
+                        @if (reportData.accidentReport.Pedestrian_Involved == 1)
+                        {
+                            <input type="checkbox" class="form-check-input" id="chk_PedInvolved_edit" name="chk_PedInvolved_edit" checked="checked">
+                        }
+                        else
+                        {
+                            <input type="checkbox" class="form-check-input" id="chk_PedInvolved_edit" name="chk_PedInvolved_edit">
+                        }
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Textarea_AccidentDes_edit">Describe accident in detail below:</label>
+                        <textarea class="form-control" id="Textarea_AccidentDes_edit" rows="3" name="AccidentDescription_edit">@reportData.accidentReport.AccidentDesc</textarea>
+                    </div>
+                    <p>(*) Mandatory</p>
+                    <button class="btn btn-primary nextBtn pull-right" type="button">Next</button>
+                </div>
+            </div>
+            <div class="panel panel-primary setup-content" id="step-2">
+              @Html.Partial("_OccupantPartial", reportData)
+            </div>
+
+            <div class="panel panel-primary setup-content" id="step-3">
+                @Html.Partial("_WitnessPartial", reportData)
+            </div>
+
+            <div class="panel panel-primary setup-content" id="step-4">
+                @Html.Partial("_VehiclePartial", reportData)
+            </div>
+
+            <div class="panel panel-primary setup-content" id="step-5">
+                @Html.Partial("_ChargePartial", reportData)
+            </div>
+
+            <div class="panel panel-primary setup-content" id="step-6">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Sign and Draw</h3>
+                </div>
+                <div class="panel-body">
+
+                    <div class="form-group">
+                        <label>Safety Officer's Signature</label>
+                        <button id="btn_inkSignOfficer_Edit" type="button" class="btn btn-primary">
+                            Sign Your Name
+                        </button>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Supervisor's Signature</label>
+                        <button id="btn_inkSignSupervisor_Edit" type="button" class="btn btn-primary">
+                            Sign Your Name
+                        </button>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Driver's Signature</label>
+                        <button id="btn_inkSignDriver_Edit" type="button" class="btn btn-primary">
+                            Sign Your Name
+                        </button>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Draw Sketch on Intersection</label>
+                        <button id="btn_inkSignOfficer_Edit" type="button" class="btn btn-primary" data-toggle="modal" data-target="#sketchModal">
+                            Draw Sketch
+                        </button>
+                        @*<image id="SafetyOfficerSketch">*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row top-buffer">
+        <div class="col-sm-4">
+            <button id="btn_submitAccdForm_Edit" class="btn btn-primary col-sm-4" type=button>Save</button>
+        </div>
+        <div class="col-sm-8" hidden>
+            <button id="btn_OpenSyncDlg_Edit" class="btn btn-primary col-sm-4" type=button>Sync Form Data</button>
+        </div>
+    </div>
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="inkSignModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel_inksign" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header dlg_header">
+                <h5 class="modal-title" id="ModalLabel_inksign">E-Signature</h5>
+                <button type="button" class="close dlg_close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h1>E-Signature</h1>
+                            <p>Sign in the canvas below and save your signature as an image!</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <canvas id="sig-canvas">
+                                Get a better browser, bro.
+                            </canvas>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button class="btn btn-primary" id="sig-submitBtn">Save Signature</button>
+                            <button class="btn btn-default" id="sig-clearBtn">Clear Signature</button>
+                        </div>
+                    </div>
+                    <br />
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="sketchModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel_sketch" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header dlg_header">
+                <h5 class="modal-title" id="ModalLabel_sketch">Draw Sketch</h5>
+                <button type="button" class="close dlg_close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="IntersectionModal" class="container-fluid">
+                    <div id="canvasDiv"></div>
+                    <div id="Intersection-pad">
+                        <button type="button" class="btn btn-primary" id="savejpg">Save as JPG</button>
+                        <button type="button" class="btn btn-primary" id="saveSketchChanges">Save Changes</button>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/Site/signature.js" type="text/javascript"></script>
+

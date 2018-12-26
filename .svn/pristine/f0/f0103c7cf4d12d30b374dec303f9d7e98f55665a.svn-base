@@ -1,0 +1,68 @@
+﻿@model FieldTool.Models.FileModel
+@{
+    ViewBag.Title = "Accident Form Local Save";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="accidentFormContainer" class="container">
+     <div class="row top-buffer">
+         <div class="col-sm-12">
+             <form id ="accidentForm" class="col-sm-12">
+                <h3>Driver info</h3>
+                 <fieldset>
+                    <legend>City Employee Driver Information</legend>
+                    <div class="form-group">
+                        <label for="driverName">Driver Name *</label>
+                        <input type="text" class="form-control required" id="driverName" name ="driverName">
+                    </div>
+                    <div class="form-group">
+                        <label for="DDL_ExtDamage">Example select</label>
+                        <select class="form-control" id="DDL_ExtDamage" name="extentDamage">
+                            <option>Slight</option>
+                            <option>Heavy</option>
+                        </select>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="chk_PCDinUse" name="CPDinUse">
+                        <label class="form-check-label" for="chk_PCDinUse">PCD IN USE</label>
+                    </div>
+                    <div class="form-group">
+                        <label for="Textarea_AccidentDes">Describe accident in detail below:</label>
+                        <textarea class="form-control" id="Textarea_AccidentDes" rows="3" name="AccidentDescription"></textarea>
+                    </div>
+                    <p>(*) Mandatory</p>
+                 </fieldset>
+                 <h3>Occupant Information</h3>
+                 <fieldset>
+                    <legend>Occupant Information</legend>
+                    <div class="form-group">
+                        <label for="Ocp1_FirstName">First Name *</label>
+                        <input type="text" class="form-control required" id="Ocp1_FirstName" name ="Ocp1_FirstName">
+                    </div>
+                    <div class="form-group">
+                        <label for="DDL_Ocp1_Condit">Example select *</label>
+                        <select class="form-control required" id="DDL_Ocp1_Condit" name="DDL_Ocp1_Condit">
+                            <option>Killed</option>
+                            <option>No Injury</option>
+                            <option>No Injury</option>
+                        </select>
+                    </div>
+                    <p>(*) Mandatory</p>
+                 </fieldset>                 
+            </form>
+        </div>
+        
+     
+    </div>
+   
+    <div class="row top-buffer">
+       
+        <div class="col-sm-4">
+             <button id= "btn_submitAccdForm"  class="btn btn-primary col-sm-4" type=button>Submit</button>    
+        </div>
+        <div class="col-sm-8">
+            <button id= "btn_OpenSyncDlg"  class="btn btn-primary col-sm-4" type=button>Sync Form Data</button>
+        </div>
+    </div>
+
+</div>

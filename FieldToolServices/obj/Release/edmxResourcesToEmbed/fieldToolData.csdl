@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="OSTFieldModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="AccidentReport">
+    <Key>
+      <PropertyRef Name="CaseId" />
+    </Key>
+    <Property Name="CaseId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DriverSig_URL" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+    <Property Name="SupervisorSig_URL" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+    <Property Name="DriverSign_Time" Type="DateTime" Precision="3" />
+    <Property Name="SupervisorScene_Response" Type="Int32" />
+    <Property Name="SafetyOfficerScene_Reponse" Type="Int32" />
+    <Property Name="SafetyOfficerSig_URL" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+    <Property Name="PhotoTaken" Type="Int32" />
+    <Property Name="WeatherCondition" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+    <Property Name="AccidentDesc" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Photo_Storedpath" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+    <Property Name="IntsSketch_StoredPath" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Charge">
+    <Key>
+      <PropertyRef Name="CHARGEId" />
+    </Key>
+    <Property Name="CHARGEId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CaseId" Type="Int32" Nullable="false" />
+    <Property Name="CityEmpl_Charge" Type="Decimal" Precision="28" Scale="2" />
+    <Property Name="ChargeAmount" Type="Decimal" Precision="28" Scale="2" />
+    <Property Name="Summons_No" Type="Int32" />
+  </EntityType>
+  <EntityType Name="Occupant">
+    <Key>
+      <PropertyRef Name="OccupantId" />
+    </Key>
+    <Property Name="OccupantId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CaseId" Type="Int32" Nullable="false" />
+    <Property Name="OccupantName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="OccupantAddress" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+    <Property Name="Age" Type="Int32" />
+    <Property Name="Sex" Type="Int32" />
+  </EntityType>
+  <EntityType Name="Vehicle">
+    <Key>
+      <PropertyRef Name="VehicleId" />
+    </Key>
+    <Property Name="VehicleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CaseId" Type="Int32" Nullable="false" />
+    <Property Name="CityDriver" Type="Int32" />
+    <Property Name="CityPermitNo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="DriverName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="VehicleTag" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="DriverAddress" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Witness">
+    <Key>
+      <PropertyRef Name="WitnessId" />
+    </Key>
+    <Property Name="WitnessId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CaseId" Type="Int32" Nullable="false" />
+    <Property Name="WitnessName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="WitnessPhone" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="WitnessAddress" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityContainer Name="OSTFieldEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="AccidentReports" EntityType="Self.AccidentReport" />
+    <EntitySet Name="Charges" EntityType="Self.Charge" />
+    <EntitySet Name="Occupants" EntityType="Self.Occupant" />
+    <EntitySet Name="Vehicles" EntityType="Self.Vehicle" />
+    <EntitySet Name="Witnesses" EntityType="Self.Witness" />
+    <FunctionImport Name="Charges_InsertUpdate" ReturnType="Collection(Int32)">
+      <Parameter Name="ActionType" Mode="In" Type="Int32" />
+      <Parameter Name="ChargeId" Mode="In" Type="Int32" />
+      <Parameter Name="CaseId" Mode="In" Type="Int32" />
+      <Parameter Name="CityEmpl_Charge" Mode="In" Type="Decimal" />
+      <Parameter Name="Charge" Mode="In" Type="Decimal" />
+      <Parameter Name="Summons_No" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="FieldReportCase_InsertUpdate" ReturnType="Collection(Int32)">
+      <Parameter Name="ActionType" Mode="In" Type="Int32" />
+      <Parameter Name="CaseId" Mode="In" Type="Int32" />
+      <Parameter Name="DriverSig_URL" Mode="In" Type="String" />
+      <Parameter Name="SupervisorSig_URL" Mode="In" Type="String" />
+      <Parameter Name="DriverSign_Time" Mode="In" Type="DateTime" />
+      <Parameter Name="SupervisorScene_Response" Mode="In" Type="Int32" />
+      <Parameter Name="SafetyOfficerScene_Reponse" Mode="In" Type="Int32" />
+      <Parameter Name="SafetyOfficerSig_URL" Mode="In" Type="String" />
+      <Parameter Name="PhotoTaken" Mode="In" Type="Int32" />
+      <Parameter Name="WeatherCondition" Mode="In" Type="String" />
+      <Parameter Name="AccidentDesc" Mode="In" Type="String" />
+      <Parameter Name="Photo_Storedpath" Mode="In" Type="String" />
+      <Parameter Name="IntsSketch_StoredPath" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="Occupants_InsertUpdate" ReturnType="Collection(Int32)">
+      <Parameter Name="ActionType" Mode="In" Type="Int32" />
+      <Parameter Name="OccupantId" Mode="In" Type="Int32" />
+      <Parameter Name="CaseId" Mode="In" Type="Int32" />
+      <Parameter Name="OccupantName" Mode="In" Type="String" />
+      <Parameter Name="OccupantsAddress" Mode="In" Type="String" />
+      <Parameter Name="Age" Mode="In" Type="Int32" />
+      <Parameter Name="Sex" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="Vehicles_InsertUpdate" ReturnType="Collection(Int32)">
+      <Parameter Name="ActionType" Mode="In" Type="Int32" />
+      <Parameter Name="VehicleId" Mode="In" Type="Int32" />
+      <Parameter Name="CaseId" Mode="In" Type="Int32" />
+      <Parameter Name="CityDriver" Mode="In" Type="Int32" />
+      <Parameter Name="CityPermitNo" Mode="In" Type="String" />
+      <Parameter Name="DriverName" Mode="In" Type="String" />
+      <Parameter Name="VehicleTag" Mode="In" Type="String" />
+      <Parameter Name="DriverAddress" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="Witnesses_InsertUpdate" ReturnType="Collection(Int32)">
+      <Parameter Name="ActionType" Mode="In" Type="Int32" />
+      <Parameter Name="WitnessId" Mode="In" Type="Int32" />
+      <Parameter Name="CaseId" Mode="In" Type="Int32" />
+      <Parameter Name="WitnessName" Mode="In" Type="String" />
+      <Parameter Name="WitnessPhone" Mode="In" Type="String" />
+      <Parameter Name="WitnessAddress" Mode="In" Type="String" />
+    </FunctionImport>
+  </EntityContainer>
+</Schema>

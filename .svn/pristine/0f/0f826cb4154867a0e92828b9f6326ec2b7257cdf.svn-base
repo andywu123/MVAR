@@ -1,0 +1,200 @@
+﻿CD.AccidentForm = {
+    selectedFilePath: null,
+    selecedFile: null,
+    incidentFormObj: null,
+    init: function () {
+        $('#selectedcdformfile').change(function (e) {
+            // assign selected file path to selectedFilePath variable 
+            CD.AccidentForm.selectedFilePath = this.value;
+            CD.AccidentForm.selectedFile = $("#selectedcdformfile")[0].files[0];
+            $("#SelectedFormpath").html(this.value);
+        });
+
+        $("#btn_OpenSyncDlg").click(function () {
+            //Helpers.showNotificationModal("Login Error", "Your login has expired. Please log in again to continue.");
+            Helpers.showSyncFormDataModal();
+        });
+
+        $("#reloadFormBtn").click(function () {
+            CD.AccidentForm.handleFileSelect(CD.AccidentForm.selectedFile);
+
+        }),
+
+		$('#btn_submitAccdForm').click(function () {
+
+		    if (Offline.state === 'down') {
+		        //Offline.check();
+		        var formData = $('form#accidentForm').serializeArray();
+		        var formJSON = CD.AccidentForm.serializeObject(formData);
+		        CD.AccidentForm.saveJSON2Txt("C:/testbaltimoreCity.txt", formJSON);
+		        download(formJSON, "BaltimoreCity.txt", "text/plain");
+		        return false;
+		    }
+		    else {
+		        return true;
+		    }
+
+		});
+
+        var form = $("#accidentForm").show();
+
+        form.steps({
+            headerTag: "h3",
+            bodyTag: "fieldset",
+            transitionEffect: "slideLeft",
+            onStepChanging: function (event, currentIndex, newIndex) {
+                // Allways allow previous action even if the current form is not valid!
+                if (currentIndex > newIndex) {
+                    return true;
+                }
+             
+                // Needed in some cases if the user went back (clean up)
+                if (currentIndex < newIndex) {
+                    // To remove error styles
+                    form.find(".body:eq(" + newIndex + ") label.error").remove();
+                    form.find(".body:eq(" + newIndex + ") .error").removeClass("error");
+                }
+                form.validate().settings.ignore = ":disabled,:hidden";
+                return form.valid();
+            },
+            onStepChanged: function (event, currentIndex, priorIndex) {
+
+                // Used to skip the "Warning" step if the user is old enough and wants to the previous step.
+                if (currentIndex === 2 && priorIndex === 3) {
+                    form.steps("previous");
+                }
+            },
+            onFinishing: function (event, currentIndex) {
+                form.validate().settings.ignore = ":disabled";
+                return form.valid();
+            },
+            onFinished: function (event, currentIndex) {
+                alert("Submitted!");
+            }
+        });
+
+
+    },
+
+    // Field Validation for Announcement Update and Create 
+    fnCreateValidationMsg: function (step) {
+        var Error = "The Field is required!"
+        var Warn = "Maximum of 50 characters allowed!"
+        var Name = $("#keyword").val();
+
+        if (Name == '') {
+            $("#keyword_validation").html(Error);
+        }
+        else if (Name.length > 50) {
+            $("#keyword_validation").html(Warn);
+        } else {
+            $("#keyword_validation").html("");
+        }
+
+        if (Name != '' && Name.length < 50) {
+            return true;
+        } else {
+            return false;
+        }
+    },
+
+    serializeObject: function (formData) {
+        var o = {};
+        var a = formData;
+        $.each(a, function () {
+            if (o[this.name]) {
+                if (!o[this.name].push) {
+                    o[this.name] = [o[this.name]];
+                }
+                o[this.name].push(this.value || '');
+            } else {
+                o[this.name] = this.value || '';
+            }
+        });
+        return JSON.stringify(o);
+    },
+
+    saveJSON2Txt: function (filepath, output) {
+        var textFile = null;
+
+        var data = new Blob([output], { type: 'text/plain' });
+
+        // If we are replacing a previously generated file we need to
+        // manually revoke the object URL to avoid memory leaks.
+        if (textFile !== null) {
+            window.URL.revokeObjectURL(textFile);
+        }
+
+        textFile = window.URL.createObjectURL(data);
+
+    },
+
+    handleFileSelect: function (file) {
+
+        var reader = new FileReader();
+        reader.onload = (function (reader) {
+            return function () {
+                var contents = reader.result;          
+                var result = [];
+                var contentJSON = JSON.parse(contents);
+                for (var i in contentJSON)
+                {
+                    result.push({ name: i, value: contentJSON[i]});
+                }
+
+                console.log(contents);
+                CD.AccidentForm.poplulateForm(result);
+
+            }
+        })(reader);
+
+        reader.readAsText(file);
+
+    },
+
+    parseTXT: function (text) {
+        var data = JSON.parse(text);
+        console.log(data);
+    },
+
+    poplulateForm: function (data) {
+        // reset form values from json object
+        $.each(data, function (name, val) {
+            var $el = $('input[name="' + val.name + '"]'),
+				type = $el.attr('type');
+
+            switch (type) {
+                case 'checkbox':               
+                    $el.attr('checked', 'checked');
+                    break;
+                case 'radio':
+                    $el.filter('[value="' + val.value + '"]').attr('checked', 'checked');
+                    break;
+                default:
+                    $el.val(val.value);
+            }
+
+            // handle textarea fields
+            var $elTextarea = $('textarea[name="' + val.name + '"]');
+            $elTextarea.val(val.value);
+
+            var $elSelect = $('select[name="' + val.name + '"]'),
+            typeOfSelect = $elSelect.attr('multiple');
+            if ((typeOfSelect) && (typeOfSelect === 'multiple')) {
+                // handle multi select scenario
+                if (val.value !== undefined && val.value instanceof Array) {
+                    //alert(val+' is an Array');   
+                    $elSelect.val(val.value);
+                } else {
+                    $elSelect.find($("option[value='" + val.value + "']")).prop('selected', true);
+                }
+            } else {
+                // handle single select scenario
+                $elSelect.val(val.value);
+            }
+
+        });
+    },
+    removeWarning: function () {
+    }
+}

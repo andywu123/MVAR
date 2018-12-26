@@ -1,0 +1,170 @@
+﻿@using FieldToolServices;
+@{
+    ViewBag.Title = "Accident Investigation Tool";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<MVAR_AccidentReport> reportList = ViewBag.AccidentsList;
+
+}
+@*<div class="page-header">
+    <h2 class="contentTitle">Accident Investigation Tool</h2>
+</div>*@
+<img class="testSite" src="~/Content/images/watermark-test.png" alt="" />
+<div class="medium_datatable first_table">
+
+    <div class="editBtns" style="display:-webkit-box;">
+        <button type="button" class="btn btn-primary" id="create_Report_to_home"><span class="glyphicon glyphicon-plus"></span>New</button>
+        <button type="button" class="btn btn-primary" id="edit_Report_in_home"><span class="glyphicon glyphicon-pencil"></span>View/Edit</button>
+        <button type="button" class="btn btn-primary" id="close_Report_fr_home"><span class="glyphicon glyphicon-briefcase"></span>Close Report</button>
+        <button type="button" class="btn btn-primary" id="print_Report_fr_home"><span class="glyphicon glyphicon-download-alt"></span>Print Report</button>
+        <button type="button" class="btn btn-primary" id="SearchClosedReport_fr_home"><span class="glyphicon glyphicon-search"></span>Search Closed Reports</button>
+    </div>
+
+    <table cellpadding="0" cellspacing="0" border="0" class="display" id="ReportTable">
+        <thead>
+            <tr>
+                <th>Case Id</th>
+                <th>Case Number</th>
+                <th>Accident Location</th>
+                <th>Accident Time</th>
+                <th>Create Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ int i = 0; string rowtype = "even";}
+            @foreach (MVAR_AccidentReport k in reportList)
+            {
+                if (i % 2 == 0)
+                {
+                    rowtype = "even";
+                }
+                else
+                {
+                    rowtype = "odd";
+                }
+
+                <tr class="@rowtype">
+                    <td>@k.CaseId</td>
+                    <td>@k.CaseNumber</td>
+                    <td>@k.AccidentLocation</td>
+                    <td>@k.AccidentTime</td>
+                    <td>@k.CreateDate</td>
+                </tr>
+                i++;
+            }
+        </tbody>
+    </table>
+</div>
+
+<div id="loader" style="display:none"></div>
+
+<div class="modal fade" id="FilterReportsModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel_FilterEeport" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">              
+                <button type="button" class="close dlg_close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="ModalLabel_FilterEeport">Search Panel</h4>
+            </div>
+            <div class="modal-body">
+                <p></p>
+                <div class="alert alert-success info_filter">
+                    <strong>Info!</strong> All closed reports which satisfy either one of the three filters will be displayed.
+                </div>
+                <form id="FilterForm" class="col-sm-12">
+                    <fieldset>
+                        <div class="form-group">
+                            <label for="OfficeDDL">Safety Officer Name</label>
+                            <select id="OfficeDDL" class="form-control"></select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="AccidentDateDDL">Accident Date</label>
+                            <select id="AccidentDateDDL" class="form-control"></select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="CaseNumberDDL">Case Number</label>
+                            <select id="CaseNumberDDL" class="form-control"></select>
+                        </div>
+
+                    </fieldset>
+                </form>
+                <button type="button" class="btn btn-primary" id="btn_searchReports"><span class="glyphicon glyphicon-search"></span>Search</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="CloseReportsModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel_closedEeport" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close dlg_close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="ModalLabel_closedEeport">Closed Reports</h4>              
+            </div>
+            <div class="modal-body">
+                <div class="medium_datatable first_table">
+                    <div class="editBtns" style="display:-webkit-box;">
+                        <button type="button" class="btn btn-primary" id="edit_ClosedReport_in_home"><span class="glyphicon glyphicon-eye-open"></span>View</button>
+                        <button type="button" class="btn btn-primary" id="print_ClosedReport_fr_home"><span class="glyphicon glyphicon-download-alt"></span>Print</button>
+                    </div>
+                    <table cellpadding="0" cellspacing="0" border="0" class="display" id="ClosedReportTable">
+                        <thead>
+                            <tr>
+                                <th>Case Id</th>
+                                <th>Case Number</th>
+                                <th>Accident Location</th>
+                                <th>Accident Time</th>
+                                <th>Create Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>                
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn  btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<div id="LoginNotificationModal" class="modal fade">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Instructions to Login (Credentials)</h4>
+            </div>
+            <div class="modal-body">
+                <ul class="list-group">
+                    <li class="list-group-item"><span class="badge">Note</span>The User Name on the top right is the user credential used to login to the app. If it's not your credential, please follow the instructions below to use your own credential to login to the site. </li>
+                    <br>
+                    <li class="list-group-item"><span class="badge">Recommended!</span>It's strongly recommended not to check <strong>remember my credential checkbox</strong> everytime user credential prompt shows up.</li>
+                    <br>
+                    <li class="list-group-item">
+                        <span class="badge">Instructions</span>If you are using Chrome Browser, please follow the link below to Remove the Saved Credential:<br>
+                        <ul>
+                            <li><a href="https://support.docusign.com/en/articles/Troubleshooting-cached-login-credentials-in-Google-Chrome" target="_blank">Login Credential Clear Instruction</a></li>
+                        </ul>
+                    </li>
+                    <br>
+                    <li class="list-group-item"><span class="badge">Instructions</span>If you are using the browser other than Chrome, please close the browser, reopen it, and type the site URL. You will be able to type in your credential.</li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>*@
+

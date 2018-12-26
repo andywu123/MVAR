@@ -1,0 +1,7 @@
+C:\Users\andy.wu.BALTIMORE\Documents\Visual Studio 2013\Projects\OSTFieldToolData\DPWLogSystem\bin\Release\DPWLogSystem.dll
+C:\Users\andy.wu.BALTIMORE\Documents\Visual Studio 2013\Projects\OSTFieldToolData\DPWLogSystem\bin\Release\DPWLogSystem.pdb
+C:\Users\andy.wu.BALTIMORE\Documents\Visual Studio 2013\Projects\OSTFieldToolData\DPWLogSystem\bin\Release\log4net.dll
+C:\Users\andy.wu.BALTIMORE\Documents\Visual Studio 2013\Projects\OSTFieldToolData\DPWLogSystem\bin\Release\log4net.xml
+C:\Users\andy.wu.BALTIMORE\Documents\Visual Studio 2013\Projects\OSTFieldToolData\DPWLogSystem\obj\Release\DPWLogSystem.csprojResolveAssemblyReference.cache
+C:\Users\andy.wu.BALTIMORE\Documents\Visual Studio 2013\Projects\OSTFieldToolData\DPWLogSystem\obj\Release\DPWLogSystem.dll
+C:\Users\andy.wu.BALTIMORE\Documents\Visual Studio 2013\Projects\OSTFieldToolData\DPWLogSystem\obj\Release\DPWLogSystem.pdb

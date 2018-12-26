@@ -1,0 +1,283 @@
+﻿Helpers = {
+    getNewGUID: function () {
+        return "{" + uuid.v4().toUpperCase() + "}";
+    },
+
+    getlocalforageReportKey: function(reportId){
+        return reportId + Helpers.getNewGUID();
+    },
+  
+    findSelectedRow: function (tbl) {
+        if (tbl.$('tr.row_selected').length == 0) {
+            this.showNotificationModal("Error", "Please make sure that a specific row has been selected.");           
+        }
+        else return tbl.$('tr.row_selected').first();
+    },
+    findSelectedDelRow: function (tbl) {
+        if (tbl.$('tr.row_selected').length == 0) {
+            return null;
+        }
+        else return tbl.$('tr.row_selected').first();
+    },
+    showNotificationModal: function (title, body) {
+        $('#notificationModal .modal-title').html(title);
+        $('#notificationModal .modal-body').html(body);
+        $('#notificationModal').modal({ keyboard: false });
+    },
+    showConfirmationModal: function (fnOnYes, fnOnNo) {
+        $('#confirmationModal').modal({ keyboard: false });
+        $('#confirmationModal .btnYes').off();
+        $('#confirmationModal .btnYes').on('click', function (e) {
+            if (fnOnYes != null) {
+                fnOnYes();
+            }
+        });
+
+        $('#confirmationModal .btnNo').off();
+        $('#confirmationModal .btnNo').on('click', function (e) {
+            if (fnOnNo != null) {
+                fnOnNo();
+            }
+        });
+    },
+
+    showSyncFormDataModal: function (fnOnYes, fnOnNo) {
+        $('#SyncFormDataModal').modal({ keyboard: false });
+        $('#SyncFormDataModal .btnYes').off();
+        $('#SyncFormDataModal .btnYes').on('click', function (e) {
+            if (fnOnYes != null) {
+                fnOnYes();
+            }
+        });
+
+        $('#SyncFormDataModal .btnNo').off();
+        $('#SyncFormDataModal .btnNo').on('click', function (e) {
+            if (fnOnNo != null) {
+                fnOnNo();
+            }
+        });
+    },
+
+    getAllIDsInTableAsString: function (oTableLocal) {
+        var sReturn = "";
+        var data = oTableLocal.fnGetData();
+
+        for (var i = 0; i < data.length; i++) {
+            if (i == 0) {
+                sReturn += data[i][0];
+            } else {
+                sReturn += " " + data[i][0];
+            }
+        }
+
+        return sReturn;
+    },
+
+    fnGetSelectedIndex: function(oTableLocal,Div) {
+        //var aTrs = oTableLocal.fnGetNodes();
+        //var aTrs = oTableLocal.fnGetSelectedData();
+        //for (var i = 0; i < aTrs.length; i++) {
+        //    if ($(aTrs[i]).hasClass('row_selected')) {
+        //        return i;
+        //    }
+        //}
+
+        //get the real row index, even if the table is sorted 
+        var tbl = $(Div).DataTable();
+        var $row = Helpers.findSelectedDelRow(tbl);
+        if ($row == null)
+            return -1;
+        var data = tbl.row($row).data();
+        var Index = data[0];
+        return Index;
+    },
+
+    fnGetSelectedDelIndex: function (oTableLocal, Div) {
+        var tbl = $(Div).DataTable();
+        var $row = Helpers.findSelectedRow(tbl);
+        if ($row == null)
+            return -1;
+        var data = tbl.row($row).data();
+        var Index = data[0];
+        return Index;
+    },
+
+    fnGetSelectedData: function (oTableLocal,Div,ind){
+ 
+        if (ind < 0) {
+            return null;
+        } else {
+            //wrong usage, we can not use index here, we need to use the first column such as id here 
+            for (var i = 0; i < oTableLocal.fnGetData().length; i++) {
+                var obj = oTableLocal.fnGetData()[i];
+                if (obj[0] == ind)
+                    return oTableLocal.fnGetData(i);
+            }
+
+            return null;
+        }
+    },
+
+    fnCreateMultiStepForm: function (divShow) {
+        divShow.steps({
+            headerTag: "h3",
+            bodyTag: "fieldset",
+            enablePagination: false,
+            transitionEffect: "slideLeft"       
+        });
+
+    },
+
+    fnCreateMultiStepForm_edit: function (form, fn) {
+        form.steps({
+            headerTag: "h3",
+            bodyTag: "fieldset",
+            transitionEffect: "slideLeft",
+            onStepChanging: function (event, currentIndex, newIndex) {
+                // Allways allow previous action even if the current form is not valid!
+                if (currentIndex > newIndex) {
+                    return true;
+                }
+
+                // Needed in some cases if the user went back (clean up)
+                if (currentIndex < newIndex) {
+                    // To remove error styles
+                    form.find(".body:eq(" + newIndex + ") label.error").remove();
+                    form.find(".body:eq(" + newIndex + ") .error").removeClass("error");
+                }
+                form.validate().settings.ignore = ":disabled,:hidden";
+                return form.valid();
+            },
+            onStepChanged: function (event, currentIndex, priorIndex) {
+
+                // Used to skip the "Warning" step if the user is old enough and wants to the previous step.
+                if (currentIndex === 2 && priorIndex === 3) {
+                    form.steps("previous");
+                }
+            },
+            onFinishing: function (event, currentIndex) {
+                form.validate().settings.ignore = ":disabled";
+                return form.valid();
+            },
+            onFinished: function (event, currentIndex) {
+                alert("Submitted!");
+            },
+            onInit: function (event, currentIndex) {
+                alert("Test form load point call back function");
+                //Run callback function
+                if (fn != null) {
+                    fn();
+                }
+            }
+        });
+
+    },
+
+    serializeObject: function (formData) {
+        var o = {};
+        var a = formData;
+        $.each(a, function () {
+            if (o[this.name]) {
+                if (!o[this.name].push) {
+                    o[this.name] = [o[this.name]];
+                }
+                o[this.name].push(this.value || '');
+            } else {
+                o[this.name] = this.value || '';
+            }
+        });
+        return JSON.stringify(o);
+    },
+
+    saveJSON2Txt: function (filepath, output) {
+        var textFile = null;
+
+        var data = new Blob([output], { type: 'text/plain' });
+
+        // If we are replacing a previously generated file we need to
+        // manually revoke the object URL to avoid memory leaks.
+        if (textFile !== null) {
+            window.URL.revokeObjectURL(textFile);
+        }
+
+        textFile = window.URL.createObjectURL(data);
+
+    },
+
+    handleFileSelect: function (file) {
+
+        var reader = new FileReader();
+        reader.onload = (function (reader) {
+            return function () {
+                var contents = reader.result;
+                var result = [];
+                var contentJSON = JSON.parse(contents);
+                for (var i in contentJSON) {
+                    result.push({ name: i, value: contentJSON[i] });
+                }
+
+                console.log(contents);
+                Helpers.poplulateForm(result);
+
+            }
+        })(reader);
+
+        reader.readAsText(file);
+
+    },
+
+    parseTXT: function (text) {
+        var data = JSON.parse(text);
+        console.log(data);
+    },
+
+    poplulateForm: function (data) {
+        // reset form values from json object
+        $.each(data, function (name, val) {
+            var $el = $('input[name="' + val.name + '"]'),
+				type = $el.attr('type');
+
+            switch (type) {
+                case 'checkbox':
+                    $el.attr('checked', 'checked');
+                    break;
+                case 'radio':
+                    $el.filter('[value="' + val.value + '"]').attr('checked', 'checked');
+                    break;
+                default:
+                    $el.val(val.value);
+            }
+
+            // handle textarea fields
+            var $elTextarea = $('textarea[name="' + val.name + '"]');
+            $elTextarea.val(val.value);
+
+            var $elSelect = $('select[name="' + val.name + '"]'),
+            typeOfSelect = $elSelect.attr('multiple');
+            if ((typeOfSelect) && (typeOfSelect === 'multiple')) {
+                // handle multi select scenario
+                if (val.value !== undefined && val.value instanceof Array) {
+                    //alert(val+' is an Array');   
+                    $elSelect.val(val.value);
+                } else {
+                    $elSelect.find($("option[value='" + val.value + "']")).prop('selected', true);
+                }
+            } else {
+                // handle single select scenario
+                $elSelect.val(val.value);
+            }
+
+        });
+    }
+
+    //fnGetSelectedID: function(oTableLocal) {
+    //    var ind = Helpers.fnGetSelectedIndex(oTableLocal);
+
+    //    if (ind < 0) {
+    //        return -1;
+    //    } else {
+    //        return oTableLocal.fnGetData(ind, 0);
+    //    }
+    //}
+
+}

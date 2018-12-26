@@ -1,0 +1,100 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using Microsoft.Office.Interop.Word;
+using System.IO;
+using SautinSoft.Document;
+using SautinSoft.Document.Drawing;
+using System.Runtime.InteropServices;
+using System.Windows.Forms;
+using System.Threading;
+using System.Drawing;
+using System.Web.Hosting;
+
+namespace FieldTool.Adapters
+{
+    public class WordFormParser
+    {
+        public static void parseFormTextfield(string filePath)
+        {
+            Microsoft.Office.Interop.Word.Application word = new Microsoft.Office.Interop.Word.Application();
+            string file = filePath;
+            Document doc = word.Documents.Open(file);
+
+            Microsoft.Office.Interop.Word.ContentControls contentControls = null;
+            Microsoft.Office.Interop.Word.ContentControl contentControl = null;
+
+            string controlsList = string.Empty;
+
+            try
+            {
+                contentControls = doc.ContentControls;
+                for (int i = 1; i <= contentControls.Count; i++)
+                {
+                    contentControl = contentControls[i];
+                    controlsList += String.Format("{0} : {1}{2}",
+                        contentControl.Title, contentControl.Type, Environment.NewLine);
+
+                    parseFormImages(contentControl, word);
+                    if (contentControl != null) Marshal.ReleaseComObject(contentControl);
+                }
+
+            }
+            finally
+            {
+
+                if (contentControls != null) Marshal.ReleaseComObject(contentControls);
+                if (doc != null) Marshal.ReleaseComObject(doc);
+                word.Documents.Close();
+          
+            }
+
+        }
+
+        [STAThread]
+        public static void parseFormImages(Microsoft.Office.Interop.Word.ContentControl c, Microsoft.Office.Interop.Word.Application word)
+        {       
+            if (c.Range.InlineShapes.Count > 0)
+            {
+                foreach (Microsoft.Office.Interop.Word.InlineShape shape in c.Range.InlineShapes)
+                {
+              
+                    for (int i = 1; i <= c.Range.InlineShapes.Count; i++)
+                    {
+                        InlineShape inlineShape = c.Range.InlineShapes[i];
+                        Thread thread = new Thread(() => CopyFromClipbordInlineShape(inlineShape, word));
+                        thread.SetApartmentState(ApartmentState.STA);
+                        thread.Start();
+                        thread.Join();
+                    }
+                    
+                }
+            }
+        }
+
+        protected static void CopyFromClipbordInlineShape(InlineShape inlineShape, Microsoft.Office.Interop.Word.Application word)
+        {
+            inlineShape.Select();
+            word.Selection.Copy();
+            //Image img = computer.Clipboard.GetImage();
+            if (System.Windows.Forms.Clipboard.GetDataObject() != null)
+            {
+                System.Windows.Forms.IDataObject data = System.Windows.Forms.Clipboard.GetDataObject();
+                if (data.GetDataPresent(System.Windows.Forms.DataFormats.Bitmap))
+                {
+                    Image image = (Image)data.GetData(System.Windows.Forms.DataFormats.Bitmap, true);
+                    image.Save(HostingEnvironment.MapPath("~/BaltimoreCity/image.gif"), System.Drawing.Imaging.ImageFormat.Gif);
+                    image.Save(HostingEnvironment.MapPath("~/BaltimoreCity/image.jpg"), System.Drawing.Imaging.ImageFormat.Jpeg);
+
+                }
+                
+            }
+            else
+            {
+                
+            }
+        }
+       
+    }
+}

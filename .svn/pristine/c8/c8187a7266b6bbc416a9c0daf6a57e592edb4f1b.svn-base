@@ -1,0 +1,132 @@
+﻿Helpers = {
+    initDatepicker: function (dateObj) {
+        dateObj.parent().find(".add-on").click(function () {
+            dateObj.datepicker("show");
+        });
+        dateObj.datepicker({
+            autoclose: true,
+            todayHighlight: true
+        });
+    },
+    findSelectedRow: function (tbl) {
+        if (tbl.$('tr.row_selected').length == 0) {
+            this.showNotificationModal("Error", "Please make sure that a specific row has been selected.");           
+        }
+        else return tbl.$('tr.row_selected').first();
+    },
+    findSelectedDelRow: function (tbl) {
+        if (tbl.$('tr.row_selected').length == 0) {
+            return null;
+        }
+        else return tbl.$('tr.row_selected').first();
+    },
+    showNotificationModal: function (title, body) {
+        $('#notificationModal .modal-title').html(title);
+        $('#notificationModal .modal-body').html(body);
+        $('#notificationModal').modal({ keyboard: false });
+    },
+    showConfirmationModal: function (fnOnYes, fnOnNo) {
+        $('#confirmationModal').modal({ keyboard: false });
+        $('#confirmationModal .btnYes').off();
+        $('#confirmationModal .btnYes').on('click', function (e) {
+            if (fnOnYes != null) {
+                fnOnYes();
+            }
+        });
+
+        $('#confirmationModal .btnNo').off();
+        $('#confirmationModal .btnNo').on('click', function (e) {
+            if (fnOnNo != null) {
+                fnOnNo();
+            }
+        });
+    },
+
+    showSyncFormDataModal: function (fnOnYes, fnOnNo) {
+        $('#SyncFormDataModal').modal({ keyboard: false });
+        $('#SyncFormDataModal .btnYes').off();
+        $('#SyncFormDataModal .btnYes').on('click', function (e) {
+            if (fnOnYes != null) {
+                fnOnYes();
+            }
+        });
+
+        $('#SyncFormDataModal .btnNo').off();
+        $('#SyncFormDataModal .btnNo').on('click', function (e) {
+            if (fnOnNo != null) {
+                fnOnNo();
+            }
+        });
+    },
+
+    getAllIDsInTableAsString: function (oTableLocal) {
+        var sReturn = "";
+        var data = oTableLocal.fnGetData();
+
+        for (var i = 0; i < data.length; i++) {
+            if (i == 0) {
+                sReturn += data[i][0];
+            } else {
+                sReturn += " " + data[i][0];
+            }
+        }
+
+        return sReturn;
+    },
+
+    fnGetSelectedIndex: function(oTableLocal,Div) {
+        //var aTrs = oTableLocal.fnGetNodes();
+        //var aTrs = oTableLocal.fnGetSelectedData();
+        //for (var i = 0; i < aTrs.length; i++) {
+        //    if ($(aTrs[i]).hasClass('row_selected')) {
+        //        return i;
+        //    }
+        //}
+
+        //get the real row index, even if the table is sorted 
+        var tbl = $(Div).DataTable();
+        var $row = Helpers.findSelectedDelRow(tbl);
+        if ($row == null)
+            return -1;
+        var data = tbl.row($row).data();
+        var Index = data[0];
+        return Index;
+    },
+
+    fnGetSelectedDelIndex: function (oTableLocal, Div) {
+        var tbl = $(Div).DataTable();
+        var $row = Helpers.findSelectedRow(tbl);
+        if ($row == null)
+            return -1;
+        var data = tbl.row($row).data();
+        var Index = data[0];
+        return Index;
+    },
+
+    fnGetSelectedData: function (oTableLocal,Div,ind){
+ 
+        if (ind < 0) {
+            return null;
+        } else {
+            //wrong usage, we can not use index here, we need to use the first column such as id here 
+            for (var i = 0; i < oTableLocal.fnGetData().length; i++) {
+                var obj = oTableLocal.fnGetData()[i];
+                if (obj[0] == ind)
+                    return oTableLocal.fnGetData(i);
+            }
+
+            return null;
+        }
+    },
+
+    //fnGetSelectedID: function(oTableLocal) {
+    //    var ind = Helpers.fnGetSelectedIndex(oTableLocal);
+
+    //    if (ind < 0) {
+    //        return -1;
+    //    } else {
+    //        return oTableLocal.fnGetData(ind, 0);
+    //    }
+    //}
+
+}

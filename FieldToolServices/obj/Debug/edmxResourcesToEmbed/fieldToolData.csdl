@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DPW_MVARModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="AccidentReport">
+    <Key>
+      <PropertyRef Name="CaseId" />
+    </Key>
+    <Property Name="CaseId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DriverSig_URL" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+    <Property Name="SupervisorSig_URL" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+    <Property Name="DriverSign_Time" Type="DateTime" Precision="3" />
+    <Property Name="SupervisorScene_Response" Type="Int32" />
+    <Property Name="SafetyOfficerScene_Reponse" Type="Int32" />
+    <Property Name="SafetyOfficerSig_URL" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+    <Property Name="PhotoTaken" Type="Int32" />
+    <Property Name="WeatherCondition" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+    <Property Name="AccidentDesc" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Photo_Storedpath" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+    <Property Name="IntsSketch_StoredPath" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Charge">
+    <Key>
+      <PropertyRef Name="CHARGEId" />
+    </Key>
+    <Property Name="CHARGEId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CaseId" Type="Int32" Nullable="false" />
+    <Property Name="CityEmpl_Charge" Type="Decimal" Precision="28" Scale="2" />
+    <Property Name="ChargeAmount" Type="Decimal" Precision="28" Scale="2" />
+    <Property Name="Summons_No" Type="Int32" />
+  </EntityType>
+  <EntityType Name="Occupant">
+    <Key>
+      <PropertyRef Name="OccupantId" />
+    </Key>
+    <Property Name="OccupantId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CaseId" Type="Int32" Nullable="false" />
+    <Property Name="OccupantName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="OccupantAddress" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+    <Property Name="Age" Type="Int32" />
+    <Property Name="Sex" Type="Int32" />
+  </EntityType>
+  <EntityType Name="Vehicle">
+    <Key>
+      <PropertyRef Name="VehicleId" />
+    </Key>
+    <Property Name="VehicleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CaseId" Type="Int32" Nullable="false" />
+    <Property Name="CityDriver" Type="Int32" />
+    <Property Name="CityPermitNo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="DriverName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="VehicleTag" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="DriverAddress" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Witness">
+    <Key>
+      <PropertyRef Name="WitnessId" />
+    </Key>
+    <Property Name="WitnessId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CaseId" Type="Int32" Nullable="false" />
+    <Property Name="WitnessName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="WitnessPhone" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="WitnessAddress" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityContainer Name="DPW_MVAREntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="AccidentReports" EntityType="Self.AccidentReport" />
+    <EntitySet Name="Charges" EntityType="Self.Charge" />
+    <EntitySet Name="Occupants" EntityType="Self.Occupant" />
+    <EntitySet Name="Vehicles" EntityType="Self.Vehicle" />
+    <EntitySet Name="Witnesses" EntityType="Self.Witness" />
+  </EntityContainer>
+</Schema>

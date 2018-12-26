@@ -1,0 +1,73 @@
+﻿CD.services = {
+    createInvestigation: function (divId) {
+        var xhr = $.ajax({
+            url: siteBaseUrl + "api/ReportAccess/AddReportForm",
+            data: $("#" + divId).serialize(),
+            dataType: "json",
+            type: "POST"
+
+        });
+        return xhr;
+    },
+    editInvestigation: function (reportObj) {
+        var xhr = $.ajax({
+            url: siteBaseUrl + "api/ReportAccess/UpdateReportForm",
+            dataType: "json",
+            type: "POST",
+            data :JSON.stringify(reportObj),
+            contentType: "application/json"
+
+        });
+        return xhr;
+    },
+
+    getReportById: function (reportId) {
+        var xhr = $.ajax({
+            url: siteBaseUrl + "api/ReportAccess/getReportFormbyCaseId?caseId=" + reportId,
+            dataType: "json",
+            type: "GET"
+
+        });
+        return xhr;
+    },
+
+    getReportOwnerDDL: function () {
+        var xhr = $.ajax({
+            url: siteBaseUrl + "api/ReportAccess/getReportOwnerDDL",
+            dataType: "json",
+            type: "GET"
+
+        });
+        return xhr;
+    },
+
+    getCaseNumberDDL: function () {
+        var xhr = $.ajax({
+            url: siteBaseUrl + "api/ReportAccess/getCaseNumberDDL",
+            dataType: "json",
+            type: "GET"
+
+        });
+        return xhr;
+    },
+
+    getAccidentDatesDDL: function () {
+        var xhr = $.ajax({
+            url: siteBaseUrl + "api/ReportAccess/getAccidentDatesDDL",
+            dataType: "json",
+            type: "GET"
+
+        });
+        return xhr;
+    },
+
+    getClosedReportsByParas: function (officer, accidentDate, caseNumber) {
+        var xhr = $.ajax({
+            url: siteBaseUrl + "api/ReportAccess/getClosedReportsByParas?officer=" + officer + "&&accidentDate=" + accidentDate + "&&caseNumber=" + encodeURIComponent(caseNumber),
+            dataType: "json",
+            type: "GET"
+
+        });
+        return xhr;
+    }
+}

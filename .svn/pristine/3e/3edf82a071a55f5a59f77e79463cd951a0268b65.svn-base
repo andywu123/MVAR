@@ -1,0 +1,189 @@
+﻿@using FieldToolServices.Models;
+@using FieldTool.Models;
+@{
+    ViewBag.Title = "Accident Form Edit";
+    reportFormDataPost reportData = ViewBag.AccidentReportForm;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="page-header">
+    <h2 class="contentTitle">Edit Accident Form</h2>
+</div>
+
+<div id="accidentFormContainer_Edit" class="container">
+    <div class="stepwizard">
+        <div class="stepwizard-row setup-panel">
+            <div class="stepwizard-step col-xs-2">
+                <a href="#step-1" type="button" class="btn btn-success btn-circle">1</a>
+                <p><small>Accident Info</small></p>
+            </div>
+            <div class="stepwizard-step col-xs-3">
+                <a href="#step-2" type="button" class="btn btn-default btn-circle" disabled="disabled">2</a>
+                <p><small>Occupant Info</small></p>
+            </div>
+            <div class="stepwizard-step col-xs-3">
+                <a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled">3</a>
+                <p><small>Witness Info</small></p>
+            </div>
+            <div class="stepwizard-step col-xs-2">
+                <a href="#step-4" type="button" class="btn btn-default btn-circle" disabled="disabled">4</a>
+                <p><small>Vehicle Info</small></p>
+            </div>
+            <div class="stepwizard-step col-xs-2">
+                <a href="#step-5" type="button" class="btn btn-default btn-circle" disabled="disabled">5</a>
+                <p><small>Charge Info</small></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row top-buffer">
+        <div class="col-sm-12">
+            <form id="accidentForm_Edit" role="form">
+                <input id="reportID" name="reportID" hidden value="@reportData.accidentReport.CaseId">
+                <fieldset class="panel panel-primary setup-content" id="step-1">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Accident Information</h3>
+                    </div>
+                    <div class="panel-body">
+                     
+                        <div class="form-group">
+                            <label for="driverSignStamp">Driver Sign Time</label>
+                            <input type="datetime-local" class="form-control" id="driverSignStamp_edit" name="driverSignStamp_edit" value="@reportData.accidentReport.DriverSign_Time" />
+                        </div>
+
+                        <div class="form-check">                           
+                            <label class="form-check-label" for="chk_sup_response_edit">Supervisor Scene Reponse</label>
+                            @if (reportData.accidentReport.SupervisorScene_Response == 1)
+                            {
+                                <input type="checkbox" class="form-check-input" id="chk_sup_response_edit" name="chk_sup_response_edit" value="@reportData.accidentReport.SupervisorScene_Response" checked="checked">
+                            }
+                            else
+                            {
+                                <input type="checkbox" class="form-check-input" id="chk_sup_response_edit" name="chk_sup_response_edit" value="@reportData.accidentReport.SupervisorScene_Response">
+                            }
+                        </div>
+                        <div class="form-group">
+                            <label for="Textarea_AccidentDes_edit">Describe accident in detail below:</label>
+                            <textarea class="form-control" id="Textarea_AccidentDes_edit" rows="3" name="AccidentDescription_edit" >@reportData.accidentReport.AccidentDesc</textarea>
+                        </div>
+                        <p>(*) Mandatory</p>
+                        <button class="btn btn-primary nextBtn pull-right" type="button">Next</button>
+                    </div>
+                </fieldset>
+                <fieldset class="panel panel-primary setup-content" id="step-2">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Occupant Information</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label for="Ocp_Name_edit">Occupant Name *</label>
+                            <input type="text" class="form-control required" id="Ocp_Name_edit" name="Ocp_Name_edit">
+                        </div>
+                        <div class="form-group">
+                            <label for="Ocp_Address_edit">Occupant Address *</label>
+                            <input type="text" class="form-control required" id="Ocp_Address_edit" name="Ocp_Address_edit">
+                        </div>
+                        <div class="form-group">
+                            <label for="Ocp_Age_edit">Occupant Age *</label>
+                            <input type="number" class="form-control required" id="Ocp_Age_edit" name="Ocp_Age_edit">
+                        </div>
+
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="chk_OcpSex_edit" name="chk_OcpSex_edit">
+                            <label class="form-check-label" for="chk_OcpSex_edit">Is Occupant a Male</label>
+                        </div>
+                        <p>(*) Mandatory</p>
+                        <button class="btn btn-primary nextBtn pull-right" type="button">Next</button>
+                    </div>
+                </fieldset>
+                <fieldset  class="panel panel-primary setup-content" id="step-3">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Witness Information</h3>
+                    </div>
+                    <div class="panel-body" id="cloneWitness">
+                        <div class="row">
+                            <div class="col-md-12"><button type="button" id="btnAddWitness" class="btn btn-primary">Add section</button></div>
+                        </div>
+                        <div class="row clone">
+                            <div class="form-group">
+                                <label for="Witness_Name_edit">Witness Name *</label>
+                                <input type="text" class="form-control required" id="Witness_Name_edit" name="Witness_Name_edit">
+                            </div>
+                            <div class="form-group">
+                                <label for="Witness_Address_edit">Witness Address *</label>
+                                <input type="text" class="form-control required" id="Witness_Address_edit" name="Witness_Address_edit">
+                            </div>
+                            <div class="row addedSection">
+                                <div class="form-group col-md-9 delBtnAlign">
+                                    <label for="Witness_phone_edit">Witness Phone *</label>
+                                    <input type="tel" class="form-control required" id="Witness_phone_edit" name="Witness_phone_edit">
+                                </div>
+                                <div class="col-md-3">
+                                    <button type="button" class="btn btn-danger btnRemoveWitness">Remove</button>
+                                </div>
+                            </div>
+                        </div>
+                        <p>(*) Mandatory</p>
+                        <button class="btn btn-primary nextBtn pull-right" type="button">Next</button>
+                    </div>
+                </fieldset>
+
+                <fieldset class="panel panel-primary setup-content" id="step-4">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Vehicle Information</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="chk_cityDriver_edit" name="chk_cityDriver_edit">
+                            <label class="form-check-label" for="chk_cityDriver_edit">City Driver</label>
+                        </div>
+                        <div class="form-group">
+                            <label for="city_permit_edit">City Permit No *</label>
+                            <input type="text" class="form-control required" id="city_permit_edit" name="city_permit_edit">
+                        </div>
+                        <div class="form-group">
+                            <label for="Driver_Name_edit">Driver Name *</label>
+                            <input type="text" class="form-control required" id="Driver_Name_edit" name="Driver_Name_edit">
+                        </div>
+                        <div class="form-group">
+                            <label for="Driver_Address_edit">Driver Address *</label>
+                            <input type="tel" class="form-control required" id="Driver_Address_edit" name="Driver_Address_edit">
+                        </div>
+                        <p>(*) Mandatory</p>
+                        <button class="btn btn-primary nextBtn pull-right" type="button">Next</button>
+                    </div>
+                </fieldset>
+
+                <fieldset class="panel panel-primary setup-content" id="step-5">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Charge Information</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label for="SummonNo_edit">Summon No *</label>
+                            <input type="number" class="form-control required" id="SummonNo_edit" name="SummonNo_edit">
+                        </div>
+                        <div class="form-group">
+                            <label for="ChargeAmount_edit">Charge Amount *</label>
+                            <input type="number" step="0.01" class="form-control required" id="ChargeAmount_edit" name="ChargeAmount_edit">
+                        </div>
+                        <div class="form-group">
+                            <label for="CityEmplChargeAmount_edit">Charge Amount *</label>
+                            <input type="number" step="0.01" class="form-control required" id="CityEmplChargeAmount_edit" name="CityEmplChargeAmount_edit">
+                        </div>
+                        <p>(*) Mandatory</p>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+
+    <div class="row top-buffer">
+        <div class="col-sm-4">
+            <button id="btn_submitAccdForm_Edit" class="btn btn-primary col-sm-4" type=button>Submit</button>
+        </div>
+        <div class="col-sm-8">
+            <button id="btn_OpenSyncDlg_Edit" class="btn btn-primary col-sm-4" type=button>Sync Form Data</button>
+        </div>
+    </div>
+
+</div>

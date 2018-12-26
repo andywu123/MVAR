@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DPW_MVARModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="AccidentReport">
+    <Key>
+      <PropertyRef Name="CaseId" />
+    </Key>
+    <Property Name="CaseId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DriverSig_URL" Type="varchar" MaxLength="512" />
+    <Property Name="SupervisorSig_URL" Type="varchar" MaxLength="512" />
+    <Property Name="DriverSign_Time" Type="datetime" />
+    <Property Name="SupervisorScene_Response" Type="int" />
+    <Property Name="SafetyOfficerScene_Reponse" Type="int" />
+    <Property Name="SafetyOfficerSig_URL" Type="varchar" MaxLength="512" />
+    <Property Name="PhotoTaken" Type="int" />
+    <Property Name="WeatherCondition" Type="varchar" MaxLength="512" />
+    <Property Name="AccidentDesc" Type="varchar(max)" />
+    <Property Name="Photo_Storedpath" Type="varchar" MaxLength="512" />
+    <Property Name="IntsSketch_StoredPath" Type="varchar" MaxLength="512" />
+  </EntityType>
+  <EntityType Name="Charges">
+    <Key>
+      <PropertyRef Name="CHARGEId" />
+    </Key>
+    <Property Name="CHARGEId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CaseId" Type="int" Nullable="false" />
+    <Property Name="CityEmpl_Charge" Type="decimal" Precision="28" Scale="2" />
+    <Property Name="ChargeAmount" Type="decimal" Precision="28" Scale="2" />
+    <Property Name="Summons_No" Type="int" />
+  </EntityType>
+  <EntityType Name="Occupants">
+    <Key>
+      <PropertyRef Name="OccupantId" />
+    </Key>
+    <Property Name="OccupantId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CaseId" Type="int" Nullable="false" />
+    <Property Name="OccupantName" Type="varchar" MaxLength="255" />
+    <Property Name="OccupantAddress" Type="varchar" MaxLength="512" />
+    <Property Name="Age" Type="int" />
+    <Property Name="Sex" Type="int" />
+  </EntityType>
+  <EntityType Name="Vehicles">
+    <Key>
+      <PropertyRef Name="VehicleId" />
+    </Key>
+    <Property Name="VehicleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CaseId" Type="int" Nullable="false" />
+    <Property Name="CityDriver" Type="int" />
+    <Property Name="CityPermitNo" Type="varchar" MaxLength="255" />
+    <Property Name="DriverName" Type="varchar" MaxLength="255" />
+    <Property Name="VehicleTag" Type="varchar" MaxLength="255" />
+    <Property Name="DriverAddress" Type="varchar" MaxLength="512" />
+  </EntityType>
+  <EntityType Name="Witness">
+    <Key>
+      <PropertyRef Name="WitnessId" />
+    </Key>
+    <Property Name="WitnessId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CaseId" Type="int" Nullable="false" />
+    <Property Name="WitnessName" Type="varchar" MaxLength="255" />
+    <Property Name="WitnessPhone" Type="varchar" MaxLength="255" />
+    <Property Name="WitnessAddress" Type="varchar" MaxLength="512" />
+  </EntityType>
+  <EntityContainer Name="DPW_MVARModelStoreContainer">
+    <EntitySet Name="AccidentReport" EntityType="Self.AccidentReport" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Charges" EntityType="Self.Charges" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Occupants" EntityType="Self.Occupants" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Vehicles" EntityType="Self.Vehicles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Witness" EntityType="Self.Witness" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

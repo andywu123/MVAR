@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DPW_MVARModelStoreContainer" CdmEntityContainer="DPW_MVAREntities">
+    <EntitySetMapping Name="MVAR_AccidentReport">
+      <EntityTypeMapping TypeName="DPW_MVARModel.MVAR_AccidentReport">
+        <MappingFragment StoreEntitySet="MVAR_AccidentReport">
+          <ScalarProperty Name="CaseId" ColumnName="CaseId" />
+          <ScalarProperty Name="CaseNumber" ColumnName="CaseNumber" />
+          <ScalarProperty Name="CaseOwner" ColumnName="CaseOwner" />
+          <ScalarProperty Name="CaseStatus" ColumnName="CaseStatus" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="LastEditDate" ColumnName="LastEditDate" />
+          <ScalarProperty Name="CSR_Number" ColumnName="CSR_Number" />
+          <ScalarProperty Name="DriverSig" ColumnName="DriverSig" />
+          <ScalarProperty Name="SupervisorSig" ColumnName="SupervisorSig" />
+          <ScalarProperty Name="SafetyOfficerSig" ColumnName="SafetyOfficerSig" />
+          <ScalarProperty Name="DriverSign_Time" ColumnName="DriverSign_Time" />
+          <ScalarProperty Name="SupervisorSig_Time" ColumnName="SupervisorSig_Time" />
+          <ScalarProperty Name="SafetyOfficerSig_Time" ColumnName="SafetyOfficerSig_Time" />
+          <ScalarProperty Name="SupervisorScene_Response" ColumnName="SupervisorScene_Response" />
+          <ScalarProperty Name="SafetyOfficerScene_Reponse" ColumnName="SafetyOfficerScene_Reponse" />
+          <ScalarProperty Name="PhotoTaken" ColumnName="PhotoTaken" />
+          <ScalarProperty Name="PCD_Driver_Perm" ColumnName="PCD_Driver_Perm" />
+          <ScalarProperty Name="PCD_InUse" ColumnName="PCD_InUse" />
+          <ScalarProperty Name="Control1Call_Time" ColumnName="Control1Call_Time" />
+          <ScalarProperty Name="PoliceReport_Number" ColumnName="PoliceReport_Number" />
+          <ScalarProperty Name="AccidentLocation" ColumnName="AccidentLocation" />
+          <ScalarProperty Name="WeatherCondition" ColumnName="WeatherCondition" />
+          <ScalarProperty Name="VehiclesInvolved_Number" ColumnName="VehiclesInvolved_Number" />
+          <ScalarProperty Name="Police_Investigation" ColumnName="Police_Investigation" />
+          <ScalarProperty Name="Pedestrian_Involved" ColumnName="Pedestrian_Involved" />
+          <ScalarProperty Name="AccidentDesc" ColumnName="AccidentDesc" />
+          <ScalarProperty Name="IntsSketch" ColumnName="IntsSketch" />
+          <ScalarProperty Name="Seatbelt_InUse" ColumnName="Seatbelt_InUse" />
+          <ScalarProperty Name="AccidentTime" ColumnName="AccidentTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MVAR_Charges">
+      <EntityTypeMapping TypeName="DPW_MVARModel.MVAR_Charges">
+        <MappingFragment StoreEntitySet="MVAR_Charges">
+          <ScalarProperty Name="CHARGEId" ColumnName="CHARGEId" />
+          <ScalarProperty Name="CaseId" ColumnName="CaseId" />
+          <ScalarProperty Name="CityEmpl_Charge" ColumnName="CityEmpl_Charge" />
+          <ScalarProperty Name="ChargeAmount" ColumnName="ChargeAmount" />
+          <ScalarProperty Name="Summons_No" ColumnName="Summons_No" />
+          <ScalarProperty Name="Trial_Time" ColumnName="Trial_Time" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MVAR_Occupants">
+      <EntityTypeMapping TypeName="DPW_MVARModel.MVAR_Occupants">
+        <MappingFragment StoreEntitySet="MVAR_Occupants">
+          <ScalarProperty Name="OccupantId" ColumnName="OccupantId" />
+          <ScalarProperty Name="CaseId" ColumnName="CaseId" />
+          <ScalarProperty Name="Occupant_FirstName" ColumnName="Occupant_FirstName" />
+          <ScalarProperty Name="Occupant_MiddleName" ColumnName="Occupant_MiddleName" />
+          <ScalarProperty Name="Occupant_LastName" ColumnName="Occupant_LastName" />
+          <ScalarProperty Name="OccupantAddress" ColumnName="OccupantAddress" />
+          <ScalarProperty Name="Occupant_ExtentInjury" ColumnName="Occupant_ExtentInjury" />
+          <ScalarProperty Name="Occupant_DriverPassenger" ColumnName="Occupant_DriverPassenger" />
+          <ScalarProperty Name="Vehicle_Number" ColumnName="Vehicle_Number" />
+          <ScalarProperty Name="Occupant_PedestrianVehicle" ColumnName="Occupant_PedestrianVehicle" />
+          <ScalarProperty Name="Occupant_Injuerynature" ColumnName="Occupant_Injuerynature" />
+          <ScalarProperty Name="Occupant_RemovedBy" ColumnName="Occupant_RemovedBy" />
+          <ScalarProperty Name="Age" ColumnName="Age" />
+          <ScalarProperty Name="Sex" ColumnName="Sex" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MVAR_Vehicles">
+      <EntityTypeMapping TypeName="DPW_MVARModel.MVAR_Vehicles">
+        <MappingFragment StoreEntitySet="MVAR_Vehicles">
+          <ScalarProperty Name="Driver_VehicleState" ColumnName="Driver_VehicleState" />
+          <ScalarProperty Name="Driver_ExpDate" ColumnName="Driver_ExpDate" />
+          <ScalarProperty Name="Owner_PolicyNo" ColumnName="Owner_PolicyNo" />
+          <ScalarProperty Name="Owner_InsuranceCom" ColumnName="Owner_InsuranceCom" />
+          <ScalarProperty Name="Owner_Phone" ColumnName="Owner_Phone" />
+          <ScalarProperty Name="Owner_Address" ColumnName="Owner_Address" />
+          <ScalarProperty Name="Owner_Name" ColumnName="Owner_Name" />
+          <ScalarProperty Name="VehicleState" ColumnName="VehicleState" />
+          <ScalarProperty Name="VehicleYear" ColumnName="VehicleYear" />
+          <ScalarProperty Name="VehicleId" ColumnName="VehicleId" />
+          <ScalarProperty Name="CaseId" ColumnName="CaseId" />
+          <ScalarProperty Name="CityDriver" ColumnName="CityDriver" />
+          <ScalarProperty Name="DriverLicense_Number" ColumnName="DriverLicense_Number" />
+          <ScalarProperty Name="CityPermitNo" ColumnName="CityPermitNo" />
+          <ScalarProperty Name="Driver_FirstName" ColumnName="Driver_FirstName" />
+          <ScalarProperty Name="Driver_MiddleName" ColumnName="Driver_MiddleName" />
+          <ScalarProperty Name="Driver_lastName" ColumnName="Driver_lastName" />
+          <ScalarProperty Name="Driver_Sex" ColumnName="Driver_Sex" />
+          <ScalarProperty Name="Driver_DOB" ColumnName="Driver_DOB" />
+          <ScalarProperty Name="Driver_Homephone" ColumnName="Driver_Homephone" />
+          <ScalarProperty Name="Driver_CDL" ColumnName="Driver_CDL" />
+          <ScalarProperty Name="Driver_POST" ColumnName="Driver_POST" />
+          <ScalarProperty Name="Driver_Address" ColumnName="Driver_Address" />
+          <ScalarProperty Name="Driver_City" ColumnName="Driver_City" />
+          <ScalarProperty Name="Driver_State" ColumnName="Driver_State" />
+          <ScalarProperty Name="Driver_County" ColumnName="Driver_County" />
+          <ScalarProperty Name="Driver_Zipcode" ColumnName="Driver_Zipcode" />
+          <ScalarProperty Name="Driver_Agency" ColumnName="Driver_Agency" />
+          <ScalarProperty Name="Driver_Bureau" ColumnName="Driver_Bureau" />
+          <ScalarProperty Name="Driver_BusinessPhone" ColumnName="Driver_BusinessPhone" />
+          <ScalarProperty Name="Vehicle_pointImpact" ColumnName="Vehicle_pointImpact" />
+          <ScalarProperty Name="Vehicle_ExtDamage" ColumnName="Vehicle_ExtDamage" />
+          <ScalarProperty Name="Fleet_ShopNumber" ColumnName="Fleet_ShopNumber" />
+          <ScalarProperty Name="Vehicle_Yearmake" ColumnName="Vehicle_Yearmake" />
+          <ScalarProperty Name="Vehicle_SerialNumber" ColumnName="Vehicle_SerialNumber" />
+          <ScalarProperty Name="VehicleTag" ColumnName="VehicleTag" />
+          <ScalarProperty Name="OtherSpecify" ColumnName="OtherSpecify" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MVAR_Witnesses">
+      <EntityTypeMapping TypeName="DPW_MVARModel.MVAR_Witnesses">
+        <MappingFragment StoreEntitySet="MVAR_Witnesses">
+          <ScalarProperty Name="WitnessId" ColumnName="WitnessId" />
+          <ScalarProperty Name="CaseId" ColumnName="CaseId" />
+          <ScalarProperty Name="WitnessName" ColumnName="WitnessName" />
+          <ScalarProperty Name="WitnessPhone" ColumnName="WitnessPhone" />
+          <ScalarProperty Name="WitnessAddress" ColumnName="WitnessAddress" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="FieldReportCase_Delete" FunctionName="DPW_MVARModel.Store.FieldReportCase_Delete" />
+    <FunctionImportMapping FunctionImportName="MVARCharges_InsertUpdate" FunctionName="DPW_MVARModel.Store.MVARCharges_InsertUpdate" />
+    <FunctionImportMapping FunctionImportName="MVAROccupants_InsertUpdate" FunctionName="DPW_MVARModel.Store.MVAROccupants_InsertUpdate" />
+    <FunctionImportMapping FunctionImportName="MVARReportCase_InsertUpdate" FunctionName="DPW_MVARModel.Store.MVARReportCase_InsertUpdate" />
+    <FunctionImportMapping FunctionImportName="MVARVehicles_InsertUpdate" FunctionName="DPW_MVARModel.Store.MVARVehicles_InsertUpdate" />
+    <FunctionImportMapping FunctionImportName="MVARWitnesses_InsertUpdate" FunctionName="DPW_MVARModel.Store.MVARWitnesses_InsertUpdate" />
+  </EntityContainerMapping>
+</Mapping>

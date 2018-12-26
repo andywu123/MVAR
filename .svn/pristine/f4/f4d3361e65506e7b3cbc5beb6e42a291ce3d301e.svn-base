@@ -1,0 +1,28 @@
+﻿@using FieldTool.Models;
+<div class="row clone">
+    <input class="chargeID" hidden value="@Model.CHARGEId">
+    <button type="button" class="btn btn-success" data-toggle="collapse" data-target=".chargeView">
+        <span class="glyphicon glyphicon-collapse-down"></span> Open
+    </button>
+    <div class="chargeView collapse in">
+        <div class="form-group">
+            <label>Summon No *</label>
+            <input type="number" class="form-control required" value="@Model.Summons_No">
+        </div>
+        <div class="form-group">
+            <label>Charge Amount *</label>
+            <input type="number" step="0.01" class="form-control required" value="@Model.ChargeAmount">
+        </div>
+        <div class="row addedSection">
+            <div class="form-group  col-md-9 delBtnAlign">
+                <label>CityEmpl_Charge *</label>
+                <input type="number" step="0.01" class="form-control required" value="@Model.CityEmpl_Charge">
+            </div>
+            <div class="col-md-3">
+                <button type="button" class="btn btn-danger btnRemoveCharge">Remove</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+

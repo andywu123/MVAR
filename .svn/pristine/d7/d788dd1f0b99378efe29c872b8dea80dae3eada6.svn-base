@@ -1,0 +1,235 @@
+﻿
+@using FieldToolServices.Models;
+@using FieldTool.Models;
+@{
+    ViewBag.Title = "Accident Form View";
+    reportFormDataPost reportData = ViewBag.AccidentReportForm;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-header">
+    <h3 class="contentTitle">Accident Form View Page</h3>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="@Url.Content("~")Home/Index">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">View Form - @reportData.accidentReport.CaseId</li>
+        </ol>
+    </nav>
+</div>
+<img class="testSite" src="~/Content/images/watermark-test.png" alt="" />
+
+<div id="accidentFormContainer_View" class="container">
+    <div class="stepwizard">
+        <div class="stepwizard-row setup-panel">
+            <div class="stepwizard-step col-xs-2">
+                <a href="#Viewstep-1" type="button" class="btn btn-success btn-circle">1</a>
+                <p><small>Accident Info</small></p>
+            </div>
+            <div class="stepwizard-step col-xs-2">
+                <a href="#Viewstep-2" type="button" class="btn btn-default btn-circle" @*disabled="disabled"*@>2</a>
+                <p><small>Occupant Info</small></p>
+            </div>
+            <div class="stepwizard-step col-xs-2">
+                <a href="#Viewstep-3" type="button" class="btn btn-default btn-circle" @*disabled="disabled"*@>3</a>
+                <p><small>Witness Info</small></p>
+            </div>
+            <div class="stepwizard-step col-xs-2">
+                <a href="#Viewstep-4" type="button" class="btn btn-default btn-circle" @*disabled="disabled"*@>4</a>
+                <p><small>Vehicle Info</small></p>
+            </div>
+            <div class="stepwizard-step col-xs-2">
+                <a href="#Viewstep-5" type="button" class="btn btn-default btn-circle" @*disabled="disabled"*@>5</a>
+                <p><small>Charge Info</small></p>
+            </div>
+            <div class="stepwizard-step col-xs-2">
+                <a href="#Viewstep-6" type="button" class="btn btn-default btn-circle" @*disabled="disabled"*@>6</a>
+                <p><small>Sign and Draw</small></p>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row top-buffer">
+        <div class="col-sm-12">
+            <input id="reportID_View" name="reportID" hidden value="@reportData.accidentReport.CaseId">
+            <div class="panel panel-primary setup-content" id="Viewstep-1">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Accident Information</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label for="report_CaseNumber_View">Case Number</label>
+                        <input type="text" class="form-control" id="report_CaseNumber_View" name="report_CaseNumber_View" value="@reportData.accidentReport.CaseNumber" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="report_CSRNumber_View">CSR Number</label>
+                        <input type="text" class="form-control" id="report_CSRNumber_View" name="report_CSRNumber_View" value="@reportData.accidentReport.CSR_Number" />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-check-label" for="chk_sup_response_View">Supervisor Responded To Scene</label>
+                        @if (reportData.accidentReport.SupervisorScene_Response == 1)
+                        {
+                            <input type="checkbox" class="form-check-input" id="chk_sup_response_View" name="chk_sup_response_View" checked="checked">
+                        }
+                        else
+                        {
+                            <input type="checkbox" class="form-check-input" id="chk_sup_response_View" name="chk_sup_response_View">
+                        }
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-check-label" for="chk_safetyOfficer_response_View">Safety Officer Responded To Scene</label>
+                        @if (reportData.accidentReport.SafetyOfficerScene_Reponse == 1)
+                        {
+                            <input type="checkbox" class="form-check-input" id="chk_safetyOfficer_response_View" name="chk_safetyOfficer_response_View" checked="checked">
+                        }
+                        else
+                        {
+                            <input type="checkbox" class="form-check-input" id="chk_safetyOfficer_response_View" name="chk_safetyOfficer_response_View">
+                        }
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-check-label" for="chk_photoTaken_View">Photo Taken</label>
+                        @if (reportData.accidentReport.PhotoTaken == 1)
+                        {
+                            <input type="checkbox" class="form-check-input" id="chk_photoTaken_View" name="chk_photoTaken_View" checked="checked">
+                        }
+                        else
+                        {
+                            <input type="checkbox" class="form-check-input" id="chk_photoTaken_View" name="chk_photoTaken_View">
+                        }
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-check-label" for="chk_PCDPossession_View">PCD In City Driver Possession</label>
+                        @if (reportData.accidentReport.PCD_Driver_Perm == 1)
+                        {
+                            <input type="checkbox" class="form-check-input" id="chk_sup_response_View" name="chk_sup_response_View" checked="checked">
+                        }
+                        else
+                        {
+                            <input type="checkbox" class="form-check-input" id="chk_sup_response_View" name="chk_sup_response_View">
+                        }
+                    </div>
+                    <div class="form-group">
+                        <label class="form-check-label" for="chk_PCDInUse_View">PCD In Use</label>
+                        @if (reportData.accidentReport.PCD_InUse == 1)
+                        {
+                            <input type="checkbox" class="form-check-input" id="chk_PCDInUse_View" name="chk_PCDInUse_View" checked="checked">
+                        }
+                        else
+                        {
+                            <input type="checkbox" class="form-check-input" id="chk_PCDInUse_View" name="chk_PCDInUse_View">
+                        }
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Control1Call_TimeView">Control1 Call Time</label>
+                        <input type="datetime-local" class="form-control" id="Control1Call_TimeView" name="Control1Call_TimeView" value="@reportData.accidentReport.Control1Call_Time" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="report_PoliNumber_View">Police Report Number</label>
+                        <input type="text" class="form-control" id="report_PoliNumber_View" name="report_PoliNumber_View" value="@reportData.accidentReport.PoliceReport_Number" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="report_AccidentLoc_View">Accident Location</label>
+                        <input type="text" class="form-control" id="report_AccidentLoc_View" name="report_AccidentLoc_View" value="@reportData.accidentReport.AccidentLocation" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="report_WeatherCondt_View">Weather Condition</label>
+                        <input type="text" class="form-control" id="report_WeatherCondt_View" name="report_WeatherCondt_View" value="@reportData.accidentReport.WeatherCondition" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="report_VesInvolved_View">Number of Vehicles Involved</label>
+                        <input type="number" step="1" class="form-control" id="report_VesInvolved_View" name="report_VesInvolved_View" value="@reportData.accidentReport.VehiclesInvolved_Number" />
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-check-label" for="chk_InvestPol_view">Investigated By Police</label>
+                        @if (reportData.accidentReport.Police_Investigation == 1)
+                        {
+                            <input type="checkbox" class="form-check-input" id="chk_InvestPol_view" name="chk_InvestPol_view" checked="checked">
+                        }
+                        else
+                        {
+                            <input type="checkbox" class="form-check-input" id="chk_InvestPol_view" name="chk_InvestPol_view">
+                        }
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-check-label" for="chk_PedInvolved_view">Pedestrian Involved</label>
+                        @if (reportData.accidentReport.Pedestrian_Involved == 1)
+                        {
+                            <input type="checkbox" class="form-check-input" id="chk_PedInvolved_view" name="chk_PedInvolved_view" checked="checked">
+                        }
+                        else
+                        {
+                            <input type="checkbox" class="form-check-input" id="chk_PedInvolved_view" name="chk_PedInvolved_view">
+                        }
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Textarea_AccidentDes_view">Describe accident in detail below:</label>
+                        <textarea class="form-control" id="Textarea_AccidentDes_view" rows="3" name="AccidentDescription_view">@reportData.accidentReport.AccidentDesc</textarea>
+                    </div>
+                    <p>(*) Mandatory</p>
+                    <button class="btn btn-primary nextBtn pull-right" type="button">Next</button>
+                </div>
+            </div>
+            <div class="panel panel-primary setup-content" id="Viewstep-2">
+                @Html.Partial("_ViewOccupantPartial", reportData)
+            </div>
+
+            <div class="panel panel-primary setup-content" id="Viewstep-3">
+                @Html.Partial("_ViewWitnessPartial", reportData)
+            </div>
+
+            <div class="panel panel-primary setup-content" id="Viewstep-4">
+                @Html.Partial("_ViewVehiclePartial", reportData)
+            </div>
+
+            <div class="panel panel-primary setup-content" id="Viewstep-5">
+                @Html.Partial("_ViewChargePartial", reportData)
+            </div>
+
+            <div class="panel panel-primary setup-content" id="Viewstep-6">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Sign and Draw</h3>
+                </div>
+                <div class="panel-body">
+
+                    <div class="form-group">
+                        <label>Safety Officer's Signature</label>
+                        <image id="SafetyOfficerSign_view">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Supervisor's Signature</label>
+                        <image id="SupervisorSign_view">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Driver's Signature</label>
+                        <image id="DriverSign_view">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Intersection Sketch</label>
+                        <image id="SafetyOfficerSketch_view">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

@@ -1,0 +1,404 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="OSTFieldModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'OSTField.dbo.AccidentReport' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="AccidentReport">
+          <Key>
+            <PropertyRef Name="CaseId" />
+          </Key>
+          <Property Name="CaseId" Type="int" Nullable="false" />
+          <Property Name="DriverSig_URL" Type="varchar" MaxLength="512" />
+          <Property Name="SupervisorSig_URL" Type="varchar" MaxLength="512" />
+          <Property Name="DriverSign_Time" Type="datetime" />
+          <Property Name="SupervisorScene_Response" Type="int" />
+          <Property Name="SafetyOfficerScene_Reponse" Type="int" />
+          <Property Name="SafetyOfficerSig_URL" Type="varchar" MaxLength="512" />
+          <Property Name="PhotoTaken" Type="int" />
+          <Property Name="WeatherCondition" Type="varchar" MaxLength="512" />
+          <Property Name="AccidentDesc" Type="varchar(max)" />
+          <Property Name="Photo_Storedpath" Type="varchar" MaxLength="512" />
+          <Property Name="IntsSketch_StoredPath" Type="varchar" MaxLength="512" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'OSTField.dbo.Charges' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Charges">
+          <Key>
+            <PropertyRef Name="CHARGEId" />
+            <PropertyRef Name="CaseId" />
+          </Key>
+          <Property Name="CHARGEId" Type="int" Nullable="false" />
+          <Property Name="CaseId" Type="int" Nullable="false" />
+          <Property Name="CityEmpl_Charge" Type="decimal" Precision="28" Scale="2" />
+          <Property Name="ChargeAmount" Type="decimal" Precision="28" Scale="2" />
+          <Property Name="Summons_No" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'OSTField.dbo.Occupants' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Occupants">
+          <Key>
+            <PropertyRef Name="OccupantId" />
+            <PropertyRef Name="CaseId" />
+          </Key>
+          <Property Name="OccupantId" Type="int" Nullable="false" />
+          <Property Name="CaseId" Type="int" Nullable="false" />
+          <Property Name="OccupantName" Type="varchar" MaxLength="255" />
+          <Property Name="OccupantAddress" Type="varchar" MaxLength="512" />
+          <Property Name="Age" Type="int" />
+          <Property Name="Sex" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'OSTField.dbo.Vehicles' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Vehicles">
+          <Key>
+            <PropertyRef Name="VehicleId" />
+            <PropertyRef Name="CaseId" />
+          </Key>
+          <Property Name="VehicleId" Type="int" Nullable="false" />
+          <Property Name="CaseId" Type="int" Nullable="false" />
+          <Property Name="CityDriver" Type="int" />
+          <Property Name="CityPermitNo" Type="varchar" MaxLength="255" />
+          <Property Name="DriverName" Type="varchar" MaxLength="255" />
+          <Property Name="VehicleTag" Type="varchar" MaxLength="255" />
+          <Property Name="DriverAddress" Type="varchar" MaxLength="512" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'OSTField.dbo.Witness' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Witness">
+          <Key>
+            <PropertyRef Name="WitnessId" />
+            <PropertyRef Name="CaseId" />
+          </Key>
+          <Property Name="WitnessId" Type="int" Nullable="false" />
+          <Property Name="CaseId" Type="int" Nullable="false" />
+          <Property Name="WitnessName" Type="varchar" MaxLength="255" />
+          <Property Name="WitnessPhone" Type="varchar" MaxLength="255" />
+          <Property Name="WitnessAddress" Type="varchar" MaxLength="512" />
+        </EntityType>
+        <Function Name="Charges_InsertUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ChargeId" Type="int" Mode="In" />
+          <Parameter Name="CaseId" Type="int" Mode="In" />
+          <Parameter Name="CityEmpl_Charge" Type="decimal" Mode="In" />
+          <Parameter Name="Charge" Type="decimal" Mode="In" />
+          <Parameter Name="Summons_No" Type="int" Mode="In" />
+        </Function>
+        <Function Name="FieldReportCase_InsertUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CaseId" Type="int" Mode="In" />
+          <Parameter Name="DriverSig_URL" Type="varchar" Mode="In" />
+          <Parameter Name="SupervisorSig_URL" Type="varchar" Mode="In" />
+          <Parameter Name="DriverSign_Time" Type="datetime" Mode="In" />
+          <Parameter Name="SupervisorScene_Response" Type="int" Mode="In" />
+          <Parameter Name="SafetyOfficerScene_Reponse" Type="int" Mode="In" />
+          <Parameter Name="SafetyOfficerSig_URL" Type="varchar" Mode="In" />
+          <Parameter Name="PhotoTaken" Type="int" Mode="In" />
+          <Parameter Name="WeatherCondition" Type="varchar" Mode="In" />
+          <Parameter Name="AccidentDesc" Type="varchar(max)" Mode="In" />
+          <Parameter Name="Photo_Storedpath" Type="varchar" Mode="In" />
+          <Parameter Name="IntsSketch_StoredPath" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="Occupants_InsertUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="OccupantId" Type="int" Mode="In" />
+          <Parameter Name="CaseId" Type="int" Mode="In" />
+          <Parameter Name="OccupantName" Type="varchar" Mode="In" />
+          <Parameter Name="OccupantsAddress" Type="varchar" Mode="In" />
+          <Parameter Name="Age" Type="int" Mode="In" />
+          <Parameter Name="Sex" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Vehicles_InsertUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="VehicleId" Type="int" Mode="In" />
+          <Parameter Name="CaseId" Type="int" Mode="In" />
+          <Parameter Name="CityDriver" Type="int" Mode="In" />
+          <Parameter Name="CityPermitNo" Type="varchar" Mode="In" />
+          <Parameter Name="DriverName" Type="varchar" Mode="In" />
+          <Parameter Name="VehicleTag" Type="varchar" Mode="In" />
+          <Parameter Name="DriverAddress" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="Witnesses_InsertUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="WitnessId" Type="int" Mode="In" />
+          <Parameter Name="CaseId" Type="int" Mode="In" />
+          <Parameter Name="WitnessName" Type="varchar" Mode="In" />
+          <Parameter Name="WitnessPhone" Type="varchar" Mode="In" />
+          <Parameter Name="WitnessAddress" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="OSTFieldModelStoreContainer">
+          <EntitySet Name="AccidentReport" EntityType="Self.AccidentReport" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [AccidentReport].[CaseId] AS [CaseId], 
+    [AccidentReport].[DriverSig_URL] AS [DriverSig_URL], 
+    [AccidentReport].[SupervisorSig_URL] AS [SupervisorSig_URL], 
+    [AccidentReport].[DriverSign_Time] AS [DriverSign_Time], 
+    [AccidentReport].[SupervisorScene_Response] AS [SupervisorScene_Response], 
+    [AccidentReport].[SafetyOfficerScene_Reponse] AS [SafetyOfficerScene_Reponse], 
+    [AccidentReport].[SafetyOfficerSig_URL] AS [SafetyOfficerSig_URL], 
+    [AccidentReport].[PhotoTaken] AS [PhotoTaken], 
+    [AccidentReport].[WeatherCondition] AS [WeatherCondition], 
+    [AccidentReport].[AccidentDesc] AS [AccidentDesc], 
+    [AccidentReport].[Photo_Storedpath] AS [Photo_Storedpath], 
+    [AccidentReport].[IntsSketch_StoredPath] AS [IntsSketch_StoredPath]
+    FROM [dbo].[AccidentReport] AS [AccidentReport]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Charges" EntityType="Self.Charges" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Charges].[CHARGEId] AS [CHARGEId], 
+    [Charges].[CaseId] AS [CaseId], 
+    [Charges].[CityEmpl_Charge] AS [CityEmpl_Charge], 
+    [Charges].[ChargeAmount] AS [ChargeAmount], 
+    [Charges].[Summons_No] AS [Summons_No]
+    FROM [dbo].[Charges] AS [Charges]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Occupants" EntityType="Self.Occupants" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Occupants].[OccupantId] AS [OccupantId], 
+    [Occupants].[CaseId] AS [CaseId], 
+    [Occupants].[OccupantName] AS [OccupantName], 
+    [Occupants].[OccupantAddress] AS [OccupantAddress], 
+    [Occupants].[Age] AS [Age], 
+    [Occupants].[Sex] AS [Sex]
+    FROM [dbo].[Occupants] AS [Occupants]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Vehicles" EntityType="Self.Vehicles" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Vehicles].[VehicleId] AS [VehicleId], 
+    [Vehicles].[CaseId] AS [CaseId], 
+    [Vehicles].[CityDriver] AS [CityDriver], 
+    [Vehicles].[CityPermitNo] AS [CityPermitNo], 
+    [Vehicles].[DriverName] AS [DriverName], 
+    [Vehicles].[VehicleTag] AS [VehicleTag], 
+    [Vehicles].[DriverAddress] AS [DriverAddress]
+    FROM [dbo].[Vehicles] AS [Vehicles]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Witness" EntityType="Self.Witness" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Witness].[WitnessId] AS [WitnessId], 
+    [Witness].[CaseId] AS [CaseId], 
+    [Witness].[WitnessName] AS [WitnessName], 
+    [Witness].[WitnessPhone] AS [WitnessPhone], 
+    [Witness].[WitnessAddress] AS [WitnessAddress]
+    FROM [dbo].[Witness] AS [Witness]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="OSTFieldModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AccidentReport">
+          <Key>
+            <PropertyRef Name="CaseId" />
+          </Key>
+          <Property Name="CaseId" Type="Int32" Nullable="false" />
+          <Property Name="DriverSig_URL" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="SupervisorSig_URL" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="DriverSign_Time" Type="DateTime" Precision="3" />
+          <Property Name="SupervisorScene_Response" Type="Int32" />
+          <Property Name="SafetyOfficerScene_Reponse" Type="Int32" />
+          <Property Name="SafetyOfficerSig_URL" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="PhotoTaken" Type="Int32" />
+          <Property Name="WeatherCondition" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="AccidentDesc" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Photo_Storedpath" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="IntsSketch_StoredPath" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Charge">
+          <Key>
+            <PropertyRef Name="CHARGEId" />
+            <PropertyRef Name="CaseId" />
+          </Key>
+          <Property Name="CHARGEId" Type="Int32" Nullable="false" />
+          <Property Name="CaseId" Type="Int32" Nullable="false" />
+          <Property Name="CityEmpl_Charge" Type="Decimal" Precision="28" Scale="2" />
+          <Property Name="ChargeAmount" Type="Decimal" Precision="28" Scale="2" />
+          <Property Name="Summons_No" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Occupant">
+          <Key>
+            <PropertyRef Name="OccupantId" />
+            <PropertyRef Name="CaseId" />
+          </Key>
+          <Property Name="OccupantId" Type="Int32" Nullable="false" />
+          <Property Name="CaseId" Type="Int32" Nullable="false" />
+          <Property Name="OccupantName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="OccupantAddress" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="Age" Type="Int32" />
+          <Property Name="Sex" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Vehicle">
+          <Key>
+            <PropertyRef Name="VehicleId" />
+            <PropertyRef Name="CaseId" />
+          </Key>
+          <Property Name="VehicleId" Type="Int32" Nullable="false" />
+          <Property Name="CaseId" Type="Int32" Nullable="false" />
+          <Property Name="CityDriver" Type="Int32" />
+          <Property Name="CityPermitNo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="DriverName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="VehicleTag" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="DriverAddress" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Witness">
+          <Key>
+            <PropertyRef Name="WitnessId" />
+            <PropertyRef Name="CaseId" />
+          </Key>
+          <Property Name="WitnessId" Type="Int32" Nullable="false" />
+          <Property Name="CaseId" Type="Int32" Nullable="false" />
+          <Property Name="WitnessName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="WitnessPhone" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="WitnessAddress" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityContainer Name="OSTFieldEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AccidentReports" EntityType="Self.AccidentReport" />
+          <EntitySet Name="Charges" EntityType="Self.Charge" />
+          <EntitySet Name="Occupants" EntityType="Self.Occupant" />
+          <EntitySet Name="Vehicles" EntityType="Self.Vehicle" />
+          <EntitySet Name="Witnesses" EntityType="Self.Witness" />
+          <FunctionImport Name="Charges_InsertUpdate" ReturnType="Collection(Int32)">
+            <Parameter Name="ChargeId" Mode="In" Type="Int32" />
+            <Parameter Name="CaseId" Mode="In" Type="Int32" />
+            <Parameter Name="CityEmpl_Charge" Mode="In" Type="Decimal" />
+            <Parameter Name="Charge" Mode="In" Type="Decimal" />
+            <Parameter Name="Summons_No" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="FieldReportCase_InsertUpdate" ReturnType="Collection(Int32)">
+            <Parameter Name="CaseId" Mode="In" Type="Int32" />
+            <Parameter Name="DriverSig_URL" Mode="In" Type="String" />
+            <Parameter Name="SupervisorSig_URL" Mode="In" Type="String" />
+            <Parameter Name="DriverSign_Time" Mode="In" Type="DateTime" />
+            <Parameter Name="SupervisorScene_Response" Mode="In" Type="Int32" />
+            <Parameter Name="SafetyOfficerScene_Reponse" Mode="In" Type="Int32" />
+            <Parameter Name="SafetyOfficerSig_URL" Mode="In" Type="String" />
+            <Parameter Name="PhotoTaken" Mode="In" Type="Int32" />
+            <Parameter Name="WeatherCondition" Mode="In" Type="String" />
+            <Parameter Name="AccidentDesc" Mode="In" Type="String" />
+            <Parameter Name="Photo_Storedpath" Mode="In" Type="String" />
+            <Parameter Name="IntsSketch_StoredPath" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Occupants_InsertUpdate" ReturnType="Collection(Int32)">
+            <Parameter Name="OccupantId" Mode="In" Type="Int32" />
+            <Parameter Name="CaseId" Mode="In" Type="Int32" />
+            <Parameter Name="OccupantName" Mode="In" Type="String" />
+            <Parameter Name="OccupantsAddress" Mode="In" Type="String" />
+            <Parameter Name="Age" Mode="In" Type="Int32" />
+            <Parameter Name="Sex" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Vehicles_InsertUpdate" ReturnType="Collection(Int32)">
+            <Parameter Name="VehicleId" Mode="In" Type="Int32" />
+            <Parameter Name="CaseId" Mode="In" Type="Int32" />
+            <Parameter Name="CityDriver" Mode="In" Type="Int32" />
+            <Parameter Name="CityPermitNo" Mode="In" Type="String" />
+            <Parameter Name="DriverName" Mode="In" Type="String" />
+            <Parameter Name="VehicleTag" Mode="In" Type="String" />
+            <Parameter Name="DriverAddress" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Witnesses_InsertUpdate" ReturnType="Collection(Int32)">
+            <Parameter Name="WitnessId" Mode="In" Type="Int32" />
+            <Parameter Name="CaseId" Mode="In" Type="Int32" />
+            <Parameter Name="WitnessName" Mode="In" Type="String" />
+            <Parameter Name="WitnessPhone" Mode="In" Type="String" />
+            <Parameter Name="WitnessAddress" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="OSTFieldModelStoreContainer" CdmEntityContainer="OSTFieldEntities">
+          <EntitySetMapping Name="AccidentReports">
+            <EntityTypeMapping TypeName="OSTFieldModel.AccidentReport">
+              <MappingFragment StoreEntitySet="AccidentReport">
+                <ScalarProperty Name="CaseId" ColumnName="CaseId" />
+                <ScalarProperty Name="DriverSig_URL" ColumnName="DriverSig_URL" />
+                <ScalarProperty Name="SupervisorSig_URL" ColumnName="SupervisorSig_URL" />
+                <ScalarProperty Name="DriverSign_Time" ColumnName="DriverSign_Time" />
+                <ScalarProperty Name="SupervisorScene_Response" ColumnName="SupervisorScene_Response" />
+                <ScalarProperty Name="SafetyOfficerScene_Reponse" ColumnName="SafetyOfficerScene_Reponse" />
+                <ScalarProperty Name="SafetyOfficerSig_URL" ColumnName="SafetyOfficerSig_URL" />
+                <ScalarProperty Name="PhotoTaken" ColumnName="PhotoTaken" />
+                <ScalarProperty Name="WeatherCondition" ColumnName="WeatherCondition" />
+                <ScalarProperty Name="AccidentDesc" ColumnName="AccidentDesc" />
+                <ScalarProperty Name="Photo_Storedpath" ColumnName="Photo_Storedpath" />
+                <ScalarProperty Name="IntsSketch_StoredPath" ColumnName="IntsSketch_StoredPath" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Charges">
+            <EntityTypeMapping TypeName="OSTFieldModel.Charge">
+              <MappingFragment StoreEntitySet="Charges">
+                <ScalarProperty Name="CHARGEId" ColumnName="CHARGEId" />
+                <ScalarProperty Name="CaseId" ColumnName="CaseId" />
+                <ScalarProperty Name="CityEmpl_Charge" ColumnName="CityEmpl_Charge" />
+                <ScalarProperty Name="ChargeAmount" ColumnName="ChargeAmount" />
+                <ScalarProperty Name="Summons_No" ColumnName="Summons_No" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Occupants">
+            <EntityTypeMapping TypeName="OSTFieldModel.Occupant">
+              <MappingFragment StoreEntitySet="Occupants">
+                <ScalarProperty Name="OccupantId" ColumnName="OccupantId" />
+                <ScalarProperty Name="CaseId" ColumnName="CaseId" />
+                <ScalarProperty Name="OccupantName" ColumnName="OccupantName" />
+                <ScalarProperty Name="OccupantAddress" ColumnName="OccupantAddress" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="Sex" ColumnName="Sex" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vehicles">
+            <EntityTypeMapping TypeName="OSTFieldModel.Vehicle">
+              <MappingFragment StoreEntitySet="Vehicles">
+                <ScalarProperty Name="VehicleId" ColumnName="VehicleId" />
+                <ScalarProperty Name="CaseId" ColumnName="CaseId" />
+                <ScalarProperty Name="CityDriver" ColumnName="CityDriver" />
+                <ScalarProperty Name="CityPermitNo" ColumnName="CityPermitNo" />
+                <ScalarProperty Name="DriverName" ColumnName="DriverName" />
+                <ScalarProperty Name="VehicleTag" ColumnName="VehicleTag" />
+                <ScalarProperty Name="DriverAddress" ColumnName="DriverAddress" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Witnesses">
+            <EntityTypeMapping TypeName="OSTFieldModel.Witness">
+              <MappingFragment StoreEntitySet="Witness">
+                <ScalarProperty Name="WitnessId" ColumnName="WitnessId" />
+                <ScalarProperty Name="CaseId" ColumnName="CaseId" />
+                <ScalarProperty Name="WitnessName" ColumnName="WitnessName" />
+                <ScalarProperty Name="WitnessPhone" ColumnName="WitnessPhone" />
+                <ScalarProperty Name="WitnessAddress" ColumnName="WitnessAddress" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="Charges_InsertUpdate" FunctionName="OSTFieldModel.Store.Charges_InsertUpdate" />
+          <FunctionImportMapping FunctionImportName="FieldReportCase_InsertUpdate" FunctionName="OSTFieldModel.Store.FieldReportCase_InsertUpdate" />
+          <FunctionImportMapping FunctionImportName="Occupants_InsertUpdate" FunctionName="OSTFieldModel.Store.Occupants_InsertUpdate" />
+          <FunctionImportMapping FunctionImportName="Vehicles_InsertUpdate" FunctionName="OSTFieldModel.Store.Vehicles_InsertUpdate" />
+          <FunctionImportMapping FunctionImportName="Witnesses_InsertUpdate" FunctionName="OSTFieldModel.Store.Witnesses_InsertUpdate" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

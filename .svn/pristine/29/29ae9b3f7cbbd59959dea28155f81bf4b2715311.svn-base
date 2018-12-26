@@ -1,0 +1,57 @@
+﻿@model FieldTool.Models.FileModel
+@{
+    ViewBag.Title = "Create Accident Form";
+    string viewBagType = ViewBag.Type;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-header">
+    <h2 class="contentTitle">Create Accident Form</h2>
+</div>
+
+
+<div id="accidentFormContainer" class="container">
+     <div class="row top-buffer">
+         <div class="col-sm-12">
+             <form id ="accidentForm" class="col-sm-12">
+                <h3>Basic Information</h3>
+                 <fieldset>
+                    <legend>Accident Information</legend>
+
+                     <div class="form-group">
+                         <label for="driverName">Driver Sign Time</label>
+                         <div class='input-group date' id='datetimepicker_AccidentTime'>
+                             <input type='text' class="form-control" id="driverSignTime" name="driverSignTime" />
+                             <span class="input-group-addon">
+                                 <span class="glyphicon glyphicon-calendar"></span>
+                             </span>
+                         </div>
+                     </div>
+                  
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="chk_sup_response" name="chk_sup_response">
+                        <label class="form-check-label" for="chk_sup_response">Supervisor Scene Reponse</label>
+                    </div>
+                    <div class="form-group">
+                        <label for="Textarea_AccidentDes">Describe accident in detail below:</label>
+                        <textarea class="form-control" id="Textarea_AccidentDes" rows="3" name="AccidentDescription"></textarea>
+                    </div>
+                    <p>(*) Mandatory</p>
+                 </fieldset>                   
+            </form>
+        </div>
+        
+     
+    </div>
+   
+    <div class="row top-buffer">
+       
+        <div class="col-sm-4">
+             <button id= "btn_submitAccdForm"  class="btn btn-primary col-sm-4" type=button>Create New Investigation</button>    
+        </div>
+        <div class="col-sm-8 invisible">
+            <button id="btn_OpenSyncDlg" class="btn btn-primary col-sm-4" type=button>Sync Form Data</button>
+        </div>
+    </div>
+
+</div>

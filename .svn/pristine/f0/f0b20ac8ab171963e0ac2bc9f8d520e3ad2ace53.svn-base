@@ -1,0 +1,15 @@
+﻿CD.services = {
+    createInvestigation: function (divId) {
+        var xhr = $.ajax({
+            //beforeSend: function (request) {
+            //    CD.services.setAuthorizationHeader(request);
+            //},
+            url: baseUrl + "api/AccidentReportAccess/CreateInvestigation",
+            data: $("#" + divId).serialize(),
+            dataType: "json",
+            type: "POST"
+
+        });
+        return xhr;
+    },
+}

@@ -1,0 +1,425 @@
+// Copyright 2010 William Malone (www.williammalone.com)
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//   http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+/*jslint browser: true */
+/*global G_vmlCanvasManager */
+
+
+CD.canvasDraw = {
+    canvas: null,
+    context: null,
+    canvasWidth: 490,
+    canvasHeight: 220,
+    colorPurple:  "#cb3594",
+    colorGreen: "#659b41",
+    colorYellow: "#ffcf33",
+    colorBrown: "#986928",
+    outlineImage: new Image(),
+    crayonImage: new Image(),
+    markerImage: new Image(),
+    eraserImage:new Image(),
+    crayonBackgroundImage: new Image(),
+    markerBackgroundImage: new Image(),
+    eraserBackgroundImage: new Image(),
+    crayonTextureImage: new Image(),
+    clickX:  [],
+    clickY:  [],
+    clickColor:  [],
+    clickTool: [],
+    clickSize:  [],
+    clickDrag:  [],
+    paint: false,
+    curColor: "#cb3594",
+    curTool:  "crayon",
+    curSize:  "normal",
+    mediumStartX: 18,
+    mediumStartY:  19,
+    mediumImageWidth: 93,
+    mediumImageHeight:  46,
+    drawingAreaX:  111,
+    drawingAreaY:  11,
+    drawingAreaWidth:  267,
+    drawingAreaHeight:  200,
+    toolHotspotStartY: 23,
+    toolHotspotHeight:  38,
+    sizeHotspotStartY: 157,
+    sizeHotspotHeight:  36,
+    totalLoadResources:  8,
+    curLoadResNum:  0,
+    sizeHotspotWidthObject: {
+        huge: 39,
+        large: 25,
+        normal: 18,
+        small: 16
+    },
+    clearCanvas: function(){
+        CD.canvasDraw.context.clearRect(0, 0, CD.canvasDraw.canvasWidth, CD.canvasDraw.canvasHeight);
+    },
+    redraw:function () {
+
+        var locX,
+            locY,
+            radius,
+            i,
+            selected,
+
+            drawCrayon = function (x, y, color, selected) {
+
+                CD.canvasDraw.context.beginPath();
+                CD.canvasDraw.context.moveTo(x + 41, y + 11);
+                CD.canvasDraw.context.lineTo(x + 41, y + 35);
+                CD.canvasDraw.context.lineTo(x + 29, y + 35);
+                CD.canvasDraw.context.lineTo(x + 29, y + 33);
+                CD.canvasDraw.context.lineTo(x + 11, y + 27);
+                CD.canvasDraw.context.lineTo(x + 11, y + 19);
+                CD.canvasDraw.context.lineTo(x + 29, y + 13);
+                CD.canvasDraw.context.lineTo(x + 29, y + 11);
+                CD.canvasDraw.context.lineTo(x + 41, y + 11);
+                CD.canvasDraw.context.closePath();
+                CD.canvasDraw.context.fillStyle = color;
+                CD.canvasDraw.context.fill();
+
+                if (selected) {
+                    CD.canvasDraw.context.drawImage(CD.canvasDraw.crayonImage, x, y, CD.canvasDraw.mediumImageWidth, CD.canvasDraw.mediumImageHeight);
+                } else {
+                    CD.canvasDraw.context.drawImage(CD.canvasDraw.crayonImage, 0, 0, 59, CD.canvasDraw.mediumImageHeight, x, y, 59, CD.canvasDraw.mediumImageHeight);
+                }
+            },
+
+            drawMarker = function (x, y, color, selected) {
+
+                CD.canvasDraw.context.beginPath();
+                CD.canvasDraw.context.moveTo(x + 10, y + 24);
+                CD.canvasDraw.context.lineTo(x + 10, y + 24);
+                CD.canvasDraw.context.lineTo(x + 22, y + 16);
+                CD.canvasDraw.context.lineTo(x + 22, y + 31);
+                CD.canvasDraw.context.closePath();
+                CD.canvasDraw.context.fillStyle = color;
+                CD.canvasDraw.context.fill();
+
+                if (selected) {
+                    CD.canvasDraw.context.drawImage(CD.canvasDraw.markerImage, x, y, CD.canvasDraw.mediumImageWidth, CD.canvasDraw.mediumImageHeight);
+                } else {
+                    CD.canvasDraw.context.drawImage(CD.canvasDraw.markerImage, 0, 0, 59, CD.canvasDraw.mediumImageHeight, x, y, 59, CD.canvasDraw.mediumImageHeight);
+                }
+            };
+
+        // Make sure required resources are loaded before redrawing
+        if (CD.canvasDraw.curLoadResNum < CD.canvasDraw.totalLoadResources) {
+            return;
+        }
+
+        CD.canvasDraw.clearCanvas();
+
+        if (CD.canvasDraw.curTool === "crayon") {
+
+            // Draw the crayon tool background
+            CD.canvasDraw.context.drawImage(CD.canvasDraw.crayonBackgroundImage, 0, 0, CD.canvasDraw.canvasWidth, CD.canvasDraw.canvasHeight);
+
+            // Draw purple crayon
+            selected = (CD.canvasDraw.curColor === CD.canvasDraw.colorPurple);
+            locX = selected ? 18 : 52;
+            locY = 19;
+            drawCrayon(locX, locY, CD.canvasDraw.colorPurple, selected);
+
+            // Draw green crayon
+            selected = (CD.canvasDraw.curColor === CD.canvasDraw.colorGreen);
+            locX = selected ? 18 : 52;
+            locY += 46;
+            drawCrayon(locX, locY, CD.canvasDraw.colorGreen, selected);
+
+            // Draw yellow crayon
+            selected = (CD.canvasDraw.curColor === CD.canvasDraw.colorYellow);
+            locX = selected ? 18 : 52;
+            locY += 46;
+            drawCrayon(locX, locY, CD.canvasDraw.colorYellow, selected);
+
+            // Draw brown crayon
+            selected = (CD.canvasDraw.curColor === CD.canvasDraw.colorBrown);
+            locX = selected ? 18 : 52;
+            locY += 46;
+            drawCrayon(locX, locY, CD.canvasDraw.colorBrown, selected);
+
+        } else if (CD.canvasDraw.curTool === "marker") {
+
+            // Draw the marker tool background
+            CD.canvasDraw.context.drawImage(CD.canvasDraw.markerBackgroundImage, 0, 0, CD.canvasDraw.canvasWidth, CD.canvasDraw.canvasHeight);
+
+            // Draw purple marker
+            selected = (CD.canvasDraw.curColor === CD.canvasDraw.colorPurple);
+            locX = selected ? 18 : 52;
+            locY = 19;
+            drawMarker(locX, locY, CD.canvasDraw.colorPurple, selected);
+
+            // Draw green marker
+            selected = (CD.canvasDraw.curColor === CD.canvasDraw.colorGreen);
+            locX = selected ? 18 : 52;
+            locY += 46;
+            drawMarker(locX, locY, CD.canvasDraw.colorGreen, selected);
+
+            // Draw yellow marker
+            selected = (CD.canvasDraw.curColor === CD.canvasDraw.colorYellow);
+            locX = selected ? 18 : 52;
+            locY += 46;
+            drawMarker(locX, locY, CD.canvasDraw.colorYellow, selected);
+
+            // Draw brown marker
+            selected = (CD.canvasDraw.curColor === CD.canvasDraw.colorBrown);
+            locX = selected ? 18 : 52;
+            locY += 46;
+            drawMarker(locX, locY, CD.canvasDraw.colorBrown, selected);
+
+        } else if (CD.canvasDraw.curTool === "eraser") {
+
+            CD.canvasDraw.context.drawImage(CD.canvasDraw.eraserBackgroundImage, 0, 0, CD.canvasDraw.canvasWidth, CD.canvasDraw.canvasHeight);
+            CD.canvasDraw.context.drawImage(CD.canvasDraw.eraserImage, 18, 19, CD.canvasDraw.mediumImageWidth, CD.canvasDraw.mediumImageHeight);
+        }
+
+        // Draw line on ruler to indicate size
+        switch (CD.canvasDraw.curSize) {
+            case "small":
+                locX = 467;
+                break;
+            case "normal":
+                locX = 450;
+                break;
+            case "large":
+                locX = 428;
+                break;
+            case "huge":
+                locX = 399;
+                break;
+            default:
+                break;
+        }
+        locY = 189;
+        CD.canvasDraw.context.beginPath();
+        CD.canvasDraw.context.rect(locX, locY, 2, 12);
+        CD.canvasDraw.context.closePath();
+        CD.canvasDraw.context.fillStyle = '#333333';
+        CD.canvasDraw.context.fill();
+
+        // Keep the drawing in the drawing area
+        CD.canvasDraw.context.save();
+        CD.canvasDraw.context.beginPath();
+        CD.canvasDraw.context.rect(CD.canvasDraw.drawingAreaX, CD.canvasDraw.drawingAreaY, CD.canvasDraw.drawingAreaWidth, CD.canvasDraw.drawingAreaHeight);
+        CD.canvasDraw.context.clip();
+
+        // For each point drawn
+        for (i = 0; i < CD.canvasDraw.clickX.length; i += 1) {
+
+            // Set the drawing radius
+            switch (CD.canvasDraw.clickSize[i]) {
+                case "small":
+                    radius = 2;
+                    break;
+                case "normal":
+                    radius = 5;
+                    break;
+                case "large":
+                    radius = 10;
+                    break;
+                case "huge":
+                    radius = 20;
+                    break;
+                default:
+                    break;
+            }
+
+            // Set the drawing path
+            CD.canvasDraw.context.beginPath();
+            // If dragging then draw a line between the two points
+            if (CD.canvasDraw.clickDrag[i] && i) {
+                CD.canvasDraw.context.moveTo(CD.canvasDraw.clickX[i - 1], CD.canvasDraw.clickY[i - 1]);
+            } else {
+                // The x position is moved over one pixel so a circle even if not dragging
+                CD.canvasDraw.context.moveTo(CD.canvasDraw.clickX[i] - 1, CD.canvasDraw.clickY[i]);
+            }
+            CD.canvasDraw.context.lineTo(CD.canvasDraw.clickX[i], CD.canvasDraw.clickY[i]);
+				
+            // Set the drawing color
+            if (CD.canvasDraw.clickTool[i] === "eraser") {
+                //context.globalCompositeOperation = "destination-out"; // To erase instead of draw over with white
+                CD.canvasDraw.context.strokeStyle = 'white';
+            } else {
+                //context.globalCompositeOperation = "source-over";	// To erase instead of draw over with white
+                CD.canvasDraw.context.strokeStyle = CD.canvasDraw.clickColor[i];
+            }
+            CD.canvasDraw.context.lineCap = "round";
+            CD.canvasDraw.context.lineJoin = "round";
+            CD.canvasDraw.context.lineWidth = radius;
+            CD.canvasDraw.context.stroke();
+        }
+        CD.canvasDraw.context.closePath();
+        //context.globalCompositeOperation = "source-over";// To erase instead of draw over with white
+        CD.canvasDraw.context.restore();
+
+        // Overlay a crayon texture (if the current tool is crayon)
+        if (CD.canvasDraw.curTool === "crayon") {
+            CD.canvasDraw.context.globalAlpha = 0.4; // No IE support
+            CD.canvasDraw.context.drawImage(CD.canvasDraw.crayonTextureImage, 0, 0, CD.canvasDraw.canvasWidth, CD.canvasDraw.canvasHeight);
+        }
+        CD.canvasDraw.context.globalAlpha = 1; // No IE support
+
+        // Draw the outline image
+        CD.canvasDraw.context.drawImage(CD.canvasDraw.outlineImage, CD.canvasDraw.drawingAreaX, CD.canvasDraw.drawingAreaY, CD.canvasDraw.drawingAreaWidth, CD.canvasDraw.drawingAreaHeight);
+    },
+    addClick:  function (x, y, dragging) {
+
+        CD.canvasDraw.clickX.push(x);
+        CD.canvasDraw.clickY.push(y);
+        CD.canvasDraw.clickTool.push(CD.canvasDraw.curTool);
+        CD.canvasDraw.clickColor.push(CD.canvasDraw.curColor);
+        CD.canvasDraw.clickSize.push(CD.canvasDraw.curSize);
+        CD.canvasDraw.clickDrag.push(dragging);
+    },
+    createUserEvents: function () {
+
+        var press = function (e) {
+            // Mouse down location
+            var sizeHotspotStartX,
+                mouseX = (e.changedTouches ? e.changedTouches[0].pageX : e.pageX) - this.offsetLeft,
+mouseY = (e.changedTouches ? e.changedTouches[0].pageY : e.pageY) - this.offsetTop;
+
+            if (mouseX < CD.canvasDraw.drawingAreaX) { // Left of the drawing area
+                if (mouseX > CD.canvasDraw.mediumStartX) {
+                    if (mouseY > CD.canvasDraw.mediumStartY && mouseY < CD.canvasDraw.mediumStartY + CD.canvasDraw.mediumImageHeight) {
+                        CD.canvasDraw.curColor = CD.canvasDraw.colorPurple;
+                    } else if (mouseY > CD.canvasDraw.mediumStartY + CD.canvasDraw.mediumImageHeight && mouseY < CD.canvasDraw.mediumStartY + CD.canvasDraw.mediumImageHeight * 2) {
+                        CD.canvasDraw.curColor = CD.canvasDraw.colorGreen;
+                    } else if (mouseY > CD.canvasDraw.mediumStartY + CD.canvasDraw.mediumImageHeight * 2 && mouseY < CD.canvasDraw.mediumStartY + CD.canvasDraw.mediumImageHeight * 3) {
+                        CD.canvasDraw.curColor = CD.canvasDraw.colorYellow;
+                    } else if (mouseY > CD.canvasDraw.mediumStartY + CD.canvasDraw.mediumImageHeight * 3 && mouseY < CD.canvasDraw.mediumStartY + CD.canvasDraw.mediumImageHeight * 4) {
+                        CD.canvasDraw.curColor = CD.canvasDraw.colorBrown;
+                    }
+                }
+            } else if (mouseX > CD.canvasDraw.drawingAreaX + CD.canvasDraw.drawingAreaWidth) { // Right of the drawing area
+
+                if (mouseY > CD.canvasDraw.toolHotspotStartY) {
+                    if (mouseY > CD.canvasDraw.sizeHotspotStartY) {
+                        sizeHotspotStartX = CD.canvasDraw.drawingAreaX + CD.canvasDraw.drawingAreaWidth;
+                        if (mouseY < CD.canvasDraw.sizeHotspotStartY + CD.canvasDraw.sizeHotspotHeight && mouseX > sizeHotspotStartX) {
+                            if (mouseX < sizeHotspotStartX + CD.canvasDraw.sizeHotspotWidthObject.huge) {
+                                CD.canvasDraw.curSize = "huge";
+                            } else if (mouseX < sizeHotspotStartX + CD.canvasDraw.sizeHotspotWidthObject.large + CD.canvasDraw.sizeHotspotWidthObject.huge) {
+                                CD.canvasDraw.curSize = "large";
+                            } else if (mouseX < sizeHotspotStartX + CD.canvasDraw.sizeHotspotWidthObject.normal + CD.canvasDraw.sizeHotspotWidthObject.large + CD.canvasDraw.sizeHotspotWidthObject.huge) {
+                                CD.canvasDraw.curSize = "normal";
+                            } else if (mouseX < sizeHotspotStartX + CD.canvasDraw.sizeHotspotWidthObject.small + CD.canvasDraw.sizeHotspotWidthObject.normal + CD.canvasDraw.sizeHotspotWidthObject.large + CD.canvasDraw.sizeHotspotWidthObject.huge) {
+                                CD.canvasDraw.curSize = "small";
+                            }
+                        }
+                    } else {
+                        if (mouseY < CD.canvasDraw.toolHotspotStartY + CD.canvasDraw.toolHotspotHeight) {
+                            CD.canvasDraw.curTool = "crayon";
+                        } else if (mouseY < CD.canvasDraw.toolHotspotStartY + CD.canvasDraw.toolHotspotHeight * 2) {
+                            CD.canvasDraw.curTool = "marker";
+                        } else if (mouseY < CD.canvasDraw.toolHotspotStartY + CD.canvasDraw.toolHotspotHeight * 3) {
+                            CD.canvasDraw.curTool = "eraser";
+                        }
+                    }
+                }
+            }
+            CD.canvasDraw.paint = true;
+            CD.canvasDraw.addClick(mouseX, mouseY, false);
+            CD.canvasDraw.redraw();
+        },
+
+        drag = function (e) {
+				
+            var mouseX = (e.changedTouches ? e.changedTouches[0].pageX : e.pageX) - this.offsetLeft,
+                mouseY = (e.changedTouches ? e.changedTouches[0].pageY : e.pageY) - this.offsetTop;
+				
+            if (CD.canvasDraw.paint) {
+                CD.canvasDraw.addClick(mouseX, mouseY, true);
+                CD.canvasDraw.redraw();
+            }
+            // Prevent the whole page from dragging if on mobile
+            e.preventDefault();
+        },
+
+        release = function () {
+            CD.canvasDraw.paint = false;
+            CD.canvasDraw.redraw();
+        },
+
+        cancel = function () {
+            CD.canvasDraw.paint = false;
+        };
+
+        // Add mouse event listeners to canvas element
+        CD.canvasDraw.canvas.addEventListener("mousedown", press, false);
+        CD.canvasDraw.canvas.addEventListener("mousemove", drag, false);
+        CD.canvasDraw.canvas.addEventListener("mouseup", release);
+        CD.canvasDraw.canvas.addEventListener("mouseout", cancel, false);
+
+        // Add touch event listeners to canvas element
+        CD.canvasDraw.canvas.addEventListener("touchstart", press, false);
+        CD.canvasDraw.canvas.addEventListener("touchmove", drag, false);
+        CD.canvasDraw.canvas.addEventListener("touchend", release, false);
+        CD.canvasDraw.canvas.addEventListener("touchcancel", cancel, false);
+    },
+    resourceLoaded: function () {
+
+        CD.canvasDraw.curLoadResNum += 1;
+        if (CD.canvasDraw.curLoadResNum === CD.canvasDraw.totalLoadResources) {
+            CD.canvasDraw.redraw();
+            CD.canvasDraw.createUserEvents();
+        }
+    },
+
+    init: function init() {
+
+        // Create the canvas (Neccessary for IE because it doesn't know what a canvas element is)
+        CD.canvasDraw.canvas = document.createElement('canvas');
+        CD.canvasDraw.canvas.setAttribute('width', CD.canvasDraw.canvasWidth);
+        CD.canvasDraw.canvas.setAttribute('height', CD.canvasDraw.canvasHeight);
+        CD.canvasDraw.canvas.setAttribute('id', 'canvas');
+        //document.getElementById('canvasDiv').appendChild(CD.canvasDraw.canvas);
+        $('#canvasDiv').append(CD.canvasDraw.canvas);
+        if (typeof G_vmlCanvasManager !== "undefined") {
+            CD.canvasDraw.canvas = G_vmlCanvasManager.initElement(CD.canvasDraw.canvas);
+        }
+
+
+        CD.canvasDraw.context = CD.canvasDraw.canvas.getContext("2d"); // Grab the 2d canvas context
+        // Note: The above code is a workaround for IE 8 and lower. Otherwise we could have used:
+        //     context = document.getElementById('canvas').getContext("2d");
+
+        // Load images
+        CD.canvasDraw.crayonImage.onload = CD.canvasDraw.resourceLoaded;
+        CD.canvasDraw.crayonImage.src = "../Content/images/crayon-outline.png";
+
+        CD.canvasDraw.markerImage.onload = CD.canvasDraw.resourceLoaded;
+        CD.canvasDraw.markerImage.src = "../Content/images/marker-outline.png";
+
+        CD.canvasDraw.eraserImage.onload = CD.canvasDraw.resourceLoaded;
+        CD.canvasDraw.eraserImage.src = "../Content/images/eraser-outline.png";
+
+        CD.canvasDraw.crayonBackgroundImage.onload = CD.canvasDraw.resourceLoaded;
+        CD.canvasDraw.crayonBackgroundImage.src = "../Content/images/crayon-background.png";
+
+        CD.canvasDraw.markerBackgroundImage.onload = CD.canvasDraw.resourceLoaded;
+        CD.canvasDraw.markerBackgroundImage.src = "../Content/images/marker-background.png";
+
+        CD.canvasDraw.eraserBackgroundImage.onload = CD.canvasDraw.resourceLoaded;
+        CD.canvasDraw.eraserBackgroundImage.src = "../Content/images/eraser-background.png";
+
+        CD.canvasDraw.crayonTextureImage.onload = CD.canvasDraw.resourceLoaded;
+        CD.canvasDraw.crayonTextureImage.src = "../Content/images/crayon-texture.png";
+
+        CD.canvasDraw.outlineImage.onload = CD.canvasDraw.resourceLoaded;
+        CD.canvasDraw.outlineImage.src = "../Content/images/v.png";
+    }
+}
